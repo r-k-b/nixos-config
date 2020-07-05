@@ -14,19 +14,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # See if we can dual-boot into Windows
-  #boot.loader.grub.enable = true;
-  #boot.loader.grub.version = 2;
-  #boot.loader.grub.device = "/dev/nvme0n1";
-  #boot.loader.grub.useOSProber = true;
-  # https://discourse.nixos.org/t/how-to-dual-boot-windows-10-from-different-disk/1625/4
-  boot.loader.grub = {
-      enable = true;
-      devices = [ "nodev" ];
-      efiSupport = true;
-      useOSProber = true;
-  };
-
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
