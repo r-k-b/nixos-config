@@ -19,7 +19,7 @@
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/DDA8-139B";
+    { device = "/dev/disk/by-label/NIXBOOT";
       fsType = "vfat";
     };
 
