@@ -5,11 +5,10 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./multi-glibc-locale-paths.nix
-    ];
+  imports = [ # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ./multi-glibc-locale-paths.nix
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -41,13 +40,25 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    wget vim firefox gparted git ntfs3g parted google-chrome keepassxc stow
-    autojump direnv
+    autojump
+    direnv
+    firefox
+    git
+    google-chrome
+    gparted
+    keepassxc
+    nixfmt
+    ntfs3g
+    parted
+    stow
+    vim
+    wget
   ];
 
   # Autojump doesn't work out of the box, so this is needed?
   # https://github.com/NixOS/nixpkgs/pull/47334#issuecomment-439577344
-  programs.bash.interactiveShellInit = "source ${pkgs.autojump}/share/autojump/autojump.bash";
+  programs.bash.interactiveShellInit =
+    "source ${pkgs.autojump}/share/autojump/autojump.bash";
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

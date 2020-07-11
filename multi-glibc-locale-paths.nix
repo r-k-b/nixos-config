@@ -1,11 +1,9 @@
-{ config, pkgs, ... }:          # multi-glibc-locale-paths.nix
+{ config, pkgs, ... }: # multi-glibc-locale-paths.nix
 
-/*
- * Provide version-specific LOCALE_ARCHIVE environment variables to mitigate
- * the effects of https://github.com/NixOS/nixpkgs/issues/38991.
- *
- * https://gist.github.com/peti/2c818d6cb49b0b0f2fd7c300f8386bc3
- */
+# Provide version-specific LOCALE_ARCHIVE environment variables to mitigate
+# the effects of https://github.com/NixOS/nixpkgs/issues/38991.
+#
+# https://gist.github.com/peti/2c818d6cb49b0b0f2fd7c300f8386bc3
 
 let
 
@@ -18,7 +16,7 @@ let
     sha256 = "1sr5a11sb26rgs1hmlwv5bxynw2pl5w4h5ic0qv3p2ppcpmxwykz";
   };
 
-  oldpkgs = import oldpkgsSrc {};
+  oldpkgs = import oldpkgsSrc { };
 
   # A random Nixpkgs revision *after* the default glibc
   # was switched to version 2.27.x.
@@ -29,11 +27,9 @@ let
     sha256 = "0nh6wfw50lx6wkzyiscfqg6fl6rb17wmncj8jsdvbgmsd6rm95rg";
   };
 
-  newpkgs = import newpkgsSrc {};
+  newpkgs = import newpkgsSrc { };
 
-in
-
-{
+in {
   environment.sessionVariables = {
     LOCALE_ARCHIVE_2_11 = "${oldpkgs.glibcLocales}/lib/locale/locale-archive";
     LOCALE_ARCHIVE_2_27 = "${newpkgs.glibcLocales}/lib/locale/locale-archive";
