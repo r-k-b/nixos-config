@@ -8,6 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./multi-glibc-locale-paths.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -41,7 +42,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     wget vim firefox gparted git ntfs3g parted google-chrome keepassxc stow
-    jetbrains.rider jetbrains.webstorm jetbrains.datagrip autojump anki
+    autojump direnv
   ];
 
   # Autojump doesn't work out of the box, so this is needed?
@@ -86,6 +87,9 @@
   # Enable the KDE Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
+
+  # Start with NumLock on.
+  services.xserver.displayManager.sddm.autoNumlock = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.rkb = {
