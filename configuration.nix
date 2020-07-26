@@ -87,6 +87,8 @@
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
+  hardware.bluetooth.enable = true;
+
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xserver.layout = "us";
