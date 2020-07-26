@@ -42,10 +42,13 @@
   environment.systemPackages = with pkgs; [
     autojump
     direnv
+    docker
     firefox
     git
+    glibcLocales
     google-chrome
     gparted
+    icdiff
     keepassxc
     nixfmt
     ntfs3g
@@ -104,10 +107,22 @@
   # Start with NumLock on.
   services.xserver.displayManager.sddm.autoNumlock = true;
 
+  # Allow vms built with `nixos-build-vms` to use hardware acceleration? (not verified)
+  virtualisation.libvirtd.enable = true;
+
+  # https://github.com/NixOS/nixpkgs/issues/47201#issuecomment-423798284
+  virtualisation.docker.enable = true;
+
+  users.groups.docker = {};
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.rkb = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "docker"
+      "wheel" # Enable ‘sudo’ for the user.
+      "libvirtd" # allow start/stop hardware-accelerated VMs on qemu? (not verified)
+    ];
   };
 
   # This value determines the NixOS release from which the default
