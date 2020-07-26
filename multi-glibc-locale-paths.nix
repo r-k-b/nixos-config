@@ -29,9 +29,24 @@ let
 
   newpkgs = import newpkgsSrc { };
 
+  # A random Nixpkgs revision *after* the default glibc
+  # was switched to version 2.31.x.
+  newerpkgsSrc = pkgs.fetchFromGitHub {
+    owner = "nixos";
+    repo = "nixpkgs";
+    rev = "9cd98386a38891d1074fc18036b842dc4416f562";
+    sha256 = "0zanfgvsnvca39c44svfzy6v0p4vl3k38kq94vyv541vcbxmcdpr";
+  };
+
+  newerPkgs = import newerpkgsSrc { };
+
+  glibc231 = newerPkgs.glibcLocales #.overrideAttrs
+   # (oldAttrs: rec { i18n.supportedLocales = [ "all" ]; })
+  ;
 in {
   environment.sessionVariables = {
     LOCALE_ARCHIVE_2_11 = "${oldpkgs.glibcLocales}/lib/locale/locale-archive";
     LOCALE_ARCHIVE_2_27 = "${newpkgs.glibcLocales}/lib/locale/locale-archive";
+    LOCALE_ARCHIVE_2_31 = "${glibc231}/lib/locale/locale-archive";
   };
 }

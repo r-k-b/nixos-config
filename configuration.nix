@@ -7,7 +7,7 @@
 {
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ./multi-glibc-locale-paths.nix
+    #./multi-glibc-locale-paths.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -28,7 +28,23 @@
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
+  i18n = {
+    defaultLocale = "en_AU.UTF-8";
+    extraLocaleSettings = {
+      #LANGUAGE = "en_US.UTF-8";
+      #LC_MEASUREMENT = "en_SE.UTF-8";
+      #LC_NUMERIC = "en_SE.UTF-8";
+      # For dates formatted like ISO8601
+      LC_TIME = "en_SE.UTF-8";
+    };
+    #glibcLocales = pkgs.glibcLocales;
+    #glibcLocales = pkgs.buildPackages.glibcLocales.override {
+    #      allLocales = true;
+    #      #locales = ["all"];
+    #    };
+    supportedLocales = [ "all" ];
+  };
+
   console = {
     font = "Lat2-Terminus16";
     keyMap = "us";
