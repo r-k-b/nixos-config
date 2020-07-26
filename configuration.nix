@@ -138,5 +138,10 @@
 
   # let's keep Windows happy by not touching the system clock timezone...
   time.hardwareClockInLocalTime = true;
+
+  # don't ask for the root pw so often
+  security.sudo.extraConfig = ''
+    Defaults        timestamp_timeout=120
+  '';
 }
 
