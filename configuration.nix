@@ -49,6 +49,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     autojump
+    bind
     direnv
     docker
     firefox
