@@ -59,10 +59,14 @@
     gparted
     icdiff
     keepassxc
+    mosh
     nixfmt
     ntfs3g
     parted
+    screen
+    sshfs
     stow
+    tmux
     vim
     wget
   ];
