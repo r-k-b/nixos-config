@@ -92,6 +92,11 @@
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
+  # Local dev (Hippo, etc)
+  networking.firewall.allowedTCPPortRanges = [
+    { from = 8000; to = 8099; }
+    { from = 5000; to = 5099; }
+  ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
@@ -156,5 +161,8 @@
   security.sudo.extraConfig = ''
     Defaults        timestamp_timeout=120
   '';
+
+  # needed for Home Manager?
+  nix.trustedUsers = [ "root" "rkb" ];
 }
 
