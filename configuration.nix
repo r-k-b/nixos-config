@@ -57,6 +57,7 @@
     glibcLocales
     google-chrome
     gparted
+    htop
     icdiff
     keepassxc
     mosh
