@@ -70,6 +70,7 @@
     tmux
     vim
     wget
+    xdotool
   ];
 
   # Autojump doesn't work out of the box, so this is needed?
