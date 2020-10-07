@@ -124,6 +124,10 @@
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
 
+  # https://superuser.com/questions/899363/install-and-configure-nvidia-video-driver-nixos
+  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.opengl.driSupport32Bit = true;
+
   # Start with NumLock on.
   services.xserver.displayManager.sddm.autoNumlock = true;
 
