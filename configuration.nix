@@ -84,7 +84,7 @@
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
-    pinentryFlavor = "gnome3";
+    pinentryFlavor = "curses";
   };
 
   # List services that you want to enable:
@@ -142,8 +142,16 @@
       "docker"
       "wheel" # Enable ‘sudo’ for the user.
       "libvirtd" # allow start/stop hardware-accelerated VMs on qemu? (not verified)
+      "lxd"
     ];
   };
+
+  security.pam.services.kwallet = {
+    name = "kwallet";
+    enableKwallet = true;
+  };
+  services.gnome3.gnome-keyring.enable = true;
+  security.pam.services.sddm.enableGnomeKeyring = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
