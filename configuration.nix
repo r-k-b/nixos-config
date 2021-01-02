@@ -49,6 +49,32 @@
     keyMap = "us";
   };
 
+  fonts = {
+    fonts = with pkgs; [
+      gyre-fonts
+      noto-fonts
+      noto-fonts-cjk
+      noto-fonts-emoji
+      liberation_ttf
+      fira-code
+      fira-code-symbols
+      jetbrains-mono
+      mplus-outline-fonts
+      dina-font
+      proggyfonts
+      nerdfonts
+    ];
+    fontconfig = {
+      localConf = ''
+        <!-- use a less horrible font substition for pdfs such as https://www.bkent.net/Doc/mdarchiv.pdf -->
+        <match target="pattern">
+          <test qual="any" name="family"><string>NewCenturySchlbk</string></test>
+          <edit name="family" mode="assign" binding="same"><string>TeX Gyre Schola</string></edit>
+        </match>
+      '';
+    };
+  };
+
   # Set your time zone.
   time.timeZone = "Australia/Sydney";
 
