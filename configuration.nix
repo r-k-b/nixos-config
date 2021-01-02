@@ -95,12 +95,14 @@
     keepassxc
     mosh
     nixfmt
+    nixpkgs-review
     ntfs3g
     parted
     screen
     sshfs
     stow
     tmux
+    tree
     vim
     wget
     xdotool
