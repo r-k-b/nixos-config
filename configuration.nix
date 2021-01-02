@@ -131,6 +131,10 @@
   # Start with NumLock on.
   services.xserver.displayManager.sddm.autoNumlock = true;
 
+  # Allow Workrave to save config changes
+  # https://github.com/NixOS/nixpkgs/issues/56077#issuecomment-666416779
+  services.dbus.packages = [ pkgs.gnome3.dconf ];
+
   # Allow vms built with `nixos-build-vms` to use hardware acceleration? (not verified)
   virtualisation.libvirtd.enable = true;
 
