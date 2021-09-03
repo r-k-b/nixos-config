@@ -6,6 +6,7 @@
 
 {
   nix = {
+    autoOptimiseStore = true; # we're on an ssd, should be no downside?
     package = pkgs.nixFlakes;
     extraOptions = ''
       experimental-features = nix-command flakes
@@ -19,6 +20,11 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot = {
+    extraModulePackages = [
+      config.boot.kernelPackages.rtl88x2bu
+    ];
+  };
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -26,8 +32,20 @@
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
-  networking.useDHCP = false;
-  networking.interfaces.enp0s31f6.useDHCP = true;
+  networking = {
+    useDHCP = false;
+    interfaces.enp0s31f6.useDHCP = true;
+    nameservers = [
+      "8.8.4.4"
+      "8.8.8.8"
+      "192.168.1.1"
+    ];
+    networkmanager.enable = true;
+    #wireless = {
+    #  enable = true;
+    #  userControlled.enable = true;
+    #};
+  };
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -44,14 +62,26 @@
     supportedLocales = [ "all" ];
   };
 
+  fileSystems."/mnt/blestion" = {
+    device = "//192.168.1.98/blestion";
+    fsType = "cifs";
+    options = let
+      # this line prevents hanging on network split
+      automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+
+    in ["${automount_opts},credentials=/etc/nixos/smb-secrets"];
+  };
+
   console = {
     font = "Lat2-Terminus16";
     keyMap = "us";
   };
 
   fonts = {
+    enableDefaultFonts = true;
     fonts = with pkgs; [
       gyre-fonts
+      #noto-coloremoji-fonts # no such thing in nixpkgs? would like the Emoji Selector to work...
       noto-fonts
       noto-fonts-cjk
       noto-fonts-emoji
@@ -65,6 +95,15 @@
       nerdfonts
     ];
     fontconfig = {
+      enable = true;
+      antialias = true;
+      hinting.enable = true;
+      #defaultFonts = {
+      #  monospace = [ "DejaVu Sans Mono" "Noto Mono" ];
+      #  serif = [ "Vollkorn" "Noto Serif" "Times New Roman" ];
+      #  sansSerif = [ "Open Sans" "Noto Sans" ];
+      #  emoji = [ "Noto Color Emoji" "Twitter Color Emoji" "JoyPixels" "Unifont" "Unifont Upper" ];
+      #};
       localConf = ''
         <!-- use a less horrible font substition for pdfs such as https://www.bkent.net/Doc/mdarchiv.pdf -->
         <match target="pattern">
@@ -83,6 +122,8 @@
   environment.systemPackages = with pkgs; [
     autojump
     bind
+    broot # for interactively exploring folder structures
+    cntr # for debugging nix package builds
     direnv
     docker
     firefox
@@ -93,16 +134,20 @@
     htop
     icdiff
     keepassxc
+    kdeconnect
+    linuxPackages.rtl88x2bu
     mosh
     nixfmt
     nixpkgs-review
     ntfs3g
     parted
+    ripgrep
     screen
     sshfs
     stow
     tmux
     tree
+    up # Ultimate Plumber, for quickly iterating on shell commands
     vim
     wget
     xdotool
@@ -112,6 +157,9 @@
   # https://github.com/NixOS/nixpkgs/pull/47334#issuecomment-439577344
   programs.bash.interactiveShellInit =
     "source ${pkgs.autojump}/share/autojump/autojump.bash";
+
+  # this might prove useful to debug nix package builds?
+  programs.sysdig.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -133,6 +181,11 @@
   networking.firewall.allowedTCPPortRanges = [
     { from = 8000; to = 8099; }
     { from = 5000; to = 5099; }
+    { from = 1714; to = 1764; } # kdeconnect
+    { from = 4200; to = 4200; } # hambs dev
+  ];
+  networking.firewall.allowedUDPPortRanges = [
+    { from = 1714; to = 1764; } # kdeconnect
   ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
@@ -169,6 +222,10 @@
   # Allow Workrave to save config changes
   # https://github.com/NixOS/nixpkgs/issues/56077#issuecomment-666416779
   services.dbus.packages = [ pkgs.gnome3.dconf ];
+
+  # allow running Virtualbox VMs (like Windows)
+  virtualisation.virtualbox.host.enable = true;
+  users.extraGroups.vboxusers.members = [ "rkb" ];
 
   # Allow vms built with `nixos-build-vms` to use hardware acceleration? (not verified)
   virtualisation.libvirtd.enable = true;
