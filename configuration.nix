@@ -20,11 +20,7 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot = {
-    extraModulePackages = [
-      config.boot.kernelPackages.rtl88x2bu
-    ];
-  };
+  boot = { extraModulePackages = [ config.boot.kernelPackages.rtl88x2bu ]; };
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -35,11 +31,7 @@
   networking = {
     useDHCP = false;
     interfaces.enp0s31f6.useDHCP = true;
-    nameservers = [
-      "8.8.4.4"
-      "8.8.8.8"
-      "192.168.1.1"
-    ];
+    nameservers = [ "8.8.4.4" "8.8.8.8" "192.168.1.1" ];
     networkmanager.enable = true;
     #wireless = {
     #  enable = true;
@@ -67,9 +59,17 @@
     fsType = "cifs";
     options = let
       # this line prevents hanging on network split
-      automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+      automount_opts =
+        "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
 
-    in ["${automount_opts},credentials=/etc/nixos/smb-secrets"];
+      /* ./smb-secrets should look like:
+         ```
+         username=rkb
+         domain=workgroup
+         password=YOURPASSWORDHERE
+         ```
+      */
+    in [ "${automount_opts},credentials=/etc/nixos/smb-secrets" ];
   };
 
   console = {
@@ -179,14 +179,28 @@
   # networking.firewall.allowedTCPPorts = [ ... ];
   # Local dev (Hippo, etc)
   networking.firewall.allowedTCPPortRanges = [
-    { from = 8000; to = 8099; }
-    { from = 5000; to = 5099; }
-    { from = 1714; to = 1764; } # kdeconnect
-    { from = 4200; to = 4200; } # hambs dev
+    {
+      from = 8000;
+      to = 8099;
+    }
+    {
+      from = 5000;
+      to = 5099;
+    }
+    {
+      from = 1714;
+      to = 1764;
+    } # kdeconnect
+    {
+      from = 4200;
+      to = 4200;
+    } # hambs dev
   ];
-  networking.firewall.allowedUDPPortRanges = [
-    { from = 1714; to = 1764; } # kdeconnect
-  ];
+  networking.firewall.allowedUDPPortRanges = [{
+    from = 1714;
+    to = 1764;
+  } # kdeconnect
+    ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
@@ -233,7 +247,7 @@
   # https://github.com/NixOS/nixpkgs/issues/47201#issuecomment-423798284
   virtualisation.docker.enable = true;
 
-  users.groups.docker = {};
+  users.groups.docker = { };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.rkb = {
