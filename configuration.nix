@@ -134,12 +134,14 @@
     glibcLocales
     google-chrome
     gparted
+    graphviz # includes tred
     htop
     icdiff
     keepassxc
     kdeconnect
     linuxPackages.rtl88x2bu
     mosh
+    nix-du # for analyzing Store disk usage
     nixfmt
     nixpkgs-review
     ntfs3g
@@ -154,6 +156,7 @@
     vim
     wget
     xdotool
+    zgrviewer # for interactively visualizing .dot files; like `nix-du -s=500MB | tred > store.dot`
   ];
 
   # Autojump doesn't work out of the box, so this is needed?
