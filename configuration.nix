@@ -37,6 +37,9 @@
     #  enable = true;
     #  userControlled.enable = true;
     #};
+    extraHosts = ''
+      192.168.1.98 strator
+    '';
   };
 
   # Configure network proxy if necessary
