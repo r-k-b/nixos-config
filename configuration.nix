@@ -37,8 +37,15 @@
     #  enable = true;
     #  userControlled.enable = true;
     #};
-    extraHosts = ''
-      192.168.1.98 strator
+  };
+
+  # so we can use custom subdomains in development, and with traefik
+  services.dnsmasq = {
+    enable = true;
+    extraConfig = ''
+      address=/localhost/127.0.0.1
+      address=/nixos/192.168.1.103
+      address=/strator/192.168.1.98
     '';
   };
 
@@ -176,6 +183,23 @@
     pinentryFlavor = "curses";
   };
 
+  services.traefik = {
+    enable = true;
+    staticConfigOptions = {
+      entryPoints.web = {
+        address = ":7788";
+        #http = ":7780";
+      };
+      group = "docker";
+      api = {
+        dashboard = true;
+        insecure = true;
+        debug = true;
+      };
+      providers.docker = true;
+    };
+  };
+
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
@@ -253,7 +277,7 @@
   # https://github.com/NixOS/nixpkgs/issues/47201#issuecomment-423798284
   virtualisation.docker.enable = true;
 
-  users.groups.docker = { };
+  users.groups.docker = { members = [ "traefik" ]; };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.rkb = {
