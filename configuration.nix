@@ -31,7 +31,11 @@
   networking = {
     useDHCP = false;
     interfaces.enp0s31f6.useDHCP = true;
-    nameservers = [ "8.8.4.4" "8.8.8.8" "192.168.1.1" ];
+    nameservers = [
+      "8.8.4.4"
+      "8.8.8.8"
+      "192.168.1.1" # home net
+    ];
     networkmanager.enable = true;
     #wireless = {
     #  enable = true;
@@ -46,6 +50,7 @@
       address=/localhost/127.0.0.1
       address=/nixos/192.168.1.103
       address=/strator/192.168.1.98
+      server=/phd.com.au/10.20.60.10 # PHD VPN
     '';
   };
 
