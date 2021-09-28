@@ -167,6 +167,7 @@
     nixfmt
     nixpkgs-review
     ntfs3g
+    obs-studio
     parted
     ripgrep
     screen
