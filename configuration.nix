@@ -20,7 +20,16 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot = { extraModulePackages = [ config.boot.kernelPackages.rtl88x2bu ]; };
+  boot = {
+    extraModulePackages = [
+      config.boot.kernelPackages.rtl88x2bu
+      config.boot.kernelPackages.v4l2loopback.out
+    ];
+    kernelModules = [ "v4l2loopback" ];
+    extraModprobeConfig = ''
+      options v4l2loopback exclusive_caps=1
+    '';
+  };
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -152,6 +161,7 @@
     keepassxc
     kdeconnect
     linuxPackages.rtl88x2bu
+    linuxPackages.v4l2loopback # for OBS Studio's Virtual Camera
     mosh
     nix-du # for analyzing Store disk usage
     nixfmt
