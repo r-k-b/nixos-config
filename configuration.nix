@@ -312,7 +312,7 @@
     name = "kwallet";
     enableKwallet = true;
   };
-  services.gnome3.gnome-keyring.enable = true;
+  services.gnome.gnome-keyring.enable = true;
   security.pam.services.sddm.enableGnomeKeyring = true;
 
   # This value determines the NixOS release from which the default
