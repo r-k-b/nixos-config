@@ -59,7 +59,14 @@
       address=/localhost/127.0.0.1
       address=/nixos/192.168.1.103
       address=/strator/192.168.1.98
-      server=/phd.com.au/10.20.60.10 # PHD VPN
+
+      # PHD VPN
+      server=/phd.com.au/10.20.60.12
+      address=/phdccfs01/10.20.60.12
+      address=/phdcchippo/10.20.60.20
+      address=/phdcchpdev/10.20.60.25
+      address=/phdccrtdev/10.20.60.21
+      address=/phdccwestdev/10.20.60.24
     '';
   };
 
