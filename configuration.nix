@@ -250,6 +250,10 @@
       from = 4200;
       to = 4200;
     } # hambs dev
+    { from = 8080; to = 8080; # traefik dash
+    }
+    { from = 7788; to = 7788; # traefik routers
+    }
   ];
   networking.firewall.allowedUDPPortRanges = [{
     from = 1714;
