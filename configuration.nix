@@ -61,7 +61,7 @@
       address=/strator/192.168.1.98
 
       # PHD VPN
-      server=/phd.com.au/10.20.60.12
+      server=/phd.com.au/10.20.60.10
       address=/phdccfs01/10.20.60.12
       address=/phdcchippo/10.20.60.20
       address=/phdcchpdev/10.20.60.25
