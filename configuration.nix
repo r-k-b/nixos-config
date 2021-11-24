@@ -324,7 +324,10 @@
   services.dbus.packages = [ pkgs.gnome3.dconf ];
 
   # allow running Virtualbox VMs (like Windows)
-  virtualisation.virtualbox.host.enable = true;
+  virtualisation.virtualbox.host = {
+    enable = true;
+    enableExtensionPack = true;
+  };
   users.extraGroups.vboxusers.members = [ "rkb" ];
 
   # Allow vms built with `nixos-build-vms` to use hardware acceleration? (not verified)
