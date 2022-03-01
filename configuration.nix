@@ -197,8 +197,17 @@
 
   # Autojump doesn't work out of the box, so this is needed?
   # https://github.com/NixOS/nixpkgs/pull/47334#issuecomment-439577344
-  programs.bash.interactiveShellInit =
-    "source ${pkgs.autojump}/share/autojump/autojump.bash";
+  # also adds an fzf integration; use `j` with no args.
+  programs.bash.interactiveShellInit = ''
+    source ${pkgs.autojump}/share/autojump/autojump.bash
+    j() {
+    if [[ "$#" -ne 0 ]]; then
+        cd $(autojump $@)
+        return
+    fi
+    cd "$(autojump -s | sort -k1gr | awk '$1 ~ /[0-9]:/ && $2 ~ /^\// { for (i=2; i<=NF; i++) { print $(i) } }' |  fzf --height 40% --reverse --inline-info)" 
+}
+  '';
 
   # this might prove useful to debug nix package builds?
   programs.sysdig.enable = true;
