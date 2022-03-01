@@ -156,6 +156,7 @@
       jetbrains-mono
       mplus-outline-fonts
       dina-font
+      open-dyslexic
       proggyfonts
       nerdfonts
     ];
