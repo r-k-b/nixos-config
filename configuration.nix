@@ -6,7 +6,9 @@
 
 {
   nix = {
-    autoOptimiseStore = true; # we're on an ssd, should be no downside?
+    settings = {
+      auto-optimise-store = true; # we're on an ssd, should be no downside?
+    };
     package = pkgs.nixFlakes;
     extraOptions = ''
       experimental-features = nix-command flakes
