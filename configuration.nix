@@ -94,6 +94,13 @@
     supportedLocales = [ "all" ];
   };
 
+  services.grafana = {
+    enable = true;
+    #domain = "grafana.pele";
+    port = 2342;
+    addr = "127.0.0.1";
+  };
+
   fileSystems."/mnt/blestion" = {
     device = "//192.168.1.98/blestion";
     fsType = "cifs";
