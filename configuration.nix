@@ -365,7 +365,7 @@
 
   # Allow Workrave to save config changes
   # https://github.com/NixOS/nixpkgs/issues/56077#issuecomment-666416779
-  services.dbus.packages = [ pkgs.gnome3.dconf ];
+  services.dbus.packages = [ pkgs.dconf ];
 
   # allow running Virtualbox VMs (like Windows)
   virtualisation.virtualbox.host = {
@@ -420,6 +420,6 @@
   '';
 
   # needed for Home Manager?
-  nix.trustedUsers = [ "root" "rkb" ];
+  nix.settings.trusted-users = [ "root" "rkb" ];
 }
 
