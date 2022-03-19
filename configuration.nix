@@ -61,6 +61,7 @@
       address=/localhost/127.0.0.1
       address=/nixos/192.168.1.103
       address=/strator/192.168.1.98
+      address=/nixos-strator/192.168.1.98
 
       # PHD VPN
       server=/phd.com.au/10.20.60.10
