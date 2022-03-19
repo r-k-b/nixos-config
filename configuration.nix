@@ -101,6 +101,33 @@
     addr = "127.0.0.1";
   };
 
+  services.prometheus = {
+    exporters = {
+      node = {
+        enable = true;
+        enabledCollectors = [
+          "conntrack"
+          "diskstats"
+          "entropy"
+          "filefd"
+          "filesystem"
+          "loadavg"
+          "mdadm"
+          "meminfo"
+          "netdev"
+          "netstat"
+          "stat"
+          "time"
+          "vmstat"
+          "systemd"
+          "logind"
+          "interrupts"
+          "ksmd"
+        ];
+      };
+    };
+  };
+
   fileSystems."/mnt/blestion" = {
     device = "//192.168.1.98/blestion";
     fsType = "cifs";
@@ -324,6 +351,10 @@
     {
       from = 7788;
       to = 7788; # traefik routers
+    }
+    {
+      from = 9100;
+      to = 9100; # node exporter for prometheus
     }
   ];
   networking.firewall.allowedUDPPortRanges = [{
