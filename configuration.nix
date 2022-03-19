@@ -224,6 +224,7 @@
     glibcLocales
     google-chrome
     gparted
+    gping # a neat way to gauge connection health
     graphviz # includes tred
     htop
     icdiff
