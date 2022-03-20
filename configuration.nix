@@ -214,6 +214,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    alloy # for finding bugs without running or looking at code
     autojump
     bind
     broot # for interactively exploring folder structures
@@ -244,6 +245,7 @@
     screen
     sshfs
     stow
+    tlaplusToolbox # formal methods tool
     tmux
     tree
     up # Ultimate Plumber, for quickly iterating on shell commands
