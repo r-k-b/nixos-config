@@ -312,6 +312,7 @@
       # traefik implicitly listens on 8080?
       # see <http://nixos:8080/dashboard/>...
       entryPoints = {
+        traefik = { address = ":7789"; };
         web = {
           address = ":7788";
           #http = {
