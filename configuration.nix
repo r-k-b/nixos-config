@@ -236,6 +236,7 @@
     linuxPackages.v4l2loopback # for OBS Studio's Virtual Camera
     mosh
     nix-du # for analyzing Store disk usage
+    nix-tree # for examining the content of store paths
     nixfmt
     nixpkgs-review
     ntfs3g
@@ -243,6 +244,8 @@
     parted
     ripgrep
     screen
+    screenkey # for showing keys pressed in recordings
+    slop # required by screenkey
     sshfs
     stow
     tlaplusToolbox # formal methods tool
