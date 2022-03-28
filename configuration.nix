@@ -229,6 +229,7 @@
     gping # a neat way to gauge connection health
     graphviz # includes tred
     htop
+    hyx # a nice quick hex editor for the terminal
     icdiff
     keepassxc
     kdeconnect
@@ -241,6 +242,7 @@
     nixpkgs-review
     ntfs3g
     obs-studio
+    okteta # a powerful hex editor for the gui
     parted
     ripgrep
     screen
