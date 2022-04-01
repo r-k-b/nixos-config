@@ -304,6 +304,11 @@
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   programs.mtr.enable = true;
+
+  # https://github.com/Mic92/nix-ld#nix-ld
+  # Run unpatched dynamic binaries on NixOS.
+  programs.nix-ld.enable = true;
+
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
@@ -386,6 +391,7 @@
       from = 7788;
       to = 7788; # traefik routers
     }
+    {from=8200; to=8200;} # to access minidlna servers???
     {
       from = 9100;
       to = 9100; # node exporter for prometheus
