@@ -391,17 +391,25 @@
       from = 7788;
       to = 7788; # traefik routers
     }
-    {from=8200; to=8200;} # to access minidlna servers???
+    {
+      from = 8200;
+      to = 8200; # minidlna???
+    }
     {
       from = 9100;
       to = 9100; # node exporter for prometheus
     }
   ];
-  networking.firewall.allowedUDPPortRanges = [{
-    from = 1714;
-    to = 1764;
-  } # kdeconnect
-    ];
+  networking.firewall.allowedUDPPortRanges = [
+    {
+      from = 1714;
+      to = 1764;
+    } # kdeconnect
+    {
+      from = 1900;
+      to = 1900; # minidlna
+    }
+  ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
