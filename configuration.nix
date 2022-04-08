@@ -12,6 +12,7 @@
     package = pkgs.nixFlakes;
     extraOptions = ''
       experimental-features = nix-command flakes
+      netrc-file = /etc/nixos/netrc
     '';
     gc = {
       automatic = true;
