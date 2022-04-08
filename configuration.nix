@@ -234,6 +234,7 @@
     bind
     broot # for interactively exploring folder structures
     cntr # for debugging nix package builds
+    diffoscope # for examining differences in files that should be the same
     direnv
     docker
     firefox
@@ -265,7 +266,9 @@
     slop # required by screenkey
     sshfs
     stow
+    tdesktop # avoid censorship of chat
     tlaplusToolbox # formal methods tool
+    tor-browser-bundle-bin # avoid censorship of websites
     tmux
     tree
     up # Ultimate Plumber, for quickly iterating on shell commands
