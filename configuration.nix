@@ -188,7 +188,6 @@
     enableDefaultFonts = true;
     fonts = with pkgs; [
       gyre-fonts
-      #noto-coloremoji-fonts # no such thing in nixpkgs? would like the Emoji Selector to work...
       noto-fonts
       noto-fonts-cjk
       noto-fonts-emoji
@@ -196,11 +195,13 @@
       fira-code
       fira-code-symbols
       jetbrains-mono
-      mplus-outline-fonts
+      mplus-outline-fonts.githubRelease
       dina-font
       open-dyslexic
       proggyfonts
       nerdfonts
+      twemoji-color-font
+      twitter-color-emoji
     ];
     fontconfig = {
       enable = true;
