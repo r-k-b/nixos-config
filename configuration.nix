@@ -13,6 +13,19 @@
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
+    gc = {
+      automatic = true;
+      dates = "monthly";
+      persistent = true;
+      options = "--delete-older-than 60d";
+    };
+  };
+
+  system = {
+    autoUpgrade = {
+      enable = true;
+      dates = "weekly";
+    };
   };
 
   imports = [ # Include the results of the hardware scan.
