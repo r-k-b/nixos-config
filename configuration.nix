@@ -459,6 +459,7 @@
   # Allow Workrave to save config changes
   # https://github.com/NixOS/nixpkgs/issues/56077#issuecomment-666416779
   services.dbus.packages = [ pkgs.dconf ];
+  programs.dconf.enable = true;
 
   # allow running Virtualbox VMs (like Windows)
   virtualisation.virtualbox.host = {
