@@ -237,6 +237,7 @@
     diffoscope # for examining differences in files that should be the same
     direnv
     docker
+    du-dust # to quickly see what's taking up space in a folder
     firefox
     git
     glibcLocales
