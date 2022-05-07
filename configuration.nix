@@ -195,6 +195,7 @@
       fira-code
       fira-code-symbols
       jetbrains-mono
+      joypixels
       mplus-outline-fonts.githubRelease
       dina-font
       open-dyslexic
@@ -202,17 +203,20 @@
       nerdfonts
       twemoji-color-font
       twitter-color-emoji
+      unifont
+      unifont_upper
+      vollkorn
     ];
     fontconfig = {
       enable = true;
       antialias = true;
       hinting.enable = true;
-      #defaultFonts = {
-      #  monospace = [ "DejaVu Sans Mono" "Noto Mono" ];
-      #  serif = [ "Vollkorn" "Noto Serif" "Times New Roman" ];
-      #  sansSerif = [ "Open Sans" "Noto Sans" ];
-      #  emoji = [ "Noto Color Emoji" "Twitter Color Emoji" "JoyPixels" "Unifont" "Unifont Upper" ];
-      #};
+      defaultFonts = {
+        monospace = [ "DejaVu Sans Mono" "Noto Mono" ];
+        serif = [ "Vollkorn" "Noto Serif" "Times New Roman" ];
+        sansSerif = [ "Open Sans" "Noto Sans" ];
+        emoji = [ "Noto Color Emoji" "NotoEmoji Nerd Font Mono" "Twitter Color Emoji" "JoyPixels" "Unifont" "Unifont Upper" ];
+      };
       localConf = ''
         <!-- use a less horrible font substition for pdfs such as https://www.bkent.net/Doc/mdarchiv.pdf -->
         <match target="pattern">
@@ -239,6 +243,7 @@
     docker
     du-dust # to quickly see what's taking up space in a folder
     firefox
+    font-manager
     git
     glibcLocales
     google-chrome
@@ -509,6 +514,7 @@
 
   # Looks like we need allowUnfree to use stuff like Google Chrome, Jetbrains, etc...
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.joypixels.acceptLicense = true;
 
   # let's keep Windows happy by not touching the system clock timezone...
   time.hardwareClockInLocalTime = true;
