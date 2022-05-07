@@ -215,7 +215,14 @@
         monospace = [ "DejaVu Sans Mono" "Noto Mono" ];
         serif = [ "Vollkorn" "Noto Serif" "Times New Roman" ];
         sansSerif = [ "Open Sans" "Noto Sans" ];
-        emoji = [ "Noto Color Emoji" "NotoEmoji Nerd Font Mono" "Twitter Color Emoji" "JoyPixels" "Unifont" "Unifont Upper" ];
+        emoji = [
+          "Noto Color Emoji"
+          "NotoEmoji Nerd Font Mono"
+          "Twitter Color Emoji"
+          "JoyPixels"
+          "Unifont"
+          "Unifont Upper"
+        ];
       };
       localConf = ''
         <!-- use a less horrible font substition for pdfs such as https://www.bkent.net/Doc/mdarchiv.pdf -->
