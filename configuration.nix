@@ -249,6 +249,8 @@
     direnv
     docker
     du-dust # to quickly see what's taking up space in a folder
+    duf # a quick look at how much space & inodes are left
+    feh # decent image viewer
     firefox
     font-manager
     git
@@ -260,6 +262,13 @@
     htop
     hyx # a nice quick hex editor for the terminal
     icdiff
+    jetbrains.datagrip
+    (jetbrains.idea-ultimate.override { jdk = pkgs.jetbrains.jdk; })
+    jetbrains-mono
+    jetbrains.pycharm-professional
+    jetbrains.rider
+    jetbrains.webstorm
+    jless # for quick exploration of large json
     keepassxc
     kdeconnect
     linuxPackages.rtl88x2bu
@@ -284,6 +293,7 @@
     tor-browser-bundle-bin # avoid censorship of websites
     tmux
     tree
+    unipicker # quick search for unicode characters
     up # Ultimate Plumber, for quickly iterating on shell commands
     vim
     wget
