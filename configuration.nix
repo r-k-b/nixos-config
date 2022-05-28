@@ -1,4 +1,5 @@
 # Edit this configuration file to define what should be installed on
+
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
@@ -253,8 +254,9 @@
     feh # decent image viewer
     firefox
     font-manager
+    fzf
     git
-    glibcLocales
+    #glibcLocales
     google-chrome
     gparted
     gping # a neat way to gauge connection health
@@ -296,7 +298,9 @@
     unipicker # quick search for unicode characters
     up # Ultimate Plumber, for quickly iterating on shell commands
     vim
+    wine
     wget
+    xdg_utils # fix file associations?
     xdotool
     zgrviewer # for interactively visualizing .dot files; like `nix-du -s=500MB | tred > store.dot`
   ];
