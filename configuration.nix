@@ -188,6 +188,7 @@
   fonts = {
     enableDefaultFonts = true;
     fonts = with pkgs; [
+      iosevka
       gyre-fonts
       noto-fonts
       noto-fonts-cjk
@@ -242,21 +243,29 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     alloy # for finding bugs without running or looking at code
+    anki
+    ark
     autojump
+    autossh
+    bat # for previews in fzf
     bind
     broot # for interactively exploring folder structures
+    calibre
     cntr # for debugging nix package builds
     diffoscope # for examining differences in files that should be the same
     direnv
     docker
+    dropbox # for keyring backups
     du-dust # to quickly see what's taking up space in a folder
     duf # a quick look at how much space & inodes are left
+    entr # re-run command on file change
     feh # decent image viewer
+    filelight # visualize disk usage (cf. du-dust)
     firefox
+    flameshot # screenshots
     font-manager
     fzf
     git
-    #glibcLocales
     google-chrome
     gparted
     gping # a neat way to gauge connection health
@@ -266,43 +275,58 @@
     icdiff
     jetbrains.datagrip
     (jetbrains.idea-ultimate.override { jdk = pkgs.jetbrains.jdk; })
-    jetbrains-mono
     jetbrains.pycharm-professional
     jetbrains.rider
     jetbrains.webstorm
     jless # for quick exploration of large json
-    keepassxc
+    jq
     kdeconnect
+    keepassxc
+    libreoffice
     linuxPackages.rtl88x2bu
     linuxPackages.v4l2loopback # for OBS Studio's Virtual Camera
     mosh
+    msgviewer # for outlook .msg files
     nix-du # for analyzing Store disk usage
     nix-tree # for examining the content of store paths
     nixfmt
     nixpkgs-review
+    notepadqq
     ntfs3g
     obs-studio
     okteta # a powerful hex editor for the gui
+    okular
+    openconnect # work VPNs
     parted
+    pavucontrol # Can pavucontrol bring back the system sounds? https://www.reddit.com/r/kde/comments/6838fr/system_sounds_keep_breaking/
+    redshift
+    remmina
     ripgrep
+    scc # for quick line counts by language
     screen
     screenkey # for showing keys pressed in recordings
+    silver-searcher # ag
+    simplescreenrecorder
     slop # required by screenkey
     sshfs
     stow
     tdesktop # avoid censorship of chat
     tlaplusToolbox # formal methods tool
-    tor-browser-bundle-bin # avoid censorship of websites
+    tldr # quick examples for commands
     tmux
+    tor-browser-bundle-bin # avoid censorship of websites
     tree
+    unclutter-xfixes # hide the cursor on inactivity
     unipicker # quick search for unicode characters
     up # Ultimate Plumber, for quickly iterating on shell commands
-    vim
-    wine
+    vlc
     wget
+    wine
     xdg_utils # fix file associations?
     xdotool
+    xsel # clipboard helper
     zgrviewer # for interactively visualizing .dot files; like `nix-du -s=500MB | tred > store.dot`
+    zoom-us
   ];
 
   # Autojump doesn't work out of the box, so this is needed?
@@ -342,6 +366,35 @@
       fi
     fi
   '';
+
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    vimAlias = true;
+    viAlias = true;
+    configure = {
+      customRC = ''
+        " show whitespace
+        set list
+        set listchars=tab:>-
+
+        set relativenumber
+        set number
+      '';
+      packages.myNeovimPackage = with pkgs.vimPlugins; {
+        # loaded on launch
+        start = [
+          editorconfig-vim
+          vim-airline
+          vim-better-whitespace
+          vim-gitgutter
+          vim-nix
+        ];
+        # manually loadable by calling `:packadd $plugin-name`
+        opt = [ ];
+      };
+    };
+  };
 
   # this might prove useful to debug nix package builds?
   programs.sysdig.enable = true;
