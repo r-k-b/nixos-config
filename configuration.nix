@@ -72,6 +72,7 @@
   # so we can use custom subdomains in development, and with traefik
   services.dnsmasq = {
     enable = true;
+    servers = [ "8.8.4.4" "1.1.1.1" "8.8.8.8" ];
     extraConfig = ''
       address=/localhost/127.0.0.1
       address=/nixos/192.168.1.103
