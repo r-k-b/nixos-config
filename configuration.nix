@@ -267,6 +267,7 @@
     font-manager
     fzf
     git
+    gimp # bitmap image editor
     google-chrome
     gparted
     gping # a neat way to gauge connection health
