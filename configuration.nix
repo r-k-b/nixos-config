@@ -310,6 +310,7 @@
     silver-searcher # ag
     simplescreenrecorder
     slop # required by screenkey
+    sox # for keeping the audio sink active, and things like `play -n synth brownnoise vol 0.6`
     sshfs
     stow
     tdesktop # avoid censorship of chat
