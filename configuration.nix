@@ -88,7 +88,18 @@
       address=/phdcchpdev/10.20.60.25
       address=/phdccrtdev/10.20.60.21
       address=/phdccwestdev/10.20.60.24
+
+      # HAMBS VPN
+      # (can we specify a fallback server, 192.168.229.228?)
+      server=/hambs.com.au/192.168.229.8
     '';
+  };
+
+  # for the HAMBS VPN
+  services.globalprotect = {
+    enable = true;
+    # if you need a Host Integrity Protection report
+    # csdWrapper = "${pkgs.openconnect}/libexec/openconnect/hipreport.sh";
   };
 
   # extend the life of SSDs?
@@ -269,6 +280,7 @@
     fzf
     git
     gimp # bitmap image editor
+    globalprotect-openconnect # HAMBS vpn
     google-chrome
     gparted
     gping # a neat way to gauge connection health
