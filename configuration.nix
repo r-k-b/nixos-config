@@ -90,6 +90,7 @@
       address=/phdccwestdev/10.20.60.24
 
       # HAMBS VPN
+      server=/vpnportal.hambs.com.au/8.8.4.4 # needs to be called from outside the vpn
       # (can we specify a fallback server, 192.168.229.228?)
       server=/hambs.com.au/192.168.229.8
     '';
