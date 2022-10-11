@@ -14,6 +14,10 @@
     extraOptions = ''
       experimental-features = nix-command flakes
       netrc-file = /etc/nixos/netrc
+
+      # for nix-direnv
+      keep-outputs = true
+      keep-derivations = true
     '';
     gc = {
       automatic = true;
@@ -253,6 +257,10 @@
   # Set your time zone.
   time.timeZone = "Australia/Sydney";
 
+  environment.pathsToLink = [
+    "/share/nix-direnv"
+  ];
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -303,6 +311,7 @@
     linuxPackages.v4l2loopback # for OBS Studio's Virtual Camera
     mosh
     msgviewer # for outlook .msg files
+    nix-direnv # prevents gc of dev environments
     nix-du # for analyzing Store disk usage
     nix-tree # for examining the content of store paths
     nixfmt
@@ -606,6 +615,11 @@
   # Looks like we need allowUnfree to use stuff like Google Chrome, Jetbrains, etc...
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.joypixels.acceptLicense = true;
+
+  # enable nix-direnv to support Flakes
+  nixpkgs.overlays = [
+    (self: super: { nix-direnv = super.nix-direnv.override { enableFlakes = true; }; } )
+  ];
 
   # let's keep Windows happy by not touching the system clock timezone...
   time.hardwareClockInLocalTime = true;
