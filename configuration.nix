@@ -97,6 +97,8 @@
       server=/vpnportal.hambs.com.au/8.8.4.4 # needs to be called from outside the vpn
       # (can we specify a fallback server, 192.168.229.228?)
       server=/hambs.com.au/192.168.229.8
+      server=/hambs.internal/192.168.229.8
+      server=/hambs.io/192.168.229.8
     '';
   };
 
@@ -582,7 +584,15 @@
   virtualisation.libvirtd.enable = true;
 
   # https://github.com/NixOS/nixpkgs/issues/47201#issuecomment-423798284
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    daemon.settings = {
+      ipv6 = true;
+      # fc00::/7 is for private subnets, this particular private subnet was
+      # randomly generated at <https://simpledns.plus/private-ipv6>
+      "fixed-cidr-v6" = "fd1a:2d1a:1955:7c04::/64";
+    };
+  };
 
   users.groups.docker = { members = [ "traefik" ]; };
 
