@@ -10,7 +10,7 @@
     settings = {
       auto-optimise-store = true; # we're on an ssd, should be no downside?
     };
-    package = pkgs.nixFlakes;
+    package = pkgs.nixVersions.stable;
     extraOptions = ''
       experimental-features = nix-command flakes
       netrc-file = /etc/nixos/netrc
@@ -296,7 +296,7 @@
     jetbrains.webstorm
     jless # for quick exploration of large json
     jq
-    kdeconnect
+    plasma5Packages.kdeconnect-kde
     keepassxc
     libreoffice
     linuxPackages.rtl88x2bu
@@ -339,7 +339,7 @@
     vlc
     wget
     wine
-    xdg_utils # fix file associations?
+    xdg-utils # fix file associations?
     xdotool
     xsel # clipboard helper
     zgrviewer # for interactively visualizing .dot files; like `nix-du -s=500MB | tred > store.dot`
