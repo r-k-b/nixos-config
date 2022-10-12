@@ -424,6 +424,12 @@
     };
   };
 
+  # For easier running of unpatched binaries, like GlobalProtect VPN
+  # https://nixos.wiki/wiki/Steam
+  programs.steam = {
+    enable = true;
+  };
+
   # this might prove useful to debug nix package builds?
   programs.sysdig.enable = true;
 
