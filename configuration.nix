@@ -99,6 +99,8 @@
       server=/hambs.com.au/192.168.229.8
       server=/hambs.internal/192.168.229.8
       server=/hambs.io/192.168.229.8
+      # try this nameserver if the previous PHD ns failed due to wrong vpn
+      server=/phd.com.au/192.168.229.228
     '';
   };
 
