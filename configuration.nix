@@ -263,9 +263,7 @@
   # Set your time zone.
   time.timeZone = "Australia/Sydney";
 
-  environment.pathsToLink = [
-    "/share/nix-direnv"
-  ];
+  environment.pathsToLink = [ "/share/nix-direnv" ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -430,9 +428,7 @@
 
   # For easier running of unpatched binaries, like GlobalProtect VPN
   # https://nixos.wiki/wiki/Steam
-  programs.steam = {
-    enable = true;
-  };
+  programs.steam = { enable = true; };
 
   # this might prove useful to debug nix package builds?
   programs.sysdig.enable = true;
@@ -638,7 +634,9 @@
 
   # enable nix-direnv to support Flakes
   nixpkgs.overlays = [
-    (self: super: { nix-direnv = super.nix-direnv.override { enableFlakes = true; }; } )
+    (self: super: {
+      nix-direnv = super.nix-direnv.override { enableFlakes = true; };
+    })
   ];
 
   # let's keep Windows happy by not touching the system clock timezone...
