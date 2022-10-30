@@ -95,12 +95,12 @@
 
       # HAMBS VPN
       server=/vpnportal.hambs.com.au/8.8.4.4 # needs to be called from outside the vpn
-      # (can we specify a fallback server, 192.168.229.228?)
+      # (can we specify a fallback server, 192.168.229.228?) (although, .228 gives different answers to .8?)
       server=/hambs.com.au/192.168.229.8
       server=/hambs.internal/192.168.229.8
       server=/hambs.io/192.168.229.8
       # try this nameserver if the previous PHD ns failed due to wrong vpn
-      server=/phd.com.au/192.168.229.228
+      server=/phd.com.au/192.168.229.8
     '';
   };
 
