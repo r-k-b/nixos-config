@@ -95,6 +95,11 @@
 
       # HAMBS VPN
       server=/vpnportal.hambs.com.au/8.8.4.4 # needs to be called from outside the vpn
+      server=/vpnportal2.hambs.com.au/8.8.4.4 # needs to be called from outside the vpn
+      server=/vpngateway1.hambs.com.au/8.8.4.4 # needs to be called from outside the vpn
+      server=/vpngateway2.hambs.com.au/8.8.4.4 # needs to be called from outside the vpn
+      server=/vpngateway3.hambs.com.au/8.8.4.4 # needs to be called from outside the vpn
+      server=/vpngateway4.hambs.com.au/8.8.4.4 # needs to be called from outside the vpn
       # (can we specify a fallback server, 192.168.229.228?) (although, .228 gives different answers to .8?)
       server=/hambs.com.au/192.168.229.8
       server=/hambs.internal/192.168.229.8
