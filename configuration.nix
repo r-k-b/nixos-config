@@ -319,6 +319,7 @@
     jq
     plasma5Packages.kdeconnect-kde
     keepassxc
+    libnotify # for showing alerts from scripts
     libreoffice
     linuxPackages.rtl88x2bu
     linuxPackages.v4l2loopback # for OBS Studio's Virtual Camera
