@@ -116,6 +116,9 @@
     # csdWrapper = "${pkgs.openconnect}/libexec/openconnect/hipreport.sh";
   };
 
+  # browse samba shares in gui apps
+  services.gvfs.enable = true;
+
   # extend the life of SSDs?
   services.fstrim = {
     enable = true;
@@ -282,6 +285,7 @@
     bind
     broot # for interactively exploring folder structures
     calibre
+    cifs-utils # explore samba shares
     cntr # for debugging nix package builds
     diffoscope # for examining differences in files that should be the same
     direnv
