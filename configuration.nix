@@ -86,9 +86,6 @@
       # the dnsmasq.service after connecting the hambs vpn)
       strict-order
 
-      server=8.8.8.8
-      server=8.8.4.4
-
       address=/localhost/127.0.0.1
       address=/nixos/192.168.1.103
       address=/strator/192.168.1.98
