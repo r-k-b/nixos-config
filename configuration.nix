@@ -607,6 +607,34 @@
       # fc00::/7 is for private subnets, this particular private subnet was
       # randomly generated at <https://simpledns.plus/private-ipv6>
       "fixed-cidr-v6" = "fd1a:2d1a:1955:7c04::/64";
+
+      # try to avoid routing conflicts with the hambs vpn
+      # (they have stuff running under 172.17, one of Docker's default pools)
+      #
+      # tip: if you were using 172.17.0.1 to get to the host through Docker's
+      # default bridge IP, you may want to use the domain `host.docker.internal` instead.
+      # (getting 'host not found'? try <https://stackoverflow.com/q/70725881/2014893>)
+      bip = "10.41.0.5/16";
+      default-address-pools = [
+        # What do the '/16' in 'base' and '24' in 'size' mean? See:
+        # https://stackoverflow.com/a/62176334/2014893
+        {
+          base = "10.42.0.0/16";
+          size = 24;
+        }
+        {
+          base = "10.43.0.0/16";
+          size = 24;
+        }
+        {
+          base = "10.44.0.0/16";
+          size = 24;
+        }
+        {
+          base = "10.45.0.0/16";
+          size = 24;
+        }
+      ];
     };
   };
 
