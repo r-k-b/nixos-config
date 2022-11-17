@@ -79,6 +79,16 @@
     enable = true;
     servers = [ "8.8.4.4" "1.1.1.1" "8.8.8.8" ];
     extraConfig = ''
+      # watch what queries dnsmasq sends and receives; helps with debugging
+      #log-queries
+
+      # use the last servers listed here, first. (saves having to restart
+      # the dnsmasq.service after connecting the hambs vpn)
+      strict-order
+
+      server=8.8.8.8
+      server=8.8.4.4
+
       address=/localhost/127.0.0.1
       address=/nixos/192.168.1.103
       address=/strator/192.168.1.98
@@ -104,7 +114,7 @@
       server=/hambs.com.au/192.168.229.8
       server=/hambs.internal/192.168.229.8
       server=/hambs.io/192.168.229.8
-      # try this nameserver if the previous PHD ns failed due to wrong vpn
+      # try this nameserver before the previous PHD nameserver
       server=/phd.com.au/192.168.229.8
     '';
   };
