@@ -77,43 +77,64 @@
   # so we can use custom subdomains in development, and with traefik
   services.dnsmasq = {
     enable = true;
-    servers = [ "8.8.4.4" "1.1.1.1" "8.8.8.8" ];
-    extraConfig = ''
+    settings = {
       # watch what queries dnsmasq sends and receives; helps with debugging
-      #log-queries
+      log-queries = true;
+      log-debug = true;
+
+      # which of these do we actually need?
+      no-resolv =
+        true; # = ignore resolvers added by the vpn to /etc/resolv.conf
+
+      clear-on-reload =
+        true; # = whenever resolv.conf is updated, clear the cache
+
+      no-negcache = true; # = don't keep lookup failures in cache
 
       # use the last servers listed here, first. (saves having to restart
       # the dnsmasq.service after connecting the hambs vpn)
-      strict-order
+      strict-order = true;
 
-      address=/localhost/127.0.0.1
-      address=/nixos/192.168.1.103
-      address=/strator/192.168.1.98
-      address=/nixos-strator/192.168.1.98
+      address = [
+        "/localhost/127.0.0.1"
+        "/nixos/192.168.1.103"
+        "/strator/192.168.1.98"
+        "/nixos-strator/192.168.1.98"
+        "/phdccfs01/10.20.60.12"
+        "/phdcchippo/10.20.60.20"
+        "/phdcchpdev/10.20.60.25"
+        "/phdccrtdev/10.20.60.21"
+        "/phdccwestdev/10.20.60.24"
+      ];
 
-      # PHD VPN
-      server=/phd.com.au/10.20.60.10
-      server=/pacifichealthdynamics.com.au/10.20.60.10
-      address=/phdccfs01/10.20.60.12
-      address=/phdcchippo/10.20.60.20
-      address=/phdcchpdev/10.20.60.25
-      address=/phdccrtdev/10.20.60.21
-      address=/phdccwestdev/10.20.60.24
+      server = [
+        "8.8.4.4"
+        "1.1.1.1"
+        "8.8.8.8"
 
-      # HAMBS VPN
-      server=/vpnportal.hambs.com.au/8.8.4.4 # needs to be called from outside the vpn
-      server=/vpnportal2.hambs.com.au/8.8.4.4 # needs to be called from outside the vpn
-      server=/vpngateway1.hambs.com.au/8.8.4.4 # needs to be called from outside the vpn
-      server=/vpngateway2.hambs.com.au/8.8.4.4 # needs to be called from outside the vpn
-      server=/vpngateway3.hambs.com.au/8.8.4.4 # needs to be called from outside the vpn
-      server=/vpngateway4.hambs.com.au/8.8.4.4 # needs to be called from outside the vpn
-      # (can we specify a fallback server, 192.168.229.228?) (although, .228 gives different answers to .8?)
-      server=/hambs.com.au/192.168.229.8
-      server=/hambs.internal/192.168.229.8
-      server=/hambs.io/192.168.229.8
-      # try this nameserver before the previous PHD nameserver
-      server=/phd.com.au/192.168.229.8
-    '';
+        # PHD VPN
+        "/phd.com.au/10.20.60.10"
+        "/pacifichealthdynamics.com.au/10.20.60.10"
+
+        # HAMBS VPN
+        "/vpnportal.hambs.com.au/8.8.4.4" # needs to be called from outside the vpn
+        "/vpnportal2.hambs.com.au/8.8.4.4" # needs to be called from outside the vpn
+        "/vpngateway1.hambs.com.au/8.8.4.4" # needs to be called from outside the vpn
+        "/vpngateway2.hambs.com.au/8.8.4.4" # needs to be called from outside the vpn
+        "/vpngateway3.hambs.com.au/8.8.4.4" # needs to be called from outside the vpn
+        "/vpngateway4.hambs.com.au/8.8.4.4" # needs to be called from outside the vpn
+        # (.228 is a fallback server, but it gives different answers to .8 ...)
+        "/hambs.com.au/192.168.229.228"
+        "/hambs.com.au/192.168.229.8"
+        "/hambs.internal/192.168.229.228"
+        "/hambs.internal/192.168.229.8"
+        "/hambs.io/192.168.229.8"
+        "/hambs.io/192.168.229.8"
+        # try this nameserver before the previous PHD nameserver
+        "/phd.com.au/192.168.229.8"
+      ];
+
+    };
   };
 
   # for the HAMBS VPN
