@@ -379,6 +379,7 @@
     sshfs
     stow
     tdesktop # avoid censorship of chat
+    terminator # avoids the "missing emoji" problem that konsole has
     tlaplusToolbox # formal methods tool
     tldr # quick examples for commands
     tmux
