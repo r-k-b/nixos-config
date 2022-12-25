@@ -590,7 +590,11 @@
 
   # Enable sound.
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.enable = false;
+  services.pipewire = {
+    enable = true;
+    pulse = { enable = true; };
+  };
 
   hardware.bluetooth.enable = true;
 
