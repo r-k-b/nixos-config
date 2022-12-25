@@ -338,6 +338,7 @@
     htop
     hyx # a nice quick hex editor for the terminal
     icdiff
+    inxi # for quick info about the system
     jetbrains.datagrip
     (jetbrains.idea-ultimate.override { jdk = pkgs.jetbrains.jdk; })
     jetbrains.pycharm-professional
