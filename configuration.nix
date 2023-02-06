@@ -340,7 +340,7 @@
     icdiff
     inxi # for quick info about the system
     jetbrains.datagrip
-    (jetbrains.idea-ultimate.override { jdk = pkgs.jetbrains.jdk; })
+    jetbrains.idea-ultimate
     jetbrains.pycharm-professional
     jetbrains.rider
     jetbrains.webstorm
