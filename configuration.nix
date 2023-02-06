@@ -348,6 +348,7 @@
     jq
     plasma5Packages.kdeconnect-kde
     keepassxc
+    kitty # avoids the "missing emoji" problem that konsole has
     libnotify # for showing alerts from scripts
     libreoffice
     linuxPackages.rtl88x2bu
@@ -380,7 +381,6 @@
     sshfs
     stow
     tdesktop # avoid censorship of chat
-    terminator # avoids the "missing emoji" problem that konsole has
     tlaplusToolbox # formal methods tool
     tldr # quick examples for commands
     tmux
