@@ -333,6 +333,7 @@
     gimp # bitmap image editor
     globalprotect-openconnect # HAMBS vpn
     google-chrome
+    google-chrome-dev
     gparted
     gping # a neat way to gauge connection health
     graphviz # includes tred
