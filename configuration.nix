@@ -496,6 +496,7 @@
   # Run unpatched dynamic binaries on NixOS.
   programs.nix-ld.enable = true;
 
+  # an alternative to ssh-agent. involves the pinentry program.
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
