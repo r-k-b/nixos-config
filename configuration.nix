@@ -258,8 +258,8 @@
   };
 
   fonts = {
-    enableDefaultFonts = true;
-    fonts = with pkgs; [
+    enableDefaultPackages = true;
+    packages = with pkgs; [
       iosevka
       gyre-fonts
       noto-fonts
