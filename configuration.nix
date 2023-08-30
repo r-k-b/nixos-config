@@ -329,6 +329,7 @@
     cntr # for debugging nix package builds
     diffoscope # for examining differences in files that should be the same
     direnv
+    distrobox # easily install apps not already packaged for Nix (.deb, .rpm etc)
     docker
     dropbox # for keyring backups
     du-dust # to quickly see what's taking up space in a folder
@@ -348,6 +349,7 @@
     gparted
     gping # a neat way to gauge connection health
     graphviz # includes tred
+    helvum # a "patchbay" for connecting audio sink and source nodes; good for streaming audio
     htop
     hyx # a nice quick hex editor for the terminal
     icdiff
