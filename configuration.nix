@@ -108,6 +108,14 @@
         "/phdcchpdev/10.20.60.25"
         "/phdccrtdev/10.20.60.21"
         "/phdccwestdev/10.20.60.24"
+
+        # p21 weirdness?
+        "/SPS-D-P21APP02.hambs.com.au/10.1.24.3"
+        "/SPS-D-P21APP02.internal.hambs.com.au/10.1.24.3"
+        #"/SPS-D-P21APP02.hambs.com.au/52.128.23.153"
+        #"/SPS-D-P21APP02.internal.hambs.com.au/52.128.23.153"
+        "/WFD-D-P21APP02.hambs.com.au/10.1.21.3"
+        "/WFD-D-P21APP02.internal.hambs.com.au/10.1.21.3"
       ];
 
       server = [
