@@ -607,9 +607,8 @@
 
   # Enable sound.
   sound.enable = true;
-  hardware.pulseaudio.enable = false;
   services.pipewire = {
-    enable = true;
+    audio = { enable = true; };
     pulse = { enable = true; };
   };
 
