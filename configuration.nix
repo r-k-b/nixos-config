@@ -319,7 +319,6 @@
     alloy # for finding bugs without running or looking at code
     anki
     ark
-    autojump
     autossh
     bat # for previews in fzf
     bind
@@ -377,6 +376,7 @@
     nixpkgs-review
     notepadqq
     ntfs3g
+    nushell # a nicer shell than bash?
     obs-studio
     okteta # a powerful hex editor for the gui
     okular
@@ -412,6 +412,7 @@
     xsel # clipboard helper
     zgrviewer # for interactively visualizing .dot files; like `nix-du -s=500MB | tred > store.dot`
     zoom-us
+    zoxide # quick access to files & folders
   ];
 
   # Autojump doesn't work out of the box, so this is needed?
