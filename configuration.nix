@@ -215,6 +215,10 @@
     };
   };
 
+  services.sysstat = {
+    enable = true;
+  };
+
   fileSystems."/mnt/blestion" = {
     device = "//192.168.1.98/blestion";
     fsType = "cifs";
@@ -395,6 +399,7 @@
     sox # for keeping the audio sink active, and things like `play -n synth brownnoise vol 0.6`
     sshfs
     stow
+    sysstat # for finding why the system is slow
     tdesktop # avoid censorship of chat
     tlaplusToolbox # formal methods tool
     tldr # quick examples for commands
