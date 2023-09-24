@@ -3,7 +3,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, inputs, pkgs, ... }:
 
 {
   nix = {
@@ -354,6 +354,7 @@
     htop
     hyx # a nice quick hex editor for the terminal
     icdiff
+    inputs.nvimconf.packages.x86_64-linux.default
     inxi # for quick info about the system
     jetbrains.datagrip
     jetbrains.idea-ultimate
@@ -455,35 +456,6 @@
       fi
     fi
   '';
-
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    vimAlias = true;
-    viAlias = true;
-    configure = {
-      customRC = ''
-        " show whitespace
-        set list
-        set listchars=tab:>-
-
-        set relativenumber
-        set number
-      '';
-      packages.myNeovimPackage = with pkgs.vimPlugins; {
-        # loaded on launch
-        start = [
-          editorconfig-vim
-          vim-airline
-          vim-better-whitespace
-          vim-gitgutter
-          vim-nix
-        ];
-        # manually loadable by calling `:packadd $plugin-name`
-        opt = [ ];
-      };
-    };
-  };
 
   # For easier running of unpatched binaries, like GlobalProtect VPN
   # https://nixos.wiki/wiki/Steam
