@@ -10,7 +10,7 @@
     settings = {
       auto-optimise-store = true; # we're on an ssd, should be no downside?
     };
-    package = pkgs.nixVersions.stable;
+    package = pkgs.nixFlakes;
     extraOptions = ''
       experimental-features = nix-command flakes
       netrc-file = /etc/nixos/netrc
