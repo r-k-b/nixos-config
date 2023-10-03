@@ -329,6 +329,7 @@
     cifs-utils # explore samba shares
     cntr # for debugging nix package builds
     diffoscope # for examining differences in files that should be the same
+    difftastic # for easy to read git diffs
     direnv
     distrobox # easily install apps not already packaged for Nix (.deb, .rpm etc)
     docker
