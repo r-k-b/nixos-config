@@ -707,11 +707,7 @@
   nixpkgs.config.joypixels.acceptLicense = true;
 
   # enable nix-direnv to support Flakes
-  nixpkgs.overlays = [
-    (self: super: {
-      nix-direnv = super.nix-direnv.override { enableFlakes = true; };
-    })
-  ];
+  programs.direnv.enable = true;
 
   # let's keep Windows happy by not touching the system clock timezone...
   time.hardwareClockInLocalTime = true;
