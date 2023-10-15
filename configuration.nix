@@ -365,8 +365,10 @@
     jless # for quick exploration of large json
     jq
     plasma5Packages.kdeconnect-kde
+    k9s # for exploring kubernetes clusters
     keepassxc
     kitty # avoids the "missing emoji" problem that konsole has
+    kubectl # control k8s, needed for shells in k9s
     libnotify # for showing alerts from scripts
     libreoffice
     linuxPackages.rtl88x2bu
@@ -393,11 +395,13 @@
     scc # for quick line counts by language
     screen
     screenkey # for showing keys pressed in recordings
+    signal-desktop # for chat
     silver-searcher # ag
     simplescreenrecorder
     slop # required by screenkey
     sox # for keeping the audio sink active, and things like `play -n synth brownnoise vol 0.6`
     sshfs
+    stern # for tailing all the logs from a kubernetes cluster
     stow
     sysstat # for finding why the system is slow
     tdesktop # avoid censorship of chat
