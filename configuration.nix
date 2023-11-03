@@ -351,6 +351,7 @@
     gparted
     gping # a neat way to gauge connection health
     graphviz # includes tred
+    helm # for doing ...something... to k8s
     helvum # a "patchbay" for connecting audio sink and source nodes; good for streaming audio
     htop
     hyx # a nice quick hex editor for the terminal
