@@ -103,11 +103,6 @@
         "/nixos/192.168.1.103"
         "/strator/192.168.1.98"
         "/nixos-strator/192.168.1.98"
-        "/phdccfs01/10.20.60.12"
-        "/phdcchippo/10.20.60.20"
-        "/phdcchpdev/10.20.60.25"
-        "/phdccrtdev/10.20.60.21"
-        "/phdccwestdev/10.20.60.24"
 
         # p21 weirdness?
         "/SPS-D-P21APP02.hambs.com.au/10.1.24.3"
@@ -122,10 +117,6 @@
         "8.8.4.4"
         "1.1.1.1"
         "8.8.8.8"
-
-        # PHD VPN
-        "/phd.com.au/10.20.60.10"
-        "/pacifichealthdynamics.com.au/10.20.60.10"
 
         # HAMBS VPN
         "/vpnportal.hambs.com.au/8.8.4.4" # needs to be called from outside the vpn
