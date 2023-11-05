@@ -337,8 +337,6 @@
     git
     gimp # bitmap image editor
     globalprotect-openconnect # HAMBS vpn
-    google-chrome
-    google-chrome-dev
     gparted
     gping # a neat way to gauge connection health
     graphviz # includes tred
@@ -348,6 +346,8 @@
     hyx # a nice quick hex editor for the terminal
     icdiff
     inputs.nvimconf.packages.x86_64-linux.default
+    inputs.browserPreviews.packages.x86_64-linux.google-chrome
+    inputs.browserPreviews.packages.x86_64-linux.google-chrome-dev
     inxi # for quick info about the system
     jetbrains.datagrip
     jetbrains.idea-ultimate
