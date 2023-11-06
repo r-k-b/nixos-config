@@ -358,6 +358,7 @@
     jq
     plasma5Packages.kdeconnect-kde
     k9s # for exploring kubernetes clusters
+    kdenlive # for video editing
     keepassxc
     kitty # avoids the "missing emoji" problem that konsole has
     kubectl # control k8s, needed for shells in k9s
