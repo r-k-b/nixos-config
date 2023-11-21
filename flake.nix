@@ -17,8 +17,11 @@
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        modules =
-          [ ./configuration.nix { nix.registry.nixpkgs.flake = nixpkgs; } ];
+        modules = [
+          ./configuration.nix
+          { nix.registry.nixpkgs.flake = nixpkgs; }
+          { nix.nixPath = [ "nixpkgs=flake:nixpkgs" ]; }
+        ];
         specialArgs = { inherit inputs; };
       };
     };
