@@ -387,7 +387,7 @@
     redshift
     remmina
     ripgrep
-    scc # for quick line counts by language
+    scc # for quick line counts by language (loc)
     screen
     screenkey # for showing keys pressed in recordings
     signal-desktop # for chat
