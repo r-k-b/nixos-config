@@ -320,7 +320,7 @@
     broot # for interactively exploring folder structures
     calibre
     cifs-utils # explore samba shares
-    cntr # for debugging nix package builds
+    cntr # for debugging nix package builds; for usage, see https://discourse.nixos.org/t/debug-a-failed-derivation-with-breakpointhook-and-cntr/8669?u=r-k-b
     diffoscope # for examining differences in files that should be the same
     difftastic # for easy to read git diffs
     direnv
