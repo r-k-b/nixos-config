@@ -326,6 +326,7 @@
     difftastic # for easy to read git diffs
     direnv
     distrobox # easily install apps not already packaged for Nix (.deb, .rpm etc)
+    dive # for exploring docker images
     docker
     dropbox # for keyring backups
     du-dust # to quickly see what's taking up space in a folder
@@ -650,6 +651,8 @@
   # Allow vms built with `nixos-build-vms` to use hardware acceleration? (not verified)
   virtualisation.libvirtd.enable = true;
 
+  virtualisation.podman.enable = true;
+
   # https://github.com/NixOS/nixpkgs/issues/47201#issuecomment-423798284
   virtualisation.docker = {
     enable = true;
@@ -723,7 +726,7 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "20.03"; # Did you read the comment?
+  system.stateVersion = "23.11"; # Did you read the comment?
 
   # Looks like we need allowUnfree to use stuff like Google Chrome, Jetbrains, etc...
   nixpkgs.config.allowUnfree = true;
