@@ -9,6 +9,7 @@
   nix = {
     settings = {
       auto-optimise-store = true; # we're on an ssd, should be no downside?
+      sandbox = true; # https://github.com/NixOS/nixpkgs/blob/master/CONTRIBUTING.md#tested-using-sandboxing
     };
     package = pkgs.nixFlakes;
     extraOptions = ''
