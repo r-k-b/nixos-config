@@ -322,6 +322,7 @@
     calibre
     cifs-utils # explore samba shares
     cntr # for debugging nix package builds; for usage, see https://discourse.nixos.org/t/debug-a-failed-derivation-with-breakpointhook-and-cntr/8669?u=r-k-b
+    deadnix # Find and remove unused code in .nix source files
     diffoscope # for examining differences in files that should be the same
     difftastic # for easy to read git diffs
     direnv
@@ -386,6 +387,7 @@
     openconnect # work VPNs
     parted
     pavucontrol # Can pavucontrol bring back the system sounds? https://www.reddit.com/r/kde/comments/6838fr/system_sounds_keep_breaking/
+    qpwgraph # a "patchbay" for connecting audio sink and source nodes; good for streaming audio
     redshift
     remmina
     ripgrep
@@ -398,6 +400,7 @@
     slop # required by screenkey
     sox # for keeping the audio sink active, and things like `play -n synth brownnoise vol 0.6`
     sshfs
+    statix # Lints & suggestions for .nix files
     stern # for tailing all the logs from a kubernetes cluster
     stow
     sysstat # for finding why the system is slow
