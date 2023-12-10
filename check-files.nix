@@ -4,6 +4,7 @@ stdenv.mkDerivation {
   src = nixFiles;
   buildPhase = ''
     set -eou pipefail
+    shopt -s globstar
     ${tool}/bin/${cmd} | tee $out
   '';
 }
