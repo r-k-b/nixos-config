@@ -1,4 +1,4 @@
-{ tool, cmd, nixFiles, pkgs, stdenv }:
+{ tool, cmd, nixFiles, stdenv }:
 stdenv.mkDerivation {
   name = "check-${tool.pname}";
   src = nixFiles;

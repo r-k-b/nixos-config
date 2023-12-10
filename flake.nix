@@ -13,7 +13,7 @@
     };
   };
 
-  outputs = inputs@{ self, browserPreviews, nixpkgs, nvimconf }:
+  outputs = inputs@{ nixpkgs, ... }:
     let
       inherit (nixpkgs.lib) fileset hasSuffix;
       pkgs = import nixpkgs { system = "x86_64-linux"; };
