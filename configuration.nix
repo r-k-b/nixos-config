@@ -9,7 +9,9 @@
   nix = {
     settings = {
       auto-optimise-store = true; # we're on an ssd, should be no downside?
-      sandbox = true; # https://github.com/NixOS/nixpkgs/blob/master/CONTRIBUTING.md#tested-using-sandboxing
+
+      # https://github.com/NixOS/nixpkgs/blob/master/CONTRIBUTING.md#tested-using-sandboxing
+      sandbox = true;
     };
     package = pkgs.nixFlakes;
     extraOptions = ''
@@ -41,12 +43,13 @@
   ];
 
   # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot = {
-    enable = true;
-    configurationLimit = 5;
-  };
-  boot.loader.efi.canTouchEfiVariables = true;
   boot = {
+    loader.systemd-boot = {
+      enable = true;
+      configurationLimit = 5;
+    };
+    loader.efi.canTouchEfiVariables = true;
+
     extraModulePackages = [
       config.boot.kernelPackages.rtl88x2bu
       config.boot.kernelPackages.v4l2loopback.out
@@ -59,98 +62,79 @@
 
   powerManagement.cpuFreqGovernor = "performance";
 
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  services = {
+    # so we can use custom subdomains in development, and with traefik
+    dnsmasq = {
+      enable = true;
+      settings = {
+        # watch what queries dnsmasq sends and receives; helps with debugging
+        log-queries = true;
+        log-debug = true;
 
-  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
-  # Per-interface useDHCP will be mandatory in the future, so this generated config
-  # replicates the default behaviour.
-  networking = {
-    useDHCP = false;
-    interfaces.enp0s31f6.useDHCP = true;
-    nameservers = [
-      "8.8.4.4"
-      "8.8.8.8"
-      "192.168.1.1" # home net
-    ];
-    networkmanager.enable = true;
-    #wireless = {
-    #  enable = true;
-    #  userControlled.enable = true;
-    #};
-  };
+        # which of these do we actually need?
+        no-resolv =
+          true; # = ignore resolvers added by the vpn to /etc/resolv.conf
 
-  # so we can use custom subdomains in development, and with traefik
-  services.dnsmasq = {
-    enable = true;
-    settings = {
-      # watch what queries dnsmasq sends and receives; helps with debugging
-      log-queries = true;
-      log-debug = true;
+        clear-on-reload =
+          true; # = whenever resolv.conf is updated, clear the cache
 
-      # which of these do we actually need?
-      no-resolv =
-        true; # = ignore resolvers added by the vpn to /etc/resolv.conf
+        no-negcache = true; # = don't keep lookup failures in cache
 
-      clear-on-reload =
-        true; # = whenever resolv.conf is updated, clear the cache
+        # use the last servers listed here, first. (saves having to restart
+        # the dnsmasq.service after connecting the hambs vpn)
+        strict-order = true;
 
-      no-negcache = true; # = don't keep lookup failures in cache
+        address = [
+          "/localhost/127.0.0.1"
+          "/nixos/192.168.1.103"
+          "/strator/192.168.1.98"
+          "/nixos-strator/192.168.1.98"
 
-      # use the last servers listed here, first. (saves having to restart
-      # the dnsmasq.service after connecting the hambs vpn)
-      strict-order = true;
+          # p21 weirdness?
+          "/SPS-D-P21APP02.hambs.com.au/10.1.24.3"
+          "/SPS-D-P21APP02.internal.hambs.com.au/10.1.24.3"
+          #"/SPS-D-P21APP02.hambs.com.au/52.128.23.153"
+          #"/SPS-D-P21APP02.internal.hambs.com.au/52.128.23.153"
+          "/WFD-D-P21APP02.hambs.com.au/10.1.21.3"
+          "/WFD-D-P21APP02.internal.hambs.com.au/10.1.21.3"
+        ];
 
-      address = [
-        "/localhost/127.0.0.1"
-        "/nixos/192.168.1.103"
-        "/strator/192.168.1.98"
-        "/nixos-strator/192.168.1.98"
+        server = [
+          "8.8.4.4"
+          "1.1.1.1"
+          "8.8.8.8"
 
-        # p21 weirdness?
-        "/SPS-D-P21APP02.hambs.com.au/10.1.24.3"
-        "/SPS-D-P21APP02.internal.hambs.com.au/10.1.24.3"
-        #"/SPS-D-P21APP02.hambs.com.au/52.128.23.153"
-        #"/SPS-D-P21APP02.internal.hambs.com.au/52.128.23.153"
-        "/WFD-D-P21APP02.hambs.com.au/10.1.21.3"
-        "/WFD-D-P21APP02.internal.hambs.com.au/10.1.21.3"
-      ];
+          # HAMBS VPN
+          "/vpnportal.hambs.com.au/8.8.4.4" # needs to be called from outside the vpn
+          "/vpnportal2.hambs.com.au/8.8.4.4" # needs to be called from outside the vpn
+          "/vpngateway1.hambs.com.au/8.8.4.4" # needs to be called from outside the vpn
+          "/vpngateway2.hambs.com.au/8.8.4.4" # needs to be called from outside the vpn
+          "/vpngateway3.hambs.com.au/8.8.4.4" # needs to be called from outside the vpn
+          "/vpngateway4.hambs.com.au/8.8.4.4" # needs to be called from outside the vpn
+          # (.228 is a fallback server, but it gives different answers to .8 ...)
+          "/hambs.com.au/192.168.229.228"
+          "/hambs.com.au/192.168.229.8"
+          "/hambs.internal/192.168.229.228"
+          "/hambs.internal/192.168.229.8"
+          "/hambs.io/192.168.229.8"
+          "/hambs.io/192.168.229.8"
+          # try this nameserver before the previous PHD nameserver
+          "/phd.com.au/192.168.229.8"
+        ];
 
-      server = [
-        "8.8.4.4"
-        "1.1.1.1"
-        "8.8.8.8"
-
-        # HAMBS VPN
-        "/vpnportal.hambs.com.au/8.8.4.4" # needs to be called from outside the vpn
-        "/vpnportal2.hambs.com.au/8.8.4.4" # needs to be called from outside the vpn
-        "/vpngateway1.hambs.com.au/8.8.4.4" # needs to be called from outside the vpn
-        "/vpngateway2.hambs.com.au/8.8.4.4" # needs to be called from outside the vpn
-        "/vpngateway3.hambs.com.au/8.8.4.4" # needs to be called from outside the vpn
-        "/vpngateway4.hambs.com.au/8.8.4.4" # needs to be called from outside the vpn
-        # (.228 is a fallback server, but it gives different answers to .8 ...)
-        "/hambs.com.au/192.168.229.228"
-        "/hambs.com.au/192.168.229.8"
-        "/hambs.internal/192.168.229.228"
-        "/hambs.internal/192.168.229.8"
-        "/hambs.io/192.168.229.8"
-        "/hambs.io/192.168.229.8"
-        # try this nameserver before the previous PHD nameserver
-        "/phd.com.au/192.168.229.8"
-      ];
-
+      };
     };
-  };
 
-  # for the HAMBS VPN
-  services.globalprotect = {
-    enable = true;
-    # if you need a Host Integrity Protection report
-    # csdWrapper = "${pkgs.openconnect}/libexec/openconnect/hipreport.sh";
-  };
+    # for the HAMBS VPN
+    globalprotect = {
+      enable = true;
+      # if you need a Host Integrity Protection report
+      # csdWrapper = "${pkgs.openconnect}/libexec/openconnect/hipreport.sh";
+    };
 
-  # browse samba shares in gui apps
-  services.gvfs.enable = true;
+    # browse samba shares in gui apps
+    gvfs.enable = true;
+  };
 
   # extend the life of SSDs?
   services.fstrim = {
@@ -307,181 +291,185 @@
   # Set your time zone.
   time.timeZone = "Australia/Sydney";
 
-  environment.pathsToLink = [ "/share/nix-direnv" ];
+  environment = {
+    pathsToLink = [ "/share/nix-direnv" ];
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    alloy # for finding bugs without running or looking at code
-    anki
-    ark
-    autossh
-    bat # for previews in fzf
-    bind
-    broot # for interactively exploring folder structures
-    calibre
-    cifs-utils # explore samba shares
-    cntr # for debugging nix package builds; for usage, see https://discourse.nixos.org/t/debug-a-failed-derivation-with-breakpointhook-and-cntr/8669?u=r-k-b
-    deadnix # Find and remove unused code in .nix source files
-    diffoscope # for examining differences in files that should be the same
-    difftastic # for easy to read git diffs
-    direnv
-    distrobox # easily install apps not already packaged for Nix (.deb, .rpm etc)
-    dive # for exploring docker images
-    docker
-    dropbox # for keyring backups
-    du-dust # to quickly see what's taking up space in a folder
-    duf # a quick look at how much space & inodes are left
-    entr # re-run command on file change
-    feh # decent image viewer
-    filelight # visualize disk usage (cf. du-dust)
-    firefox
-    flameshot # screenshots
-    font-manager
-    fzf
-    git
-    gimp # bitmap image editor
-    globalprotect-openconnect # HAMBS vpn
-    gparted
-    gping # a neat way to gauge connection health
-    graphviz # includes tred
-    helm # for doing ...something... to k8s
-    helvum # a "patchbay" for connecting audio sink and source nodes; good for streaming audio
-    htop
-    hyx # a nice quick hex editor for the terminal
-    icdiff
-    inputs.nvimconf.packages.x86_64-linux.default
-    inputs.browserPreviews.packages.x86_64-linux.google-chrome
-    inputs.browserPreviews.packages.x86_64-linux.google-chrome-dev
-    inxi # for quick info about the system
-    jetbrains.datagrip
-    jetbrains.idea-ultimate
-    jetbrains.pycharm-professional
-    jetbrains.rider
-    jetbrains.webstorm
-    jless # for quick exploration of large json
-    jq
-    plasma5Packages.kdeconnect-kde
-    k9s # for exploring kubernetes clusters
-    kdenlive # for video editing
-    keepassxc
-    kitty # avoids the "missing emoji" problem that konsole has
-    kubectl # control k8s, needed for shells in k9s
-    libnotify # for showing alerts from scripts
-    libreoffice
-    linuxPackages.rtl88x2bu
-    linuxPackages.v4l2loopback # for OBS Studio's Virtual Camera
-    mosh
-    msgviewer # for outlook .msg files
-    nix-direnv # prevents gc of dev environments
-    nix-du # for analyzing Store disk usage
-    nix-tree # for examining the content of store paths
-    nixfmt
-    nixpkgs-review
-    notepadqq
-    ntfs3g
-    nushell # a nicer shell than bash?
-    obs-studio
-    okteta # a powerful hex editor for the gui
-    okular
-    openconnect # work VPNs
-    parted
-    pavucontrol # Can pavucontrol bring back the system sounds? https://www.reddit.com/r/kde/comments/6838fr/system_sounds_keep_breaking/
-    qpwgraph # a "patchbay" for connecting audio sink and source nodes; good for streaming audio
-    redshift
-    remmina
-    ripgrep
-    scc # for quick line counts by language (loc)
-    screen
-    screenkey # for showing keys pressed in recordings
-    signal-desktop # for chat
-    silver-searcher # ag
-    simplescreenrecorder
-    slop # required by screenkey
-    sox # for keeping the audio sink active, and things like `play -n synth brownnoise vol 0.6`
-    sshfs
-    statix # Lints & suggestions for .nix files
-    stern # for tailing all the logs from a kubernetes cluster
-    stow
-    sysstat # for finding why the system is slow
-    tdesktop # avoid censorship of chat
-    tlaplusToolbox # formal methods tool
-    tldr # quick examples for commands
-    tmux
-    tor-browser-bundle-bin # avoid censorship of websites
-    tree
-    unclutter-xfixes # hide the cursor on inactivity
-    unipicker # quick search for unicode characters
-    up # Ultimate Plumber, for quickly iterating on shell commands
-    vlc
-    wget
-    wine
-    xdg-utils # fix file associations?
-    xdotool
-    xsel # clipboard helper
-    zgrviewer # for interactively visualizing .dot files; like `nix-du -s=500MB | tred > store.dot`
-    zoom-us
-    zoxide # quick access to files & folders
-  ];
+    # List packages installed in system profile. To search, run:
+    # $ nix search wget
+    systemPackages = with pkgs; [
+      alloy # for finding bugs without running or looking at code
+      anki
+      ark
+      autossh
+      bat # for previews in fzf
+      bind
+      broot # for interactively exploring folder structures
+      calibre
+      cifs-utils # explore samba shares
+      cntr # for debugging nix package builds; for usage, see https://discourse.nixos.org/t/debug-a-failed-derivation-with-breakpointhook-and-cntr/8669?u=r-k-b
+      deadnix # Find and remove unused code in .nix source files
+      diffoscope # for examining differences in files that should be the same
+      difftastic # for easy to read git diffs
+      direnv
+      distrobox # easily install apps not already packaged for Nix (.deb, .rpm etc)
+      dive # for exploring docker images
+      docker
+      dropbox # for keyring backups
+      du-dust # to quickly see what's taking up space in a folder
+      duf # a quick look at how much space & inodes are left
+      entr # re-run command on file change
+      feh # decent image viewer
+      filelight # visualize disk usage (cf. du-dust)
+      firefox
+      flameshot # screenshots
+      font-manager
+      fzf
+      git
+      gimp # bitmap image editor
+      globalprotect-openconnect # HAMBS vpn
+      gparted
+      gping # a neat way to gauge connection health
+      graphviz # includes tred
+      helm # for doing ...something... to k8s
+      helvum # a "patchbay" for connecting audio sink and source nodes; good for streaming audio
+      htop
+      hyx # a nice quick hex editor for the terminal
+      icdiff
+      inputs.nvimconf.packages.x86_64-linux.default
+      inputs.browserPreviews.packages.x86_64-linux.google-chrome
+      inputs.browserPreviews.packages.x86_64-linux.google-chrome-dev
+      inxi # for quick info about the system
+      jetbrains.datagrip
+      jetbrains.idea-ultimate
+      jetbrains.pycharm-professional
+      jetbrains.rider
+      jetbrains.webstorm
+      jless # for quick exploration of large json
+      jq
+      plasma5Packages.kdeconnect-kde
+      k9s # for exploring kubernetes clusters
+      kdenlive # for video editing
+      keepassxc
+      kitty # avoids the "missing emoji" problem that konsole has
+      kubectl # control k8s, needed for shells in k9s
+      libnotify # for showing alerts from scripts
+      libreoffice
+      linuxPackages.rtl88x2bu
+      linuxPackages.v4l2loopback # for OBS Studio's Virtual Camera
+      mosh
+      msgviewer # for outlook .msg files
+      nix-direnv # prevents gc of dev environments
+      nix-du # for analyzing Store disk usage
+      nix-tree # for examining the content of store paths
+      nixfmt
+      nixpkgs-review
+      notepadqq
+      ntfs3g
+      nushell # a nicer shell than bash?
+      obs-studio
+      okteta # a powerful hex editor for the gui
+      okular
+      openconnect # work VPNs
+      parted
+      pavucontrol # Can pavucontrol bring back the system sounds? https://www.reddit.com/r/kde/comments/6838fr/system_sounds_keep_breaking/
+      qpwgraph # a "patchbay" for connecting audio sink and source nodes; good for streaming audio
+      redshift
+      remmina
+      ripgrep
+      scc # for quick line counts by language (loc)
+      screen
+      screenkey # for showing keys pressed in recordings
+      signal-desktop # for chat
+      silver-searcher # ag
+      simplescreenrecorder
+      slop # required by screenkey
+      sox # for keeping the audio sink active, and things like `play -n synth brownnoise vol 0.6`
+      sshfs
+      statix # Lints & suggestions for .nix files
+      stern # for tailing all the logs from a kubernetes cluster
+      stow
+      sysstat # for finding why the system is slow
+      tdesktop # avoid censorship of chat
+      tlaplusToolbox # formal methods tool
+      tldr # quick examples for commands
+      tmux
+      tor-browser-bundle-bin # avoid censorship of websites
+      tree
+      unclutter-xfixes # hide the cursor on inactivity
+      unipicker # quick search for unicode characters
+      up # Ultimate Plumber, for quickly iterating on shell commands
+      vlc
+      wget
+      wine
+      xdg-utils # fix file associations?
+      xdotool
+      xsel # clipboard helper
+      zgrviewer # for interactively visualizing .dot files; like `nix-du -s=500MB | tred > store.dot`
+      zoom-us
+      zoxide # quick access to files & folders
+    ];
+  };
 
-  # Autojump doesn't work out of the box, so this is needed?
-  # https://github.com/NixOS/nixpkgs/pull/47334#issuecomment-439577344
-  # also adds an fzf integration; use `j` with no args.
-  programs.bash.interactiveShellInit = ''
-    source ${pkgs.autojump}/share/autojump/autojump.bash
-    j() {
-        if [[ "$#" -ne 0 ]]; then
-            cd $(autojump $@)
-            return
+  programs = {
+    # Autojump doesn't work out of the box, so this is needed?
+    # https://github.com/NixOS/nixpkgs/pull/47334#issuecomment-439577344
+    # also adds an fzf integration; use `j` with no args.
+    bash.interactiveShellInit = ''
+      source ${pkgs.autojump}/share/autojump/autojump.bash
+      j() {
+          if [[ "$#" -ne 0 ]]; then
+              cd $(autojump $@)
+              return
+          fi
+          cd "$(autojump -s | sort -k1gr | awk '$1 ~ /[0-9]:/ && $2 ~ /^\// { for (i=2; i<=NF; i++) { print $(i) } }' |  fzf --height 40% --reverse --inline-info)"
+      }
+    '';
+
+    bash.promptInit = ''
+      function extraDollars {
+        # show an extra $ in the prompt for every SHLVL-deep we are.
+        if [[ $SHLVL != 1 ]]; then
+            printf '$%.0s' $(seq 1 $(($SHLVL - 1)));
+        fi;
+      };
+
+      # Provide a nice prompt if the terminal supports it.
+      if [ "$TERM" != "dumb" ] || [ -n "$INSIDE_EMACS" ]; then
+        PROMPT_COLOR="1;31m"
+        ((UID)) && PROMPT_COLOR="1;32m"
+        if [ -n "$INSIDE_EMACS" ] || [ "$TERM" = "eterm" ] || [ "$TERM" = "eterm-color" ]; then
+          # Emacs term mode doesn't support xterm title escape sequence (\e]0;)
+          PS1="\n\[\033[$PROMPT_COLOR\][\u@\h:\w]\\$\$(extraDollars)\[\033[0m\] "
+        else
+          PS1="\n\[\033[$PROMPT_COLOR\][\[\e]0;\u@\h: \w\a\]\u@\h:\w]\\$\$(extraDollars)\[\033[0m\] "
         fi
-        cd "$(autojump -s | sort -k1gr | awk '$1 ~ /[0-9]:/ && $2 ~ /^\// { for (i=2; i<=NF; i++) { print $(i) } }' |  fzf --height 40% --reverse --inline-info)"
-    }
-  '';
+        if test "$TERM" = "xterm"; then
+          PS1="\[\033]2;\h:\u:\w\007\]$PS1"
+        fi
+      fi
+    '';
 
-  programs.bash.promptInit = ''
-    function extraDollars {
-      # show an extra $ in the prompt for every SHLVL-deep we are.
-      if [[ $SHLVL != 1 ]]; then
-          printf '$%.0s' $(seq 1 $(($SHLVL - 1)));
-      fi;
+    # For easier running of unpatched binaries, like GlobalProtect VPN
+    # https://nixos.wiki/wiki/Steam
+    steam = { enable = true; };
+
+    # this might prove useful to debug nix package builds?
+    sysdig.enable = true;
+
+    # Some programs need SUID wrappers, can be configured further or are
+    # started in user sessions.
+    mtr.enable = true;
+
+    # https://github.com/Mic92/nix-ld#nix-ld
+    # Run unpatched dynamic binaries on NixOS.
+    nix-ld.enable = true;
+
+    # an alternative to ssh-agent. involves the pinentry program.
+    gnupg.agent = {
+      enable = true;
+      enableSSHSupport = true;
+      pinentryFlavor = "qt";
     };
-
-    # Provide a nice prompt if the terminal supports it.
-    if [ "$TERM" != "dumb" ] || [ -n "$INSIDE_EMACS" ]; then
-      PROMPT_COLOR="1;31m"
-      ((UID)) && PROMPT_COLOR="1;32m"
-      if [ -n "$INSIDE_EMACS" ] || [ "$TERM" = "eterm" ] || [ "$TERM" = "eterm-color" ]; then
-        # Emacs term mode doesn't support xterm title escape sequence (\e]0;)
-        PS1="\n\[\033[$PROMPT_COLOR\][\u@\h:\w]\\$\$(extraDollars)\[\033[0m\] "
-      else
-        PS1="\n\[\033[$PROMPT_COLOR\][\[\e]0;\u@\h: \w\a\]\u@\h:\w]\\$\$(extraDollars)\[\033[0m\] "
-      fi
-      if test "$TERM" = "xterm"; then
-        PS1="\[\033]2;\h:\u:\w\007\]$PS1"
-      fi
-    fi
-  '';
-
-  # For easier running of unpatched binaries, like GlobalProtect VPN
-  # https://nixos.wiki/wiki/Steam
-  programs.steam = { enable = true; };
-
-  # this might prove useful to debug nix package builds?
-  programs.sysdig.enable = true;
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  programs.mtr.enable = true;
-
-  # https://github.com/Mic92/nix-ld#nix-ld
-  # Run unpatched dynamic binaries on NixOS.
-  programs.nix-ld.enable = true;
-
-  # an alternative to ssh-agent. involves the pinentry program.
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-    pinentryFlavor = "qt";
   };
 
   services.traefik = {
@@ -532,56 +520,77 @@
 
   services.lorri.enable = true;
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # Local dev (Hippo, etc)
-  networking.firewall.allowedTCPPortRanges = [
-    {
-      from = 8000;
-      to = 8099;
-    }
-    {
-      from = 5000;
-      to = 5099;
-    }
-    {
-      from = 1714;
-      to = 1764;
-    } # kdeconnect
-    {
-      from = 4200;
-      to = 4200;
-    } # hambs dev
-    {
-      from = 8080;
-      to = 8080; # traefik dash
-    }
-    {
-      from = 7788;
-      to = 7788; # traefik routers
-    }
-    {
-      from = 8200;
-      to = 8200; # minidlna???
-    }
-    {
-      from = 9100;
-      to = 9100; # node exporter for prometheus
-    }
-  ];
-  networking.firewall.allowedUDPPortRanges = [
-    {
-      from = 1714;
-      to = 1764;
-    } # kdeconnect
-    {
-      from = 1900;
-      to = 1900; # minidlna
-    }
-  ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking = {
+    hostName = "nixos"; # Define your hostname.
+    # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+
+    # The global useDHCP flag is deprecated, therefore explicitly set to false here.
+    # Per-interface useDHCP will be mandatory in the future, so this generated config
+    # replicates the default behaviour.
+    useDHCP = false;
+    interfaces.enp0s31f6.useDHCP = true;
+    nameservers = [
+      "8.8.4.4"
+      "8.8.8.8"
+      "192.168.1.1" # home net
+    ];
+    networkmanager.enable = true;
+    #wireless = {
+    #  enable = true;
+    #  userControlled.enable = true;
+    #};
+
+    # Open ports in the firewall.
+    # networking.firewall.allowedTCPPorts = [ ... ];
+    # Local dev (Hippo, etc)
+    firewall.allowedTCPPortRanges = [
+      {
+        from = 8000;
+        to = 8099;
+      }
+      {
+        from = 5000;
+        to = 5099;
+      }
+      {
+        from = 1714;
+        to = 1764;
+      } # kdeconnect
+      {
+        from = 4200;
+        to = 4200;
+      } # hambs dev
+      {
+        from = 8080;
+        to = 8080; # traefik dash
+      }
+      {
+        from = 7788;
+        to = 7788; # traefik routers
+      }
+      {
+        from = 8200;
+        to = 8200; # minidlna???
+      }
+      {
+        from = 9100;
+        to = 9100; # node exporter for prometheus
+      }
+    ];
+    firewall.allowedUDPPortRanges = [
+      {
+        from = 1714;
+        to = 1764;
+      } # kdeconnect
+      {
+        from = 1900;
+        to = 1900; # minidlna
+      }
+    ];
+    # firewall.allowedUDPPorts = [ ... ];
+    # Or disable the firewall altogether.
+    # firewall.enable = false;
+  };
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
@@ -613,7 +622,7 @@
           ["session.suspend-timeout-seconds"] = 0,  -- 0 disables suspend
         },
       })
-  '';
+    '';
   };
 
   hardware.bluetooth.enable = true;
@@ -645,83 +654,89 @@
   programs.dconf.enable = true;
 
   # allow running Virtualbox VMs (like Windows)
-  virtualisation.virtualbox.host = {
-    enable = true;
-    enableExtensionPack = true;
+  virtualisation = {
+    virtualbox.host = {
+      enable = true;
+      enableExtensionPack = true;
+    };
+
+    # Allow vms built with `nixos-build-vms` to use hardware acceleration? (not verified)
+    libvirtd.enable = true;
+
+    podman.enable = true;
+
+    # https://github.com/NixOS/nixpkgs/issues/47201#issuecomment-423798284
+    docker = {
+      enable = true;
+      daemon.settings = {
+        ipv6 = true;
+        # fc00::/7 is for private subnets, this particular private subnet was
+        # randomly generated at <https://simpledns.plus/private-ipv6>
+        "fixed-cidr-v6" = "fd1a:2d1a:1955:7c04::/64";
+
+        # try to avoid routing conflicts with the hambs vpn
+        # (they have stuff running under 172.17, one of Docker's default pools)
+        #
+        # tip: if you were using 172.17.0.1 to get to the host through Docker's
+        # default bridge IP, you may want to use the domain `host.docker.internal` instead.
+        # (getting 'host not found'? try <https://stackoverflow.com/q/70725881/2014893>)
+        bip = "10.41.0.5/16";
+        default-address-pools = [
+          # What do the '/16' in 'base' and '24' in 'size' mean? See:
+          # https://stackoverflow.com/a/62176334/2014893
+          {
+            base = "10.42.0.0/16";
+            size = 24;
+          }
+          {
+            base = "10.43.0.0/16";
+            size = 24;
+          }
+          {
+            base = "10.44.0.0/16";
+            size = 24;
+          }
+          {
+            base = "10.45.0.0/16";
+            size = 24;
+          }
+          {
+            base = "10.46.0.0/16";
+            size = 24;
+          }
+          {
+            base = "10.47.0.0/16";
+            size = 24;
+          }
+        ];
+      };
+    };
   };
-  users.extraGroups.vboxusers.members = [ "rkb" ];
 
-  # Allow vms built with `nixos-build-vms` to use hardware acceleration? (not verified)
-  virtualisation.libvirtd.enable = true;
+  users = {
+    extraGroups.vboxusers.members = [ "rkb" ];
+    groups.docker = { members = [ "traefik" ]; };
 
-  virtualisation.podman.enable = true;
-
-  # https://github.com/NixOS/nixpkgs/issues/47201#issuecomment-423798284
-  virtualisation.docker = {
-    enable = true;
-    daemon.settings = {
-      ipv6 = true;
-      # fc00::/7 is for private subnets, this particular private subnet was
-      # randomly generated at <https://simpledns.plus/private-ipv6>
-      "fixed-cidr-v6" = "fd1a:2d1a:1955:7c04::/64";
-
-      # try to avoid routing conflicts with the hambs vpn
-      # (they have stuff running under 172.17, one of Docker's default pools)
-      #
-      # tip: if you were using 172.17.0.1 to get to the host through Docker's
-      # default bridge IP, you may want to use the domain `host.docker.internal` instead.
-      # (getting 'host not found'? try <https://stackoverflow.com/q/70725881/2014893>)
-      bip = "10.41.0.5/16";
-      default-address-pools = [
-        # What do the '/16' in 'base' and '24' in 'size' mean? See:
-        # https://stackoverflow.com/a/62176334/2014893
-        {
-          base = "10.42.0.0/16";
-          size = 24;
-        }
-        {
-          base = "10.43.0.0/16";
-          size = 24;
-        }
-        {
-          base = "10.44.0.0/16";
-          size = 24;
-        }
-        {
-          base = "10.45.0.0/16";
-          size = 24;
-        }
-        {
-          base = "10.46.0.0/16";
-          size = 24;
-        }
-        {
-          base = "10.47.0.0/16";
-          size = 24;
-        }
+    # Define a user account. Don't forget to set a password with ‘passwd’.
+    users.rkb = {
+      isNormalUser = true;
+      extraGroups = [
+        "docker"
+        "wheel" # Enable ‘sudo’ for the user.
+        "libvirtd" # allow start/stop hardware-accelerated VMs on qemu? (not verified)
+        "lxd"
       ];
     };
   };
 
-  users.groups.docker = { members = [ "traefik" ]; };
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.rkb = {
-    isNormalUser = true;
-    extraGroups = [
-      "docker"
-      "wheel" # Enable ‘sudo’ for the user.
-      "libvirtd" # allow start/stop hardware-accelerated VMs on qemu? (not verified)
-      "lxd"
-    ];
-  };
-
-  security.pam.services.kwallet = {
-    name = "kwallet";
-    enableKwallet = true;
+  security.pam.services = {
+    kwallet = {
+      name = "kwallet";
+      enableKwallet = true;
+    };
+    sddm.enableGnomeKeyring = true;
   };
   services.gnome.gnome-keyring.enable = true;
-  security.pam.services.sddm.enableGnomeKeyring = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

@@ -19,14 +19,28 @@
       pkgs = import nixpkgs { system = "x86_64-linux"; };
       nixFiles = fileset.toSource {
         root = ./.;
-        fileset = fileset.fileFilter (file: hasSuffix ".nix" file.name) ./.;
+        fileset = fileset.unions [
+          (fileset.fileFilter (file: hasSuffix ".nix" file.name) ./.)
+          ./statix.toml
+        ];
       };
-      checker = attrs: pkgs.callPackage ./check-files.nix (attrs // {inherit nixFiles;});
+      checker = attrs:
+        pkgs.callPackage ./check-files.nix (attrs // { inherit nixFiles; });
     in {
       checks.x86_64-linux = {
-        deadnix = checker (with pkgs; { tool = deadnix; cmd = "deadnix --fail"; });
-        nixfmt = checker (with pkgs; { tool = nixfmt; cmd = "nixfmt --check **/*.nix"; });
-        statix = checker (with pkgs; { tool = statix; cmd = "statix check"; });
+        # 🛈  there's a more convenient 'watch mode' version of these, in ./watch-file-checkers.nu
+        deadnix = checker (with pkgs; {
+          tool = deadnix;
+          cmd = "deadnix --fail";
+        });
+        nixfmt = checker (with pkgs; {
+          tool = nixfmt;
+          cmd = "nixfmt --check **/*.nix";
+        });
+        statix = checker (with pkgs; {
+          tool = statix;
+          cmd = "statix check";
+        });
       };
       nixosConfigurations = {
         nixos = nixpkgs.lib.nixosSystem {

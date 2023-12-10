@@ -1,0 +1,3 @@
+disabled = []
+ignore = ['hardware-configuration.nix']
+
