@@ -655,11 +655,6 @@
 
   # allow running Virtualbox VMs (like Windows)
   virtualisation = {
-    virtualbox.host = {
-      enable = true;
-      enableExtensionPack = true;
-    };
-
     # Allow vms built with `nixos-build-vms` to use hardware acceleration? (not verified)
     libvirtd.enable = true;
 
