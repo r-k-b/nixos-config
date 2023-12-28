@@ -385,6 +385,7 @@
       slop # required by screenkey
       sox # for keeping the audio sink active, and things like `play -n synth brownnoise vol 0.6`
       sshfs
+      starsector # 2D space shooter
       statix # Lints & suggestions for .nix files
       stern # for tailing all the logs from a kubernetes cluster
       stow
