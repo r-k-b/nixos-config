@@ -250,11 +250,12 @@
       fira-code-symbols
       jetbrains-mono
       joypixels
+      monaspace # "texture healing"?
       mplus-outline-fonts.githubRelease
+      noto-fonts-color-emoji # a good fallback font
       dina-font
       open-dyslexic
       proggyfonts
-      nerdfonts
       twemoji-color-font
       twitter-color-emoji
       unifont
