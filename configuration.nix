@@ -4,7 +4,12 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, inputs, pkgs, ... }:
-
+let
+  jetbrainsRiderPHD = pkgs.writeShellScriptBin "riderPHD" ''
+    #!{pkgs.sh}/bin/sh
+    NIXPKGS_ALLOW_INSECURE=1 nix develop 'git+ssh://pacifichealthdynamics@vs-ssh.visualstudio.com/v3/pacifichealthdynamics/PHDSys/PHDSys-net?ref=main' --impure --command rider &
+  '';
+in
 {
   nix = {
     settings = {
@@ -340,6 +345,7 @@
       inxi # for quick info about the system
       jetbrains.idea-ultimate
       jetbrains.rider
+      jetbrainsRiderPHD
       jless # for quick exploration of large json
       jq
       plasma5Packages.kdeconnect-kde
