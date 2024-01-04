@@ -309,13 +309,11 @@
       cifs-utils # explore samba shares
       cntr # for debugging nix package builds; for usage, see https://discourse.nixos.org/t/debug-a-failed-derivation-with-breakpointhook-and-cntr/8669?u=r-k-b
       deadnix # Find and remove unused code in .nix source files
-      diffoscope # for examining differences in files that should be the same
       difftastic # for easy to read git diffs
       direnv
       distrobox # easily install apps not already packaged for Nix (.deb, .rpm etc)
       dive # for exploring docker images
       docker
-      dropbox # for keyring backups
       du-dust # to quickly see what's taking up space in a folder
       duf # a quick look at how much space & inodes are left
       entr # re-run command on file change
@@ -340,11 +338,8 @@
       inputs.browserPreviews.packages.x86_64-linux.google-chrome
       inputs.browserPreviews.packages.x86_64-linux.google-chrome-dev
       inxi # for quick info about the system
-      jetbrains.datagrip
       jetbrains.idea-ultimate
-      jetbrains.pycharm-professional
       jetbrains.rider
-      jetbrains.webstorm
       jless # for quick exploration of large json
       jq
       plasma5Packages.kdeconnect-kde
