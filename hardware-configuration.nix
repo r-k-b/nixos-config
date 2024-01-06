@@ -27,6 +27,11 @@
     fsType = "ext4";
   };
 
+  fileSystems."/mnt/maganed" = {
+    device = "/dev/disk/by-uuid/9C62DA8A62DA6912";
+    fsType = "ntfs";
+  };
+
   swapDevices =
     [{ device = "/dev/disk/by-uuid/6e073962-c509-4289-b90d-024bb4855a8e"; }];
 
