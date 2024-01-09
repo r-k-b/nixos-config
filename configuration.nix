@@ -9,8 +9,7 @@ let
     #!{pkgs.sh}/bin/sh
     NIXPKGS_ALLOW_INSECURE=1 nix develop 'git+ssh://pacifichealthdynamics@vs-ssh.visualstudio.com/v3/pacifichealthdynamics/PHDSys/PHDSys-net?ref=main' --impure --command rider &
   '';
-in
-{
+in {
   nix = {
     settings = {
       auto-optimise-store = true; # we're on an ssd, should be no downside?
