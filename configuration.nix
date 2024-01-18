@@ -309,6 +309,7 @@ in {
       bat # for previews in fzf
       bind
       broot # for interactively exploring folder structures
+      btop # perf mon, shows cpu temps & network usage too
       calibre
       cifs-utils # explore samba shares
       cntr # for debugging nix package builds; for usage, see https://discourse.nixos.org/t/debug-a-failed-derivation-with-breakpointhook-and-cntr/8669?u=r-k-b
