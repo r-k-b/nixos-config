@@ -7,7 +7,7 @@
 let
   jetbrainsRiderPHD = pkgs.writeShellScriptBin "riderPHD" ''
     #!{pkgs.sh}/bin/sh
-    NIXPKGS_ALLOW_INSECURE=1 nix develop 'git+ssh://pacifichealthdynamics@vs-ssh.visualstudio.com/v3/pacifichealthdynamics/PHDSys/PHDSys-net?ref=main' --impure --command rider &
+    NIXPKGS_ALLOW_INSECURE=1 nix develop 'git+ssh://pacifichealthdynamics@vs-ssh.visualstudio.com/v3/pacifichealthdynamics/PHDSys/PHDSys-net?ref=main' -L --impure --command rider &
   '';
 in {
   nix = {
