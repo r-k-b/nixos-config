@@ -168,6 +168,14 @@ in {
   i18n = {
     defaultLocale = "en_AU.UTF-8";
     extraLocaleSettings = {
+      LC_ADDRESS = "en_AU.UTF-8";
+      LC_IDENTIFICATION = "en_AU.UTF-8";
+      LC_MEASUREMENT = "en_AU.UTF-8";
+      LC_MONETARY = "en_AU.UTF-8";
+      LC_NAME = "en_AU.UTF-8";
+      LC_NUMERIC = "en_AU.UTF-8";
+      LC_PAPER = "en_AU.UTF-8";
+      LC_TELEPHONE = "en_AU.UTF-8";
       # For dates formatted like ISO8601
       # https://serverfault.com/a/17184/276263
       LC_TIME = "en_DK.UTF-8";
