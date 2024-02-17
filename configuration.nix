@@ -27,7 +27,7 @@ in {
       keep-derivations = true
     '';
     gc = {
-      automatic = true;
+      automatic = false;
       dates = "monthly";
       persistent = true;
       options = "--delete-older-than 60d";
