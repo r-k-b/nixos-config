@@ -64,6 +64,20 @@ in {
     '';
   };
 
+  fileSystems."/mnt/maganedette" = {
+    device = "/dev/disk/by-uuid/a9445e33-8ecc-474a-aa5e-00d0d8c3a711";
+    fsType = "ext4";
+  };
+
+  fileSystems."/mnt/maganed" = {
+    device = "/dev/disk/by-uuid/9C62DA8A62DA6912";
+    fsType = "ntfs";
+    options = [
+      "uid=1001" # rkb
+      "gid=100" # users
+    ];
+  };
+
   powerManagement.cpuFreqGovernor = "performance";
 
   services = {
