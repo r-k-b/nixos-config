@@ -751,12 +751,15 @@ in {
     };
   };
 
-  security.pam.services = {
-    kwallet = {
-      name = "kwallet";
-      enableKwallet = true;
+  security = {
+    rtkit.enable = true;
+    pam.services = {
+      kwallet = {
+        name = "kwallet";
+        enableKwallet = true;
+      };
+      sddm.enableGnomeKeyring = true;
     };
-    sddm.enableGnomeKeyring = true;
   };
   services.gnome.gnome-keyring.enable = true;
 
