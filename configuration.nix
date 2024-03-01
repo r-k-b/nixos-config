@@ -384,6 +384,7 @@ in {
       msgviewer # for outlook .msg files
       nix-direnv # prevents gc of dev environments
       nix-du # for analyzing Store disk usage
+      nix-output-monitor # for fancier build progress
       nix-tree # for examining the content of store paths
       nixfmt
       nixpkgs-review
@@ -397,6 +398,7 @@ in {
       parted
       pavucontrol # Can pavucontrol bring back the system sounds? https://www.reddit.com/r/kde/comments/6838fr/system_sounds_keep_breaking/
       qpwgraph # a "patchbay" for connecting audio sink and source nodes; good for streaming audio
+      quickemu # handles the annoying bits of finding OS ISOs
       redshift
       remmina
       ripgrep
