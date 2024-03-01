@@ -409,6 +409,7 @@ in {
       simplescreenrecorder
       slop # required by screenkey
       sox # for keeping the audio sink active, and things like `play -n synth brownnoise vol 0.6`
+      spice # for nicer vm guest⇆host sharing
       sshfs
       starsector # 2D space shooter
       statix # Lints & suggestions for .nix files
