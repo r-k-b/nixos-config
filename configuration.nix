@@ -64,20 +64,6 @@ in {
     '';
   };
 
-  fileSystems."/mnt/maganedette" = {
-    device = "/dev/disk/by-uuid/a9445e33-8ecc-474a-aa5e-00d0d8c3a711";
-    fsType = "ext4";
-  };
-
-  fileSystems."/mnt/maganed" = {
-    device = "/dev/disk/by-uuid/9C62DA8A62DA6912";
-    fsType = "ntfs";
-    options = [
-      "uid=1001" # rkb
-      "gid=100" # users
-    ];
-  };
-
   powerManagement.cpuFreqGovernor = "performance";
 
   services = {
@@ -221,41 +207,54 @@ in {
 
   services.sysstat = { enable = true; };
 
-  fileSystems."/mnt/blestion" = {
-    device = "//192.168.1.98/blestion";
-    fsType = "cifs";
-    options = let
-      # this line prevents hanging on network split
-      automount_opts =
-        "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s"
-        + ",uid=rkb,gid=users";
+  fileSystems = {
+    "/mnt/maganedette" = {
+      device = "/dev/disk/by-uuid/a9445e33-8ecc-474a-aa5e-00d0d8c3a711";
+      fsType = "ext4";
+    };
+    "/mnt/maganed" = {
+      device = "/dev/disk/by-uuid/9C62DA8A62DA6912";
+      fsType = "ntfs";
+      options = [
+        "uid=1001" # rkb
+        "gid=100" # users
+      ];
+    };
+    "/mnt/blestion" = {
+      device = "//192.168.1.98/blestion";
+      fsType = "cifs";
+      options = let
+        # this line prevents hanging on network split
+        automount_opts =
+          "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s"
+          + ",uid=rkb,gid=users";
 
-      /* ./smb-secrets should look like:
-         ```
-         username=rkb
-         domain=workgroup
-         password=YOURPASSWORDHERE
-         ```
-      */
-    in [ "${automount_opts},credentials=/etc/nixos/smb-secrets" ];
-  };
+        /* ./smb-secrets should look like:
+           ```
+           username=rkb
+           domain=workgroup
+           password=YOURPASSWORDHERE
+           ```
+        */
+      in [ "${automount_opts},credentials=/etc/nixos/smb-secrets" ];
+    };
+    "/mnt/smiticia" = {
+      device = "//192.168.1.98/smiticia";
+      fsType = "cifs";
+      options = let
+        # this line prevents hanging on network split
+        automount_opts =
+          "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
 
-  fileSystems."/mnt/smiticia" = {
-    device = "//192.168.1.98/smiticia";
-    fsType = "cifs";
-    options = let
-      # this line prevents hanging on network split
-      automount_opts =
-        "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-
-      /* ./smb-secrets should look like:
-         ```
-         username=rkb
-         domain=workgroup
-         password=YOURPASSWORDHERE
-         ```
-      */
-    in [ "${automount_opts},credentials=/etc/nixos/smb-secrets" ];
+        /* ./smb-secrets should look like:
+           ```
+           username=rkb
+           domain=workgroup
+           password=YOURPASSWORDHERE
+           ```
+        */
+      in [ "${automount_opts},credentials=/etc/nixos/smb-secrets" ];
+    };
   };
 
   console = {
