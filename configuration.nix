@@ -216,7 +216,7 @@ in {
       device = "/dev/disk/by-uuid/9C62DA8A62DA6912";
       fsType = "ntfs";
       options = [
-        "uid=1001" # rkb
+        "uid=1000" # rkb
         "gid=100" # users
       ];
     };
