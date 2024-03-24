@@ -257,6 +257,27 @@ in {
     };
   };
 
+  nixarr = {
+    enable = true;
+    # These two values are also the default, but you can set them to whatever
+    # else you want
+    mediaDir = "/data/media";
+    stateDir = "/data/media/.state";
+
+    jellyfin = { enable = true; };
+
+    transmission = { enable = true; }; # port 9091
+
+    # It is possible for this module to run the *Arrs through a VPN, but it
+    # is generally not recommended, as it can cause rate-limiting issues.
+    bazarr.enable = true; # port 6767
+    sonarr.enable = true; # port 8989
+    radarr.enable = true; # port 7878
+    prowlarr.enable = true; # port 9696
+    readarr.enable = true; # port 8787
+    lidarr.enable = true; # port 8686
+  };
+
   console = {
     font = "Lat2-Terminus16";
     keyMap = "us";

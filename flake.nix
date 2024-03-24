@@ -11,6 +11,7 @@
       url = "github:r-k-b/nvimconf";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixarr.url = "github:rasmus-kirk/nixarr";
   };
 
   outputs = inputs@{ nixpkgs, ... }:
@@ -49,6 +50,7 @@
             ./configuration.nix
             { nix.registry.nixpkgs.flake = nixpkgs; }
             { nix.nixPath = [ "nixpkgs=flake:nixpkgs" ]; }
+            inputs.nixarr.nixosModules.default
           ];
           specialArgs = { inherit inputs; };
         };
