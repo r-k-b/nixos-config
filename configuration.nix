@@ -448,7 +448,6 @@ in {
       up # Ultimate Plumber, for quickly iterating on shell commands
       vlc
       wget
-      wine
       xdg-utils # fix file associations?
       xdotool
       xsel # clipboard helper
