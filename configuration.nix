@@ -640,6 +640,7 @@ in {
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
+  services.printing.cups-pdf.enable = true;
 
   # Enable sound.
   sound.enable = true;
