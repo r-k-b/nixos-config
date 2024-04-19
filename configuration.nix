@@ -406,7 +406,7 @@ in {
       nix-du # for analyzing Store disk usage
       nix-output-monitor # for fancier build progress
       nix-tree # for examining the content of store paths
-      nixfmt
+      nixfmt-classic
       nixpkgs-review
       notepadqq
       ntfs3g
