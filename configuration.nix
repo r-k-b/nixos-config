@@ -665,7 +665,7 @@ in {
   # services.xserver.libinput.enable = true;
 
   # Enable the KDE Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
+  services.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
 
   # https://superuser.com/questions/899363/install-and-configure-nvidia-video-driver-nixos
@@ -673,7 +673,7 @@ in {
   hardware.opengl.driSupport32Bit = true;
 
   # Start with NumLock on.
-  services.xserver.displayManager.sddm.autoNumlock = true;
+  services.displayManager.sddm.autoNumlock = true;
 
   # Allow Workrave to save config changes
   # https://github.com/NixOS/nixpkgs/issues/56077#issuecomment-666416779
