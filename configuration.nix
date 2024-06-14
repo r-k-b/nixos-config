@@ -108,6 +108,11 @@ in {
           "1.1.1.1"
           "8.8.8.8"
 
+          # WF VPN
+          # The first NS listed in their vpn config, 10.10.100.40, consistently times out...
+          "/westfund.com.au/10.10.10.50"
+          "/vpn.westfund.com.au/8.8.4.4"
+
           # HAMBS VPN
           "/vpnportal.hambs.com.au/8.8.4.4" # needs to be called from outside the vpn
           "/vpnportal2.hambs.com.au/8.8.4.4" # needs to be called from outside the vpn
