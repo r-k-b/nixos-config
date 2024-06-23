@@ -676,7 +676,7 @@ in {
 
   # https://superuser.com/questions/899363/install-and-configure-nvidia-video-driver-nixos
   services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.opengl.driSupport32Bit = true;
+  hardware.graphics.enable32Bit = true;
 
   # Start with NumLock on.
   services.displayManager.sddm.autoNumlock = true;
