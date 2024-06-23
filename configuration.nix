@@ -452,6 +452,7 @@ in {
       unipicker # quick search for unicode characters
       up # Ultimate Plumber, for quickly iterating on shell commands
       vlc
+      vpn-slice # for keeping non-HAMBS traffic out of the HAMBS vpn
       wget
       xdg-utils # fix file associations?
       xdotool
