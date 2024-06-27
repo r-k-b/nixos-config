@@ -368,6 +368,7 @@ in {
       docker
       du-dust # to quickly see what's taking up space in a folder
       duf # a quick look at how much space & inodes are left
+      easyeffects # convert a dodgy stereo mic into a good mono mic
       entr # re-run command on file change
       feh # decent image viewer
       filelight # visualize disk usage (cf. du-dust)
@@ -427,6 +428,7 @@ in {
       redshift
       remmina
       ripgrep
+      rssguard # for getting alerts from rss/atom feeds (eg, new redmine issues)
       scc # for quick line counts by language (loc)
       screen
       screenkey # for showing keys pressed in recordings
