@@ -6,7 +6,7 @@
       url = "github:r-k-b/browser-previews";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixpkgs = { url = "github:NixOS/nixpkgs/nixos-unstable"; };
+    nixpkgs = { url = "github:NixOS/nixpkgs/nixos-unstable-small"; };
     nvimconf = {
       url = "github:r-k-b/nvimconf";
       inputs.nixpkgs.follows = "nixpkgs";
