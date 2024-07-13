@@ -509,7 +509,8 @@ in {
     steam = { enable = true; };
 
     # this might prove useful to debug nix package builds?
-    sysdig.enable = true;
+    # currently broken? may be fixed by https://github.com/NixOS/nixpkgs/pull/326600
+    #sysdig.enable = true;
 
     # Some programs need SUID wrappers, can be configured further or are
     # started in user sessions.
