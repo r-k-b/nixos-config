@@ -640,8 +640,6 @@ in {
   # services.printing.enable = true;
   services.printing.cups-pdf.enable = true;
 
-  # Enable sound.
-  sound.enable = true;
   services.pipewire = {
     audio = { enable = true; };
     pulse = { enable = true; };
