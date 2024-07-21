@@ -9,11 +9,11 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1720725916,
-        "narHash": "sha256-In3KBeVW0FLw9PwL95OdWDaAqSnu3lp78Tew4k4s6SY=",
+        "lastModified": 1721417107,
+        "narHash": "sha256-xLhEn7gXu+mQ6GyevCAWl+2f+VwMw3D2TSBWVQqV5rM=",
         "owner": "r-k-b",
         "repo": "browser-previews",
-        "rev": "8b5a4539d52aa1134b9984022596f7bc71f01f7f",
+        "rev": "ff4372a08e3c7804671e20c90d7735384fa50585",
         "type": "github"
       },
       "original": {
@@ -169,11 +169,11 @@
         "vpnconfinement": "vpnconfinement"
       },
       "locked": {
-        "lastModified": 1719224665,
-        "narHash": "sha256-vqJeoIeypzqDPJTep6Tz2Zv589OsDErqTrF49068oXk=",
+        "lastModified": 1721375014,
+        "narHash": "sha256-4cEKuTUr9GJvUeo9tul8DoyayR/t3sbpiE9CKXf7Dww=",
         "owner": "rasmus-kirk",
         "repo": "nixarr",
-        "rev": "68a334c488962325bb1c2af786d2e7a9d28535f2",
+        "rev": "fa2f0b011ed50290edde945a29a5406aecb70637",
         "type": "github"
       },
       "original": {
@@ -200,11 +200,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1720801720,
-        "narHash": "sha256-PjXn2DUkwcN+58/C5XCOqsitGwN2u/WkYdC/ugP+3jQ=",
+        "lastModified": 1721481798,
+        "narHash": "sha256-GOwbtcTDS7KnVseckF+H8OCRNrwYEqCZ34QOZ+i51e4=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "2d419e7e0024cb7448aace8faf64b2c6ff26a70d",
+        "rev": "a2aeb0fcca8ef063c03ef57fa5de49084d4e9687",
         "type": "github"
       },
       "original": {
