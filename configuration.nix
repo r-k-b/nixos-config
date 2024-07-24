@@ -374,6 +374,7 @@ in {
       helm # for doing ...something... to k8s
       helvum # a "patchbay" for connecting audio sink and source nodes; good for streaming audio
       htop
+      hyperfine # for getting benchmarking stats on terminal commands
       hyx # a nice quick hex editor for the terminal
       icdiff
       inputs.nvimconf.packages.x86_64-linux.default
