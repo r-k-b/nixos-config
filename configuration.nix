@@ -445,6 +445,7 @@ in {
       up # Ultimate Plumber, for quickly iterating on shell commands
       vlc
       vpn-slice # for keeping non-HAMBS traffic out of the HAMBS vpn
+      watchexec # for doing things repeatedly on file change
       wget
       xdg-utils # fix file associations?
       xdotool
