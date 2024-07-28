@@ -358,7 +358,7 @@ in {
       du-dust # to quickly see what's taking up space in a folder
       duf # a quick look at how much space & inodes are left
       easyeffects # convert a dodgy stereo mic into a good mono mic
-      entr # re-run command on file change
+      entr # file watcher; re-run command on file change
       feh # decent image viewer
       filelight # visualize disk usage (cf. du-dust)
       firefox
@@ -445,7 +445,7 @@ in {
       up # Ultimate Plumber, for quickly iterating on shell commands
       vlc
       vpn-slice # for keeping non-HAMBS traffic out of the HAMBS vpn
-      watchexec # for doing things repeatedly on file change
+      watchexec # file watcher; for doing things repeatedly on file change
       wget
       xdg-utils # fix file associations?
       xdotool
