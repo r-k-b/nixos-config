@@ -386,6 +386,7 @@ in {
       jetbrainsRiderPHD
       jless # for quick exploration of large json
       jq
+      just # for self-explaining dev shells
       plasma5Packages.kdeconnect-kde
       k9s # for exploring kubernetes clusters
       kdenlive # for video editing
