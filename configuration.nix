@@ -371,7 +371,7 @@ in {
       gparted
       gping # a neat way to gauge connection health
       graphviz # includes tred
-      helm # for doing ...something... to k8s
+      kubernetes-helm # for doing ...something... to k8s
       helvum # a "patchbay" for connecting audio sink and source nodes; good for streaming audio
       htop
       hyperfine # for getting benchmarking stats on terminal commands
