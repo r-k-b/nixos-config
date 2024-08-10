@@ -498,7 +498,13 @@ in {
 
     # For easier running of unpatched binaries, like GlobalProtect VPN
     # https://nixos.wiki/wiki/Steam
-    steam = { enable = true; };
+    steam = {
+      enable = true;
+
+      # https://github.com/FAForever/faf-linux/issues/38
+      package = with pkgs;
+        steam.override { extraPkgs = pkgs: [ jq cabextract wget ]; };
+    };
 
     # this might prove useful to debug nix package builds?
     # currently broken? may be fixed by https://github.com/NixOS/nixpkgs/pull/326600
