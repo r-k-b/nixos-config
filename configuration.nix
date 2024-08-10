@@ -372,7 +372,7 @@ in {
       gping # a neat way to gauge connection health
       graphviz # includes tred
       kubernetes-helm # for doing ...something... to k8s
-      helvum # a "patchbay" for connecting audio sink and source nodes; good for streaming audio
+      helvum # a "patchbay" for connecting audio sink and source nodes; good for streaming audio (vs qpwgraph?)
       htop
       hyperfine # for getting benchmarking stats on terminal commands
       hyx # a nice quick hex editor for the terminal
