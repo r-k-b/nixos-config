@@ -35,7 +35,7 @@
           cmd = "deadnix --fail";
         });
         nixfmt = checker (with pkgs; {
-          tool = nixfmt;
+          tool = nixfmt-classic;
           cmd = "nixfmt --check **/*.nix";
         });
         statix = checker (with pkgs; {
