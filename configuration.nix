@@ -502,8 +502,8 @@ in {
       enable = true;
 
       # https://github.com/FAForever/faf-linux/issues/38
-      package = with pkgs;
-        steam.override { extraPkgs = pkgs: [ jq cabextract wget ]; };
+      package =
+        pkgs.steam.override { extraPkgs = p: with p; [ jq cabextract wget ]; };
     };
 
     # this might prove useful to debug nix package builds?
