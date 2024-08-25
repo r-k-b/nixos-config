@@ -679,7 +679,8 @@ in {
 
   # keep the displays working, by avoiding the 555 drivers and sticking with the 550 drivers
   # (see logs in the `display-manager` service)
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.production;
+  hardware.nvidia.package =
+    config.boot.kernelPackages.nvidiaPackages.production;
 
   # Start with NumLock on.
   services.displayManager.sddm.autoNumlock = true;
