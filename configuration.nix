@@ -50,7 +50,7 @@ in {
   boot = {
     loader.systemd-boot = {
       enable = true;
-      configurationLimit = 5;
+      configurationLimit = 30;
     };
     loader.efi.canTouchEfiVariables = true;
 
@@ -753,6 +753,7 @@ in {
         "libvirtd" # allow start/stop hardware-accelerated VMs on qemu? (not verified)
         "lxd"
       ];
+      shell = pkgs.nushell;
     };
   };
 
