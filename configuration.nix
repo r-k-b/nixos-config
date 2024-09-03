@@ -5,7 +5,7 @@
 
 { config, inputs, pkgs, ... }:
 let
-  jetbrainsRiderPHD = pkgs.writeShellScriptBin "riderPHD" ''
+  riderByBranch = branch: pkgs.writeShellScriptBin ("riderPHD-" + branch) ''
     #!{pkgs.sh}/bin/sh
     NIXPKGS_ALLOW_INSECURE=1 nix develop 'git+ssh://pacifichealthdynamics@vs-ssh.visualstudio.com/v3/pacifichealthdynamics/PHDSys/PHDSys-net?ref=main' -L --impure --command rider &
   '';
@@ -383,7 +383,8 @@ in {
       inxi # for quick info about the system
       jetbrains.idea-ultimate
       jetbrains.rider
-      jetbrainsRiderPHD
+      (riderByBranch "main")
+      (riderByBranch "integration")
       jless # for quick exploration of large json
       jq
       just # for self-explaining dev shells
