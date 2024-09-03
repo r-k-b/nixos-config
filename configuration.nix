@@ -436,6 +436,7 @@ in {
       stern # for tailing all the logs from a kubernetes cluster
       stow
       sysstat # for finding why the system is slow
+      systemctl-tui # for easily finding & following journalctl logs
       tdesktop # avoid censorship of chat
       tlaplusToolbox # formal methods tool
       tldr # quick examples for commands
