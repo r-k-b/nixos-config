@@ -684,6 +684,9 @@ in {
   hardware.nvidia.package =
     config.boot.kernelPackages.nvidiaPackages.production;
 
+  # https://opentabletdriver.net/
+  hardware.opentabletdriver.enable = true;
+
   # Start with NumLock on.
   services.displayManager.sddm.autoNumlock = true;
 
