@@ -5,10 +5,11 @@
 
 { config, inputs, pkgs, ... }:
 let
-  riderByBranch = branch: pkgs.writeShellScriptBin ("riderPHD-" + branch) ''
-    #!{pkgs.sh}/bin/sh
-    NIXPKGS_ALLOW_INSECURE=1 nix develop 'git+ssh://pacifichealthdynamics@vs-ssh.visualstudio.com/v3/pacifichealthdynamics/PHDSys/PHDSys-net?ref=main' -L --impure --command rider &
-  '';
+  riderByBranch = branch:
+    pkgs.writeShellScriptBin ("riderPHD-" + branch) ''
+      #!{pkgs.sh}/bin/sh
+      NIXPKGS_ALLOW_INSECURE=1 nix develop 'git+ssh://pacifichealthdynamics@vs-ssh.visualstudio.com/v3/pacifichealthdynamics/PHDSys/PHDSys-net?ref=main' -L --impure --command rider &
+    '';
 in {
   nix = {
     settings = {
