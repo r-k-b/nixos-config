@@ -659,8 +659,6 @@ in {
     wireplumber = { enable = true; };
   };
 
-  hardware.bluetooth.enable = true;
-
   services.blueman.enable = true;
 
   # Enable the X11 windowing system.
@@ -677,17 +675,20 @@ in {
   services.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
 
-  # https://superuser.com/questions/899363/install-and-configure-nvidia-video-driver-nixos
   services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.graphics.enable32Bit = true;
+  hardware = {
+    bluetooth.enable = true;
 
-  # keep the displays working, by avoiding the 555 drivers and sticking with the 550 drivers
-  # (see logs in the `display-manager` service)
-  hardware.nvidia.package =
-    config.boot.kernelPackages.nvidiaPackages.production;
+    # https://superuser.com/questions/899363/install-and-configure-nvidia-video-driver-nixos
+    graphics.enable32Bit = true;
 
-  # https://opentabletdriver.net/
-  hardware.opentabletdriver.enable = true;
+    # keep the displays working, by avoiding the 555 drivers and sticking with the 550 drivers
+    # (see logs in the `display-manager` service)
+    nvidia.package = config.boot.kernelPackages.nvidiaPackages.production;
+
+    # https://opentabletdriver.net/
+    opentabletdriver.enable = true;
+  };
 
   # Start with NumLock on.
   services.displayManager.sddm.autoNumlock = true;
