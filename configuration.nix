@@ -372,6 +372,7 @@ in {
       gparted
       gping # a neat way to gauge connection health
       graphviz # includes tred
+      gromit-mpx # draw on the screen; like KDE Plasma's Mouse Mark effect
       kubernetes-helm # for doing ...something... to k8s
       helvum # a "patchbay" for connecting audio sink and source nodes; good for streaming audio (vs qpwgraph?)
       htop
