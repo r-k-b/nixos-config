@@ -8,7 +8,7 @@ let
   riderByBranch = branch:
     pkgs.writeShellScriptBin ("riderPHD-" + branch) ''
       #!{pkgs.sh}/bin/sh
-      NIXPKGS_ALLOW_INSECURE=1 nix develop 'git+ssh://pacifichealthdynamics@vs-ssh.visualstudio.com/v3/pacifichealthdynamics/PHDSys/PHDSys-net?ref=${branch}' -L --impure --command rider &
+      NIXPKGS_ALLOW_INSECURE=1 nix develop 'git+ssh://git@ssh.dev.azure.com/v3/HAMBS-AU/Sydney/PHDSys-net?ref=${branch}' -L --impure --command rider &
     '';
 in {
   nix = {
