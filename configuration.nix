@@ -135,13 +135,6 @@ in {
       };
     };
 
-    # for the HAMBS VPN
-    globalprotect = {
-      enable = true;
-      # if you need a Host Integrity Protection report
-      # csdWrapper = "${pkgs.openconnect}/libexec/openconnect/hipreport.sh";
-    };
-
     # browse samba shares in gui apps
     gvfs.enable = true;
   };
@@ -368,8 +361,8 @@ in {
       fzf
       git
       gimp # bitmap image editor
-      globalprotect-openconnect # HAMBS vpn
       gparted
+      gpclient # HAMBS vpn
       gping # a neat way to gauge connection health
       graphviz # includes tred
       gromit-mpx # draw on the screen; like KDE Plasma's Mouse Mark effect
