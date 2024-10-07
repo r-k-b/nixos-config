@@ -44,7 +44,7 @@ in {
   };
 
   imports = [ # Include the results of the hardware scan.
-    ./hardware-configuration.nix
+    ./hardware-configurations/tioneshe.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -801,4 +801,3 @@ in {
   # needed for Home Manager?
   nix.settings.trusted-users = [ "root" "rkb" ];
 }
-
