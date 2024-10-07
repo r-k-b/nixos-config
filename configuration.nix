@@ -570,7 +570,7 @@ in {
   services.lorri.enable = true;
 
   networking = {
-    hostName = flags.hostName; # Define your hostname.
+    inherit (flags) hostName; # Define your hostname.
     # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
     # The global useDHCP flag is deprecated, therefore explicitly set to false here.
