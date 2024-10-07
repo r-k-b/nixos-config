@@ -52,7 +52,10 @@
             { nix.nixPath = [ "nixpkgs=flake:nixpkgs" ]; }
             inputs.nixarr.nixosModules.default
           ];
-          specialArgs = { inherit inputs; };
+          specialArgs = {
+            inherit inputs;
+            flags = import ./flags/tioneshe.nix;
+          };
         };
       };
     };

@@ -1,9 +1,8 @@
 # Edit this configuration file to define what should be installed on
-
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, inputs, pkgs, ... }:
+{ config, flags, inputs, pkgs, ... }:
 let
   riderByBranch = branch:
     pkgs.writeShellScriptBin ("riderPHD-" + branch) ''
@@ -571,7 +570,7 @@ in {
   services.lorri.enable = true;
 
   networking = {
-    hostName = "tioneshe"; # Define your hostname.
+    hostName = flags.hostName; # Define your hostname.
     # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
     # The global useDHCP flag is deprecated, therefore explicitly set to false here.
