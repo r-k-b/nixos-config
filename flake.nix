@@ -1,5 +1,5 @@
 {
-  description = "flake for the first NixOS machine";
+  description = "flake for the NixOS machines";
 
   inputs = {
     browserPreviews = {
@@ -48,6 +48,8 @@
           system = "x86_64-linux";
           modules = [
             ./configuration.nix
+            ./modules/intellij-ides.nix
+            ./modules/tioneshe-packages.nix
             { nix.registry.nixpkgs.flake = nixpkgs; }
             { nix.nixPath = [ "nixpkgs=flake:nixpkgs" ]; }
             inputs.nixarr.nixosModules.default
@@ -55,6 +57,20 @@
           specialArgs = {
             inherit inputs;
             flags = import ./flags/tioneshe.nix;
+          };
+        };
+
+        "nixos-strator" = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./configuration.nix
+            ./modules/strator-packages.nix
+            { nix.registry.nixpkgs.flake = nixpkgs; }
+            { nix.nixPath = [ "nixpkgs=flake:nixpkgs" ]; }
+          ];
+          specialArgs = {
+            inherit inputs;
+            flags = import ./flags/strator.nix;
           };
         };
       };

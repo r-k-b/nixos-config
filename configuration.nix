@@ -2,14 +2,11 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, flags, inputs, pkgs, ... }:
-let
-  riderByBranch = branch:
-    pkgs.writeShellScriptBin ("riderPHD-" + branch) ''
-      #!{pkgs.sh}/bin/sh
-      NIXPKGS_ALLOW_INSECURE=1 nix develop 'git+ssh://git@ssh.dev.azure.com/v3/HAMBS-AU/Sydney/PHDSys-net?ref=${branch}' -L --impure --command rider &
-    '';
-in {
+# Applies across all machines.
+# For machine-specifics, look under `flags/`, and in `flake.nix` under
+# `nixosConfigurations`.
+
+{ config, flags, inputs, pkgs, ... }: {
   nix = {
     settings = {
       auto-optimise-store = true; # we're on an ssd, should be no downside?
@@ -42,9 +39,8 @@ in {
     };
   };
 
-  imports = [ # Include the results of the hardware scan.
-    ./hardware-configurations/tioneshe.nix
-  ];
+  # Include the results of the hardware scan.
+  inherit (flags) imports;
 
   # Use the systemd-boot EFI boot loader.
   boot = {
@@ -54,21 +50,20 @@ in {
     };
     loader.efi.canTouchEfiVariables = true;
 
-    extraModulePackages = [
-      config.boot.kernelPackages.rtl88x2bu
-      config.boot.kernelPackages.v4l2loopback.out
-    ];
-    kernelModules = [ "v4l2loopback" ];
-    extraModprobeConfig = ''
-      options v4l2loopback exclusive_caps=1
-    '';
-  };
+    # Increase the amount of inotify watchers
+    # Note that inotify watches consume 1kB on 64-bit machines.
+    kernel.sysctl = {
+      "fs.inotify.max_user_watches" = 1048576; # default:  8192
+      "fs.inotify.max_user_instances" = 1024; # default:   128
+      "fs.inotify.max_queued_events" = 32768; # default: 16384
+    };
+  } // (flags.boot config);
 
   powerManagement.cpuFreqGovernor = "performance";
 
   services = {
     # so we can use custom subdomains in development, and with traefik
-    dnsmasq = {
+    ${if flags.use_dnsmasq then "dnsmasq" else null} = {
       enable = true;
       settings = {
         # watch what queries dnsmasq sends and receives; helps with debugging
@@ -133,16 +128,114 @@ in {
 
       };
     };
+  } // {
+    ${if flags.hosts_promgraf then "grafana" else null} = {
+      enable = true;
+      #domain = "grafana.pele";
+      settings.server = {
+        port = 2342;
+        addr = "127.0.0.1";
+      };
+    };
+  } // {
+    ${if flags.hosts_github_runner then "github-runners" else null} = {
+      phdsys-webapp = {
+        enable = true;
+        url = "https://github.com/Pacific-Health-Dynamics/PHDSys-webapp";
+        # tip: the tokens generated through the "Create self-hosted runner" web UI
+        # expire ludicrously fast; if you get a 404, try getting a fresh token.
+        tokenFile = "/home/rkb/.github-runner/tokens/phdsys-webapp";
+        extraLabels = [ "nix" ];
+        extraPackages = with pkgs; [ acl curl docker gawk openssh which ];
+        # don't forget to add the use for this runner to `users.groups.docker.members`, down below.
+        # (the username comes from the name of the runner, like `github-runners-phdsys-webapp`)
+        # Also, you may need to restart the `docker.service` and the `github-runner-phdsys-webapp.service`
+        # before the group change takes effect.
+      };
+    };
+  } // {
+    # Enable the KDE Desktop Environment.
+    ${if flags.headless then null else "displayManager"}.sddm.enable = true;
+  } // {
 
     # browse samba shares in gui apps
     gvfs.enable = true;
-  };
 
-  # extend the life of SSDs?
-  services.fstrim = {
-    enable = true;
-    interval = "weekly";
-  };
+    # extend the life of SSDs?
+    fstrim = {
+      enable = true;
+      interval = "weekly";
+    };
+
+    prometheus = {
+      exporters = {
+        node = {
+          enable = true;
+          enabledCollectors = [
+            "conntrack"
+            "diskstats"
+            "entropy"
+            "filefd"
+            "filesystem"
+            "loadavg"
+            "mdadm"
+            "meminfo"
+            "netdev"
+            "netstat"
+            "stat"
+            "time"
+            "vmstat"
+            "systemd"
+            "logind"
+            "interrupts"
+            "ksmd"
+          ];
+        };
+      };
+    };
+
+    sysstat = { enable = true; };
+
+    # Enable the OpenSSH daemon.
+    openssh.enable = true;
+
+    lorri.enable = true;
+
+    # Enable CUPS to print documents.
+    # printing.enable = true;
+    printing.cups-pdf.enable = true;
+
+    ${if flags.mute then null else "pipewire"} = {
+      audio = { enable = true; };
+      pulse = { enable = true; };
+      wireplumber = { enable = true; };
+    };
+
+    blueman.enable = true;
+
+    # Enable the X11 windowing system.
+    ${if flags.headless then null else "xserver"} = {
+      enable = true;
+      xkb = {
+        layout = "au";
+        options = "eurosign:e,caps:super";
+      };
+      desktopManager.plasma5.enable = true;
+      videoDrivers = [ "nvidia" ];
+    };
+
+    # Enable touchpad support.
+    # xserver.libinput.enable = true;
+
+    # Start with NumLock on.
+    displayManager.sddm.autoNumlock = true;
+
+    # Allow Workrave to save config changes
+    # https://github.com/NixOS/nixpkgs/issues/56077#issuecomment-666416779
+    dbus.packages = [ pkgs.dconf ];
+
+    gnome.gnome-keyring.enable = !flags.headless;
+  } // flags.services;
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -167,95 +260,9 @@ in {
     supportedLocales = [ "all" ];
   };
 
-  services.grafana = {
-    enable = true;
-    #domain = "grafana.pele";
-    settings.server = {
-      port = 2342;
-      addr = "127.0.0.1";
-    };
-  };
+  inherit (flags) fileSystems;
 
-  services.prometheus = {
-    exporters = {
-      node = {
-        enable = true;
-        enabledCollectors = [
-          "conntrack"
-          "diskstats"
-          "entropy"
-          "filefd"
-          "filesystem"
-          "loadavg"
-          "mdadm"
-          "meminfo"
-          "netdev"
-          "netstat"
-          "stat"
-          "time"
-          "vmstat"
-          "systemd"
-          "logind"
-          "interrupts"
-          "ksmd"
-        ];
-      };
-    };
-  };
-
-  services.sysstat = { enable = true; };
-
-  fileSystems = {
-    "/mnt/maganedette" = {
-      device = "/dev/disk/by-uuid/a9445e33-8ecc-474a-aa5e-00d0d8c3a711";
-      fsType = "ext4";
-    };
-    "/mnt/maganed" = {
-      device = "/dev/disk/by-uuid/9C62DA8A62DA6912";
-      fsType = "ntfs";
-      options = [
-        "uid=1000" # rkb
-        "gid=100" # users
-      ];
-    };
-    "/mnt/blestion" = {
-      device = "//192.168.1.98/blestion";
-      fsType = "cifs";
-      options = let
-        # this line prevents hanging on network split
-        automount_opts =
-          "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s"
-          + ",uid=rkb,gid=users";
-
-        /* ./smb-secrets should look like:
-           ```
-           username=rkb
-           domain=workgroup
-           password=YOURPASSWORDHERE
-           ```
-        */
-      in [ "${automount_opts},credentials=/etc/nixos/smb-secrets" ];
-    };
-    "/mnt/smiticia" = {
-      device = "//192.168.1.98/smiticia";
-      fsType = "cifs";
-      options = let
-        # this line prevents hanging on network split
-        automount_opts =
-          "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-
-        /* ./smb-secrets should look like:
-           ```
-           username=rkb
-           domain=workgroup
-           password=YOURPASSWORDHERE
-           ```
-        */
-      in [ "${automount_opts},credentials=/etc/nixos/smb-secrets" ];
-    };
-  };
-
-  nixarr = {
+  ${if flags.hosts_torrents then "nixarr" else null} = {
     enable = true;
     # These two values are also the default, but you can set them to whatever
     # else you want
@@ -270,7 +277,9 @@ in {
     keyMap = "us";
   };
 
-  fonts = {
+  fonts = if flags.headless then
+    { }
+  else {
     enableDefaultPackages = true;
     packages = with pkgs; [
       iosevka
@@ -331,170 +340,95 @@ in {
     # List packages installed in system profile. To search, run:
     # $ nix search wget
     systemPackages = with pkgs; [
-      alloy # for finding bugs without running or looking at code
-      anki
-      ark
       autossh
-      bat # for previews in fzf
+      bat # for colorized previews in fzf
       bind
       broot # for interactively exploring folder structures
       btop # perf mon, shows cpu temps & network usage too
-      calibre
       cifs-utils # explore samba shares
-      cntr # for debugging nix package builds; for usage, see https://discourse.nixos.org/t/debug-a-failed-derivation-with-breakpointhook-and-cntr/8669?u=r-k-b
+      curl
       deadnix # Find and remove unused code in .nix source files
       difftastic # for easy to read git diffs
       direnv
-      distrobox # easily install apps not already packaged for Nix (.deb, .rpm etc)
-      dive # for exploring docker images
-      docker
       du-dust # to quickly see what's taking up space in a folder
       duf # a quick look at how much space & inodes are left
-      easyeffects # convert a dodgy stereo mic into a good mono mic
       entr # file watcher; re-run command on file change
-      feh # decent image viewer
-      filelight # visualize disk usage (cf. du-dust)
-      firefox
-      flameshot # screenshots
-      font-manager
       fzf
       git
-      gimp # bitmap image editor
-      gparted
-      gpclient # HAMBS vpn
-      gping # a neat way to gauge connection health
-      graphviz # includes tred
-      gromit-mpx # draw on the screen; like KDE Plasma's Mouse Mark effect
-      kubernetes-helm # for doing ...something... to k8s
-      helvum # a "patchbay" for connecting audio sink and source nodes; good for streaming audio (vs qpwgraph?)
       htop
       hyperfine # for getting benchmarking stats on terminal commands
       hyx # a nice quick hex editor for the terminal
       icdiff
       inputs.nvimconf.packages.x86_64-linux.default
-      inputs.browserPreviews.packages.x86_64-linux.google-chrome
-      inputs.browserPreviews.packages.x86_64-linux.google-chrome-dev
       inxi # for quick info about the system
-      jetbrains.idea-ultimate
-      jetbrains.rider
-      (riderByBranch "main")
-      (riderByBranch "integration")
       jless # for quick exploration of large json
       jq
       just # for self-explaining dev shells
-      plasma5Packages.kdeconnect-kde
-      k9s # for exploring kubernetes clusters
-      kdenlive # for video editing
-      keepassxc
-      kitty # avoids the "missing emoji" problem that konsole has
-      kubectl # control k8s, needed for shells in k9s
-      libnotify # for showing alerts from scripts
-      libreoffice
-      linuxPackages.rtl88x2bu
-      linuxPackages.v4l2loopback # for OBS Studio's Virtual Camera
       mosh
-      msgviewer # for outlook .msg files
       nix-direnv # prevents gc of dev environments
       nix-du # for analyzing Store disk usage
       nix-output-monitor # for fancier build progress
       nix-tree # for examining the content of store paths
       nixfmt-classic
-      nixpkgs-review
-      notepadqq
-      ntfs3g
       nushell # a nicer shell than bash?
-      obs-studio
-      okteta # a powerful hex editor for the gui
-      okular
-      openconnect # work VPNs
-      parted
-      pavucontrol # Can pavucontrol bring back the system sounds? https://www.reddit.com/r/kde/comments/6838fr/system_sounds_keep_breaking/
-      qpwgraph # a "patchbay" for connecting audio sink and source nodes; good for streaming audio
-      quickemu # handles the annoying bits of finding OS ISOs
-      redshift
-      remmina
       ripgrep
-      rssguard # for getting alerts from rss/atom feeds (eg, new redmine issues)
-      scc # for quick line counts by language (loc)
-      screen
-      screenkey # for showing keys pressed in recordings
-      signal-desktop # for chat
-      silver-searcher # ag
-      simplescreenrecorder
-      slop # required by screenkey
-      sox # for keeping the audio sink active, and things like `play -n synth brownnoise vol 0.6`
-      spice # for nicer vm guest⇆host sharing
       sshfs
-      starsector # 2D space shooter
       statix # Lints & suggestions for .nix files
-      stern # for tailing all the logs from a kubernetes cluster
       stow
       sysstat # for finding why the system is slow
       systemctl-tui # for easily finding & following journalctl logs
-      tdesktop # avoid censorship of chat
-      tlaplusToolbox # formal methods tool
       tldr # quick examples for commands
       tmux
-      tor-browser-bundle-bin # avoid censorship of websites
       tree
-      unclutter-xfixes # hide the cursor on inactivity
-      unipicker # quick search for unicode characters
       up # Ultimate Plumber, for quickly iterating on shell commands
-      vlc
-      vpn-slice # for keeping non-HAMBS traffic out of the HAMBS vpn
       watchexec # file watcher; for doing things repeatedly on file change
       wget
-      xdg-utils # fix file associations?
-      xdotool
-      xsel # clipboard helper
-      zgrviewer # for interactively visualizing .dot files; like `nix-du -s=500MB | tred > store.dot`
-      zoom-us
       zoxide # quick access to files & folders
     ];
   };
 
   programs = {
-    # Autojump doesn't work out of the box, so this is needed?
-    # https://github.com/NixOS/nixpkgs/pull/47334#issuecomment-439577344
-    # also adds an fzf integration; use `j` with no args.
-    bash.interactiveShellInit = ''
-      source ${pkgs.autojump}/share/autojump/autojump.bash
-      j() {
-          if [[ "$#" -ne 0 ]]; then
-              cd $(autojump $@)
-              return
-          fi
-          cd "$(autojump -s | sort -k1gr | awk '$1 ~ /[0-9]:/ && $2 ~ /^\// { for (i=2; i<=NF; i++) { print $(i) } }' |  fzf --height 40% --reverse --inline-info)"
-      }
-    '';
-
-    bash.promptInit = ''
-      function extraDollars {
-        # show an extra $ in the prompt for every SHLVL-deep we are.
-        if [[ $SHLVL != 1 ]]; then
-            printf '$%.0s' $(seq 1 $(($SHLVL - 1)));
-        fi;
-      };
-
-      # Provide a nice prompt if the terminal supports it.
-      if [ "$TERM" != "dumb" ] || [ -n "$INSIDE_EMACS" ]; then
-        PROMPT_COLOR="1;31m"
-        ((UID)) && PROMPT_COLOR="1;32m"
-        if [ -n "$INSIDE_EMACS" ] || [ "$TERM" = "eterm" ] || [ "$TERM" = "eterm-color" ]; then
-          # Emacs term mode doesn't support xterm title escape sequence (\e]0;)
-          PS1="\n\[\033[$PROMPT_COLOR\][\u@\h:\w]\\$\$(extraDollars)\[\033[0m\] "
-        else
-          PS1="\n\[\033[$PROMPT_COLOR\][\[\e]0;\u@\h: \w\a\]\u@\h:\w]\\$\$(extraDollars)\[\033[0m\] "
-        fi
-        if test "$TERM" = "xterm"; then
-          PS1="\[\033]2;\h:\u:\w\007\]$PS1"
-        fi
-      fi
-    '';
+    #    # Autojump doesn't work out of the box, so this is needed?
+    #    # https://github.com/NixOS/nixpkgs/pull/47334#issuecomment-439577344
+    #    # also adds an fzf integration; use `j` with no args.
+    #    bash.interactiveShellInit = ''
+    #      source ${pkgs.autojump}/share/autojump/autojump.bash
+    #      j() {
+    #          if [[ "$#" -ne 0 ]]; then
+    #              cd $(autojump $@)
+    #              return
+    #          fi
+    #          cd "$(autojump -s | sort -k1gr | awk '$1 ~ /[0-9]:/ && $2 ~ /^\// { for (i=2; i<=NF; i++) { print $(i) } }' |  fzf --height 40% --reverse --inline-info)"
+    #      }
+    #    '';
+    #
+    #    bash.promptInit = ''
+    #      function extraDollars {
+    #        # show an extra $ in the prompt for every SHLVL-deep we are.
+    #        if [[ $SHLVL != 1 ]]; then
+    #            printf '$%.0s' $(seq 1 $(($SHLVL - 1)));
+    #        fi;
+    #      };
+    #
+    #      # Provide a nice prompt if the terminal supports it.
+    #      if [ "$TERM" != "dumb" ] || [ -n "$INSIDE_EMACS" ]; then
+    #        PROMPT_COLOR="1;31m"
+    #        ((UID)) && PROMPT_COLOR="1;32m"
+    #        if [ -n "$INSIDE_EMACS" ] || [ "$TERM" = "eterm" ] || [ "$TERM" = "eterm-color" ]; then
+    #          # Emacs term mode doesn't support xterm title escape sequence (\e]0;)
+    #          PS1="\n\[\033[$PROMPT_COLOR\][\u@\h:\w]\\$\$(extraDollars)\[\033[0m\] "
+    #        else
+    #          PS1="\n\[\033[$PROMPT_COLOR\][\[\e]0;\u@\h: \w\a\]\u@\h:\w]\\$\$(extraDollars)\[\033[0m\] "
+    #        fi
+    #        if test "$TERM" = "xterm"; then
+    #          PS1="\[\033]2;\h:\u:\w\007\]$PS1"
+    #        fi
+    #      fi
+    #    '';
 
     # For easier running of unpatched binaries, like GlobalProtect VPN
     # https://nixos.wiki/wiki/Steam
-    steam = {
+    ${if flags.headless then null else "steam"} = {
       enable = true;
 
       # https://github.com/FAForever/faf-linux/issues/38
@@ -512,163 +446,22 @@ in {
 
     # https://github.com/Mic92/nix-ld#nix-ld
     # Run unpatched dynamic binaries on NixOS.
-    nix-ld.enable = true;
+    nix-ld.enable = !flags.headless;
 
     # an alternative to ssh-agent. involves the pinentry program.
-    gnupg.agent = {
+    gnupg.${if flags.headless then null else "agent"} = {
       enable = true;
       enableSSHSupport = true;
     };
   };
 
-  services.traefik = {
-    enable = true;
-    staticConfigOptions = {
-      log = { level = "DEBUG"; };
-      # traefik implicitly listens on 8080?
-      # see <http://nixos:8080/dashboard/>...
-      entryPoints = {
-        traefik = { address = ":7789"; };
-        web = {
-          address = ":7788";
-          #http = {
-          #  redirections = {
-          #    entryPoint = {
-          #      to = "web_https";
-          #      scheme = "https";
-          #    };
-          #  };
-          #};
-        };
-        web_https = { address = ":7787"; };
-      };
-      group = "docker";
-      api = {
-        dashboard = true;
-        insecure = true;
-        debug = true;
-      };
-      providers.docker = true;
-    };
-    dynamicConfigOptions = {
-      tls = {
-        certificates = [{
-          certFile =
-            "/var/lib/traefik/certbot/config/live/nixos.berals.wtf/fullchain.pem";
-          keyFile =
-            "/var/lib/traefik/certbot/config/live/nixos.berals.wtf/privkey.pem";
-        }];
-      };
-    };
-  };
-
   # List services that you want to enable:
 
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+  programs.mosh.enable = true;
 
-  services.lorri.enable = true;
+  inherit (flags) networking;
 
-  networking = {
-    inherit (flags) hostName; # Define your hostname.
-    # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-    # The global useDHCP flag is deprecated, therefore explicitly set to false here.
-    # Per-interface useDHCP will be mandatory in the future, so this generated config
-    # replicates the default behaviour.
-    useDHCP = false;
-    interfaces.enp0s31f6.useDHCP = true;
-    nameservers = [
-      "8.8.4.4"
-      "8.8.8.8"
-      "192.168.1.1" # home net
-    ];
-    networkmanager.enable = true;
-    #wireless = {
-    #  enable = true;
-    #  userControlled.enable = true;
-    #};
-
-    # Open ports in the firewall.
-    # networking.firewall.allowedTCPPorts = [ ... ];
-    # Local dev (Hippo, etc)
-    firewall.allowedTCPPortRanges = [
-      {
-        from = 8000;
-        to = 8099;
-      }
-      {
-        from = 5000;
-        to = 5099;
-      }
-      {
-        from = 1714;
-        to = 1764;
-      } # kdeconnect
-      {
-        from = 4200;
-        to = 4200;
-      } # hambs dev
-      {
-        from = 8080;
-        to = 8080; # traefik dash
-      }
-      {
-        from = 7788;
-        to = 7788; # traefik routers
-      }
-      {
-        from = 8200;
-        to = 8200; # minidlna???
-      }
-      {
-        from = 9100;
-        to = 9100; # node exporter for prometheus
-      }
-    ];
-    firewall.allowedUDPPortRanges = [
-      {
-        from = 1714;
-        to = 1764;
-      } # kdeconnect
-      {
-        from = 1900;
-        to = 1900; # minidlna
-      }
-    ];
-    # firewall.allowedUDPPorts = [ ... ];
-    # Or disable the firewall altogether.
-    # firewall.enable = false;
-  };
-
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
-  services.printing.cups-pdf.enable = true;
-
-  services.pipewire = {
-    audio = { enable = true; };
-    pulse = { enable = true; };
-    wireplumber = { enable = true; };
-  };
-
-  services.blueman.enable = true;
-
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  services.xserver.xkb = {
-    layout = "au";
-    options = "eurosign:e,caps:super";
-  };
-
-  # Enable touchpad support.
-  # services.xserver.libinput.enable = true;
-
-  # Enable the KDE Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
-
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware = {
+  ${if flags.headless then null else "hardware"} = {
     bluetooth.enable = true;
 
     # https://superuser.com/questions/899363/install-and-configure-nvidia-video-driver-nixos
@@ -681,13 +474,8 @@ in {
     # https://opentabletdriver.net/
     opentabletdriver.enable = true;
   };
-
-  # Start with NumLock on.
-  services.displayManager.sddm.autoNumlock = true;
-
   # Allow Workrave to save config changes
   # https://github.com/NixOS/nixpkgs/issues/56077#issuecomment-666416779
-  services.dbus.packages = [ pkgs.dconf ];
   programs.dconf.enable = true;
 
   # allow running Virtualbox VMs (like Windows)
@@ -747,7 +535,12 @@ in {
 
   users = {
     extraGroups.vboxusers.members = [ "rkb" ];
-    groups.docker = { members = [ "traefik" ]; };
+    groups.docker = {
+      members = [ "traefik" ] ++ (if flags.hosts_github_runner then
+        [ "github-runner-phdsys-webapp" ]
+      else
+        [ ]);
+    };
 
     # Define a user account. Don't forget to set a password with ‘passwd’.
     users.rkb = {
@@ -759,12 +552,16 @@ in {
         "lxd"
       ];
       shell = pkgs.nushell;
+      initialPassword = "hunter2";
     };
   };
 
   security = {
-    rtkit.enable = true;
-    pam.services = {
+    # helps with getting minidlna to rescan the drives
+    doas.enable = true;
+
+    rtkit.enable = !flags.mute;
+    ${if flags.headless then null else "pam"}.services = {
       kwallet = {
         name = "kwallet";
         enableKwallet = true;
@@ -772,7 +569,6 @@ in {
       sddm.enableGnomeKeyring = true;
     };
   };
-  services.gnome.gnome-keyring.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -782,9 +578,16 @@ in {
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.11"; # Did you read the comment?
 
-  # Looks like we need allowUnfree to use stuff like Google Chrome, Jetbrains, etc...
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.joypixels.acceptLicense = true;
+  nixpkgs.config = {
+    permittedInsecurePackages = if flags.hosts_github_runner then
+      [
+        "nodejs-16.20.1" # for github-runners; see https://github.com/orgs/community/discussions/53217
+      ]
+    else
+      [ ];
+
+    joypixels.acceptLicense = true;
+  };
 
   # enable nix-direnv to support Flakes
   programs.direnv.enable = true;
