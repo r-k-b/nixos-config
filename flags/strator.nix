@@ -43,7 +43,6 @@ let
 
       samba = {
         enable = true;
-        securityType = "user";
         settings = {
           "global" = {
             "workgroup" = "WORKGROUP";
@@ -58,8 +57,6 @@ let
             "guest account" = "nobody";
             "map to guest" = "bad user";
           };
-        };
-        shares = {
           blestion = {
             path = "/mnt/blestion";
             browseable = "yes";
