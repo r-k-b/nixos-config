@@ -169,50 +169,53 @@ let
       # Open ports in the firewall.
       # networking.firewall.allowedTCPPorts = [ ... ];
       # Local dev (Hippo, etc)
-      firewall.allowedTCPPortRanges = [
-        {
-          from = 8000;
-          to = 8099;
-        }
-        {
-          from = 5000;
-          to = 5099;
-        }
-        {
-          from = 1714;
-          to = 1764;
-        } # kdeconnect
-        {
-          from = 4200;
-          to = 4200;
-        } # hambs dev
-        {
-          from = 8080;
-          to = 8080; # traefik dash
-        }
-        {
-          from = 7788;
-          to = 7788; # traefik routers
-        }
-        {
-          from = 8200;
-          to = 8200; # minidlna???
-        }
-        {
-          from = 9100;
-          to = 9100; # node exporter for prometheus
-        }
-      ];
-      firewall.allowedUDPPortRanges = [
-        {
-          from = 1714;
-          to = 1764;
-        } # kdeconnect
-        {
-          from = 1900;
-          to = 1900; # minidlna
-        }
-      ];
+      firewall = {
+        allowedTCPPortRanges = [
+          {
+            # kdeconnect
+            from = 1714;
+            to = 1764;
+          }
+          {
+            # minidlna???
+            from = 8200;
+            to = 8200;
+          }
+          {
+            # node exporter for prometheus
+            from = 9100;
+            to = 9100;
+          }
+        ];
+        allowedUDPPortRanges = [
+          {
+            # kdeconnect
+            from = 1714;
+            to = 1764;
+          }
+          {
+            # minidlna
+            from = 1900;
+            to = 1900;
+          }
+        ];
+        interfaces."docker0".allowedTCPPortRanges =
+          # needed for docker containers to access `host.docker.internal`
+          [
+            {
+              from = 8000;
+              to = 8099;
+            }
+            { # hippo local backend dev
+              from = 5000;
+              to = 5099;
+            }
+            { # tcm local backend dev
+              from = 7000;
+              to = 7099;
+            }
+          ];
+      };
       # firewall.allowedUDPPorts = [ ... ];
       # Or disable the firewall altogether.
       # firewall.enable = false;
