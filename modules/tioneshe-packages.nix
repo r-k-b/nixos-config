@@ -17,6 +17,7 @@
     dive # for exploring docker images
     docker
     easyeffects # convert a dodgy stereo mic into a good mono mic
+    espeak # say text out loud
     feh # decent image viewer
     filelight # visualize disk usage (cf. du-dust)
     firefox
