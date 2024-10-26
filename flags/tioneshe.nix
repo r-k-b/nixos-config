@@ -160,7 +160,15 @@ let
         "192.168.1.1" # home net
       ];
       interfaces.enp0s31f6.useDHCP = true;
-      networkmanager.enable = true;
+      networkmanager = {
+        enable = true;
+        #        unmanaged = [
+        #          "interface-name:br-*"
+        #          "interface-name:veth*"
+        #          "interface-name:docker0"
+        #        ];
+      };
+
       #wireless = {
       #  enable = true;
       #  userControlled.enable = true;
@@ -199,22 +207,25 @@ let
             to = 1900;
           }
         ];
-        interfaces."docker0".allowedTCPPortRanges =
-          # needed for docker containers to access `host.docker.internal`
-          [
-            {
-              from = 8000;
-              to = 8099;
-            }
-            { # hippo local backend dev
-              from = 5000;
-              to = 5099;
-            }
-            { # tcm local backend dev
-              from = 7000;
-              to = 7099;
-            }
-          ];
+        #        extraInputRules = ''
+        #          iifname { "br-*" } accept comment "Docker containers to host"
+        #        '';
+        #        interfaces."br-*".allowedTCPPortRanges =
+        #          # needed for docker containers to access `host.docker.internal`
+        #          [
+        #            {
+        #              from = 8000;
+        #              to = 8099;
+        #            }
+        #            { # hippo local backend dev
+        #              from = 5000;
+        #              to = 5099;
+        #            }
+        #            { # tcm local backend dev
+        #              from = 7000;
+        #              to = 7099;
+        #            }
+        #          ];
       };
       # firewall.allowedUDPPorts = [ ... ];
       # Or disable the firewall altogether.

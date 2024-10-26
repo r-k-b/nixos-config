@@ -13,6 +13,7 @@
     anki
     ark
     calibre
+    cntr # for stepping into broken nix builds, at the point they failed
     distrobox # easily install apps not already packaged for Nix (.deb, .rpm etc)
     dive # for exploring docker images
     docker

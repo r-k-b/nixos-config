@@ -14,7 +14,7 @@
       # https://github.com/NixOS/nixpkgs/blob/master/CONTRIBUTING.md#tested-using-sandboxing
       sandbox = true;
     };
-    package = pkgs.nixFlakes;
+    package = pkgs.nixVersions.stable;
     extraOptions = ''
       experimental-features = nix-command flakes
       netrc-file = /etc/nixos/netrc
@@ -285,7 +285,7 @@
       iosevka
       gyre-fonts
       noto-fonts
-      noto-fonts-cjk
+      noto-fonts-cjk-sans
       noto-fonts-emoji
       liberation_ttf
       fira-code
