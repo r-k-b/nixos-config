@@ -370,6 +370,7 @@
       nix-output-monitor # for fancier build progress
       nix-tree # for examining the content of store paths
       nixfmt-classic
+      numbat # a nice dimensional calc, like frink but ↑ui ↓power
       nushell # a nicer shell than bash?
       ripgrep
       sshfs
