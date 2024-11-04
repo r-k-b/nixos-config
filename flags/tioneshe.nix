@@ -185,6 +185,11 @@ let
             to = 1764;
           }
           {
+            # local hippo dev
+            from = 5080;
+            to = 5089;
+          }
+          {
             # minidlna???
             from = 8200;
             to = 8200;
