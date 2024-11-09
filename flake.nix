@@ -11,7 +11,10 @@
       url = "github:r-k-b/nvimconf";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixarr.url = "github:rasmus-kirk/nixarr";
+    nixarr = {
+      url = "github:rasmus-kirk/nixarr";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs@{ nixpkgs, ... }:
