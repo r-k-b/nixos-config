@@ -32,8 +32,8 @@
     gromit-mpx # draw on the screen; like KDE Plasma's Mouse Mark effect
     kubernetes-helm # for doing ...something... to k8s
     helvum # a "patchbay" for connecting audio sink and source nodes; good for streaming audio (vs qpwgraph?)
-    #inputs.browserPreviews.packages.x86_64-linux.google-chrome
-    #inputs.browserPreviews.packages.x86_64-linux.google-chrome-dev
+    inputs.browserPreviews.packages.x86_64-linux.google-chrome
+    inputs.browserPreviews.packages.x86_64-linux.google-chrome-dev
     plasma5Packages.kdeconnect-kde
     k9s # for exploring kubernetes clusters
     kdenlive # for video editing

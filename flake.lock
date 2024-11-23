@@ -10,10 +10,10 @@
       },
       "locked": {
         "lastModified": 1731093907,
-        "narHash": "sha256-liIMMykeZhA2kPjZIOu80STUarPecWdc6JdZ0mJE6DE=",
+        "narHash": "sha256-GCB/nB8DpiBMX6P4C7jnzhbH0jQ66VYbGEu7/wvCx3I=",
         "owner": "r-k-b",
         "repo": "browser-previews",
-        "rev": "cfb5fd2f607717dec11037aa617952da94caee23",
+        "rev": "c32157a44f5d34bb35e0fcd8e164786ed8580fcd",
         "type": "github"
       },
       "original": {
