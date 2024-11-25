@@ -9,7 +9,6 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1731093907,
         "narHash": "sha256-GCB/nB8DpiBMX6P4C7jnzhbH0jQ66VYbGEu7/wvCx3I=",
         "owner": "r-k-b",
         "repo": "browser-previews",
