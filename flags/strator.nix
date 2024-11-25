@@ -4,6 +4,8 @@ let
   flags = {
     headless = true;
 
+    usesNvidia = false;
+
     # no speakers?
     mute = true;
 

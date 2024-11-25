@@ -63,6 +63,21 @@
           };
         };
 
+        molochar = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./configuration.nix
+            ./modules/intellij-ides.nix
+            ./modules/molochar-packages.nix
+            { nix.registry.nixpkgs.flake = nixpkgs; }
+            { nix.nixPath = [ "nixpkgs=flake:nixpkgs" ]; }
+          ];
+          specialArgs = {
+            inherit inputs;
+            flags = import ./flags/molochar.nix;
+          };
+        };
+
         "nixos-strator" = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [

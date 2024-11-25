@@ -221,7 +221,14 @@
         options = "eurosign:e,caps:super";
       };
       desktopManager.plasma5.enable = true;
-      videoDrivers = [ "nvidia" ];
+      videoDrivers = if flags.usesNvidia then
+        [ "nvidia" ]
+      else
+      # the default values from nixpkgs
+      [
+        "modesetting"
+        "fbdev"
+      ];
     };
 
     # Enable touchpad support.

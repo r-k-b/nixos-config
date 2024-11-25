@@ -1,10 +1,10 @@
 let
-  hostName = "tioneshe";
+  hostName = "molochar";
 
   flags = {
     headless = false;
 
-    usesNvidia = true;
+    usesNvidia = false;
 
     # no speakers?
     mute = false;
@@ -59,33 +59,9 @@ let
           };
         };
       };
-
-      # use via Nixarr, instead?
-      #      transmission = {
-      #        enable = pkgs.lib.mkDefault false;
-      #        openFirewall = false;
-      #        settings = {
-      #          download-dir = "/mnt/blestion/transmission/Downloads";
-      #          incomplete-dir = "/mnt/blestion/transmission/.incomplete";
-      #          incomplete-dir-enabled = true;
-      #          message-level = 1;
-      #          peer-port = 51413;
-      #          peer-port-random-high = 65535;
-      #          peer-port-random-low = 49152;
-      #          peer-port-random-on-start = false;
-      #          rpc-bind-address = "0.0.0.0";
-      #          rpc-port = 9091;
-      #          rpc-whitelist = "127.0.0.1,192.168.*.*";
-      #          script-torrent-done-enabled = false;
-      #          umask = 2;
-      #          utp-enabled = true;
-      #          watch-dir = "/mnt/blestion/transmission/watchdir";
-      #          watch-dir-enabled = false;
-      #        };
-      #      };
     };
 
-    imports = [ ../hardware-configurations/tioneshe.nix ];
+    imports = [ ../hardware-configurations/molochar.nix ];
 
     boot = config: {
       extraModulePackages = with config.boot.kernelPackages; [
@@ -98,55 +74,7 @@ let
       '';
     };
 
-    fileSystems = {
-      "/mnt/maganedette" = {
-        device = "/dev/disk/by-uuid/a9445e33-8ecc-474a-aa5e-00d0d8c3a711";
-        fsType = "ext4";
-      };
-      "/mnt/maganed" = {
-        device = "/dev/disk/by-uuid/9C62DA8A62DA6912";
-        fsType = "ntfs";
-        options = [
-          "uid=1000" # rkb
-          "gid=100" # users
-        ];
-      };
-      "/mnt/blestion" = {
-        device = "//192.168.1.98/blestion";
-        fsType = "cifs";
-        options = let
-          # this line prevents hanging on network split
-          automount_opts =
-            "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s"
-            + ",uid=rkb,gid=users";
-
-          /* ./smb-secrets should look like:
-             ```
-             username=rkb
-             domain=workgroup
-             password=YOURPASSWORDHERE
-             ```
-          */
-        in [ "${automount_opts},credentials=/etc/nixos/smb-secrets" ];
-      };
-      "/mnt/smiticia" = {
-        device = "//192.168.1.98/smiticia";
-        fsType = "cifs";
-        options = let
-          # this line prevents hanging on network split
-          automount_opts =
-            "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-
-          /* ./smb-secrets should look like:
-             ```
-             username=rkb
-             domain=workgroup
-             password=YOURPASSWORDHERE
-             ```
-          */
-        in [ "${automount_opts},credentials=/etc/nixos/smb-secrets" ];
-      };
-    };
+    fileSystems = { };
 
     networking = {
       inherit hostName; # Define your hostname.
@@ -161,7 +89,7 @@ let
         "8.8.8.8"
         "192.168.1.1" # home net
       ];
-      interfaces.enp0s31f6.useDHCP = true;
+      #      interfaces.enp0s31f6.useDHCP = true;
       networkmanager = {
         enable = true;
         #        unmanaged = [
