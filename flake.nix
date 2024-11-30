@@ -50,6 +50,7 @@
         tioneshe = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
+            (import ./overlays/curl-hotfix.nix)
             ./configuration.nix
             ./modules/intellij-ides.nix
             ./modules/tioneshe-packages.nix
