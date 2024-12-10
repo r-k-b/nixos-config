@@ -6,7 +6,7 @@
       url = "github:r-k-b/browser-previews";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixpkgs = { url = "github:NixOS/nixpkgs/nixos-unstable-small"; };
+    nixpkgs = { url = "github:NixOS/nixpkgs/nixos-24.11"; };
     nvimconf = {
       url = "github:r-k-b/nvimconf";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -50,7 +50,7 @@
         tioneshe = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            (import ./overlays/curl-hotfix.nix)
+            #            (import ./overlays/curl-hotfix.nix)
             ./configuration.nix
             ./modules/intellij-ides.nix
             ./modules/tioneshe-packages.nix
