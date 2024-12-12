@@ -260,7 +260,10 @@ let
 
     imports = [ ../hardware-configurations/strator.nix ];
 
-    boot = _: { };
+    boot =
+      _: { # the default (2gb?) frequently hits "no space left on device" issues on the tmpfs
+        runSize = "3g";
+      };
 
     fileSystems = {
       "/mnt/blestion" = {
