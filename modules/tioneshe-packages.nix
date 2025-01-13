@@ -1,4 +1,4 @@
-{ inputs, lib, pkgs, ... }: {
+{ config, inputs, lib, pkgs, ... }: {
   nixpkgs.config = {
     allowUnfreePredicate = pkg:
       builtins.elem (lib.getName pkg) [
@@ -14,6 +14,7 @@
     ark
     calibre
     cntr # for stepping into broken nix builds, at the point they failed
+    config.boot.kernelPackages.perf # https://www.brendangregg.com/blog/2017-05-09/cpu-utilization-is-wrong.html
     distrobox # easily install apps not already packaged for Nix (.deb, .rpm etc)
     dive # for exploring docker images
     docker
