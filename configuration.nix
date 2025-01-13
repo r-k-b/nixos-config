@@ -491,7 +491,15 @@
     # Allow vms built with `nixos-build-vms` to use hardware acceleration? (not verified)
     libvirtd.enable = true;
 
-    podman.enable = true;
+    podman = {
+      enable = true;
+
+      # Create a `docker` alias for podman, to use it as a drop-in replacement
+      #dockerCompat = true;
+
+      # Required for containers under podman-compose to be able to talk to each other.
+      #defaultNetwork.settings.dns_enabled = true;
+    };
 
     # https://github.com/NixOS/nixpkgs/issues/47201#issuecomment-423798284
     docker = {
