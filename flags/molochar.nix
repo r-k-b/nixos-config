@@ -59,6 +59,12 @@ let
           };
         };
       };
+
+      # let me open individual GUI apps over SSH
+      openssh = {
+        enable = true;
+        settings.X11Forwarding = true;
+      };
     };
 
     imports = [ ../hardware-configurations/molochar.nix ];
