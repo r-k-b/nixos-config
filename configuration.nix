@@ -96,6 +96,9 @@
           #"/SPS-D-P21APP02.internal.hambs.com.au/52.128.23.153"
           "/WFD-D-P21APP02.hambs.com.au/10.1.21.3"
           "/WFD-D-P21APP02.internal.hambs.com.au/10.1.21.3"
+
+          # P21 is jank, doesn't use FQDNs like wfd-d-hipsql01.dev.hambs.internal
+          "/wfd-d-hipsql01/10.1.23.1"
         ];
 
         server = [
