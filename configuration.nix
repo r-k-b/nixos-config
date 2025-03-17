@@ -272,15 +272,16 @@
 
   inherit (flags) fileSystems;
 
-  ${if flags.hosts_torrents then "nixarr" else null} = {
-    enable = true;
-    # These two values are also the default, but you can set them to whatever
-    # else you want
-    mediaDir = "/data/media";
-    stateDir = "/data/media/.state";
-
-    transmission = { enable = true; }; # port 9091
-  };
+  # fixme: replace nixarr with something less bloaty
+  #${if flags.hosts_torrents then "nixarr" else null} = {
+  #  enable = true;
+  #  # These two values are also the default, but you can set them to whatever
+  #  # else you want
+  #  mediaDir = "/data/media";
+  #  stateDir = "/data/media/.state";
+  #
+  #  transmission = { enable = true; }; # port 9091
+  #};
 
   console = {
     font = "Lat2-Terminus16";

@@ -11,10 +11,11 @@
       url = "github:r-k-b/nvimconf";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixarr = {
-      url = "github:rasmus-kirk/nixarr";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # fixme: find something less bloaty
+    #nixarr = {
+    #  url = "github:rasmus-kirk/nixarr";
+    #  inputs.nixpkgs.follows = "nixpkgs";
+    #};
   };
 
   outputs = inputs@{ nixpkgs, ... }:
@@ -55,8 +56,10 @@
             ./modules/intellij-ides.nix
             ./modules/tioneshe-packages.nix
             { nix.registry.nixpkgs.flake = nixpkgs; }
-            { nix.nixPath = [ "nixpkgs=flake:nixpkgs" ]; }
-            inputs.nixarr.nixosModules.default
+            {
+              nix.nixPath = [ "nixpkgs=flake:nixpkgs" ];
+            }
+            #inputs.nixarr.nixosModules.default
           ];
           specialArgs = {
             inherit inputs;
