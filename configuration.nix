@@ -223,7 +223,6 @@
         layout = "au";
         options = "eurosign:e,caps:super";
       };
-      desktopManager.plasma5.enable = true;
       videoDrivers = if flags.usesNvidia then
         [ "nvidia" ]
       else
@@ -232,6 +231,11 @@
         "modesetting"
         "fbdev"
       ];
+    };
+
+    # Enable the X11 windowing system.
+    ${if flags.headless then null else "desktopManager"} = {
+      plasma6.enable = true;
     };
 
     # Enable touchpad support.
