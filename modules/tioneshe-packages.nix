@@ -11,7 +11,6 @@
   environment.systemPackages = with pkgs; [
     alloy # for finding bugs without running or looking at code
     anki
-    ark
     calibre
     cntr # for stepping into broken nix builds, at the point they failed
     config.boot.kernelPackages.perf # https://www.brendangregg.com/blog/2017-05-09/cpu-utilization-is-wrong.html
@@ -21,7 +20,6 @@
     easyeffects # convert a dodgy stereo mic into a good mono mic
     espeak # say text out loud
     feh # decent image viewer
-    filelight # visualize disk usage (cf. du-dust)
     firefox
     flameshot # screenshots
     font-manager
@@ -37,7 +35,10 @@
     inputs.browserPreviews.packages.x86_64-linux.google-chrome-dev
     plasma5Packages.kdeconnect-kde
     k9s # for exploring kubernetes clusters
-    kdenlive # for video editing
+    kdePackages.ark
+    kdePackages.filelight # visualize disk usage (cf. du-dust)
+    kdePackages.kdenlive # for video editing
+    kdePackages.okular
     keepassxc
     kitty # avoids the "missing emoji" problem that konsole has
     kubectl # control k8s, needed for shells in k9s
@@ -51,7 +52,6 @@
     ntfs3g
     obs-studio
     okteta # a powerful hex editor for the gui
-    okular
     openconnect # work VPNs
     parted
     pavucontrol # Can pavucontrol bring back the system sounds? https://www.reddit.com/r/kde/comments/6838fr/system_sounds_keep_breaking/
