@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 #sudo NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild switch --flake /etc/nixos --impure
+sudo echo "sudo needed"
 sudo NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild switch --flake /etc/nixos --impure --log-format internal-json -v |& nom --json
 
