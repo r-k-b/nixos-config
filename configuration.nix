@@ -295,46 +295,23 @@
   fonts = if flags.headless then
     { }
   else {
+    # see the default font pkgs: https://github.com/NixOS/nixpkgs/blob/nixos-unstable-small/nixos/modules/config/fonts/packages.nix
     enableDefaultPackages = true;
     packages = with pkgs; [
-      iosevka
-      gyre-fonts
-      noto-fonts
-      noto-fonts-cjk-sans
-      noto-fonts-emoji
-      liberation_ttf
-      fira-code
-      fira-code-symbols
-      jetbrains-mono
-      joypixels
-      monaspace # "texture healing"?
-      mplus-outline-fonts.githubRelease
-      noto-fonts-color-emoji # a good fallback font
-      dina-font
-      open-dyslexic
-      proggyfonts
-      twemoji-color-font
-      twitter-color-emoji
-      unifont
-      unifont_upper
-      vollkorn
+      iosevka # nice monospace
+      #monaspace # "texture healing"?
+      unifont_upper # glyphs for the planes above the BMP
     ];
     fontconfig = {
       enable = true;
       antialias = true;
       hinting.enable = true;
       defaultFonts = {
-        monospace = [ "DejaVu Sans Mono" "Noto Mono" ];
-        serif = [ "Vollkorn" "Noto Serif" "Times New Roman" ];
-        sansSerif = [ "Open Sans" "Noto Sans" ];
-        emoji = [
-          "Noto Color Emoji"
-          "NotoEmoji Nerd Font Mono"
-          "Twitter Color Emoji"
-          "JoyPixels"
-          "Unifont"
-          "Unifont Upper"
-        ];
+        # to list installed fonts, use `fc-list -v`
+        monospace = [ "Iosevka" "DejaVu Sans Mono" ];
+        serif = [ "Liberation Serif" ];
+        sansSerif = [ "Open Sans" ];
+        emoji = [ "Noto Color Emoji" "Unifont" "Unifont Upper" ];
       };
       localConf = ''
         <!-- use a less horrible font substition for pdfs such as https://www.bkent.net/Doc/mdarchiv.pdf -->
