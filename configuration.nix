@@ -216,6 +216,11 @@
 
     blueman.enable = true;
 
+    # These issues were found while assessing Wayland:
+    # - minimize-to-tray and auto-type not working (eg KeepassX)
+    # - simple-screen-recorder not working
+    # - guest-resizing in Spicy VMs not working
+
     # Enable the X11 windowing system.
     ${if flags.headless then null else "xserver"} = {
       enable = true;
