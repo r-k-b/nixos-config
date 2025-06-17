@@ -71,7 +71,6 @@
     spice # for nicer vm guest⇆host sharing
     starsector # 2D space shooter
     stern # for tailing all the logs from a kubernetes cluster
-    tdesktop # avoid censorship of chat
     tlaplusToolbox # formal methods tool
     tor-browser-bundle-bin # avoid censorship of websites
     unclutter-xfixes # hide the cursor on inactivity
