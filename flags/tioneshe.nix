@@ -60,29 +60,28 @@ let
         };
       };
 
-      # use via Nixarr, instead?
-      #      transmission = {
-      #        enable = pkgs.lib.mkDefault false;
-      #        openFirewall = false;
-      #        settings = {
-      #          download-dir = "/mnt/blestion/transmission/Downloads";
-      #          incomplete-dir = "/mnt/blestion/transmission/.incomplete";
-      #          incomplete-dir-enabled = true;
-      #          message-level = 1;
-      #          peer-port = 51413;
-      #          peer-port-random-high = 65535;
-      #          peer-port-random-low = 49152;
-      #          peer-port-random-on-start = false;
-      #          rpc-bind-address = "0.0.0.0";
-      #          rpc-port = 9091;
-      #          rpc-whitelist = "127.0.0.1,192.168.*.*";
-      #          script-torrent-done-enabled = false;
-      #          umask = 2;
-      #          utp-enabled = true;
-      #          watch-dir = "/mnt/blestion/transmission/watchdir";
-      #          watch-dir-enabled = false;
-      #        };
-      #      };
+      transmission = {
+        enable = true;
+        openFirewall = false;
+        settings = {
+          download-dir = "/mnt/blestion/transmission/Downloads";
+          incomplete-dir = "/mnt/blestion/transmission/.incomplete";
+          incomplete-dir-enabled = true;
+          message-level = 1;
+          peer-port = 51413;
+          peer-port-random-high = 65535;
+          peer-port-random-low = 49152;
+          peer-port-random-on-start = false;
+          rpc-bind-address = "0.0.0.0";
+          rpc-port = 9091;
+          rpc-whitelist = "127.0.0.1,192.168.*.*";
+          script-torrent-done-enabled = false;
+          umask = 2;
+          utp-enabled = true;
+          watch-dir = "/mnt/blestion/transmission/watchdir";
+          watch-dir-enabled = false;
+        };
+      };
     };
 
     imports = [ ../hardware-configurations/tioneshe.nix ];
