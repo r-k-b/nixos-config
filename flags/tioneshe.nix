@@ -64,8 +64,8 @@ let
         enable = true;
         openFirewall = false;
         settings = {
-          download-dir = "/mnt/blestion/transmission/Downloads";
-          incomplete-dir = "/mnt/blestion/transmission/.incomplete";
+          #download-dir = "/mnt/blestion/transmission/Downloads";
+          #incomplete-dir = "/mnt/blestion/transmission/.incomplete";
           incomplete-dir-enabled = true;
           message-level = 1;
           peer-port = 51413;
@@ -78,8 +78,8 @@ let
           script-torrent-done-enabled = false;
           umask = 2;
           utp-enabled = true;
-          watch-dir = "/mnt/blestion/transmission/watchdir";
-          watch-dir-enabled = false;
+          #watch-dir = "/mnt/blestion/transmission/watchdir";
+          watch-dir-enabled = true;
         };
       };
     };

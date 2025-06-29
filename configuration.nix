@@ -553,6 +553,7 @@
       isNormalUser = true;
       extraGroups = [
         "docker"
+        "transmission"
         "wheel" # Enable ‘sudo’ for the user.
         "libvirtd" # allow start/stop hardware-accelerated VMs on qemu? (not verified)
         "lxd"
