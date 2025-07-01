@@ -1,3 +1,8 @@
-#!/usr/bin/env sh
+#!/usr/bin/env nu
 sudo NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild test --flake /etc/nixos --impure
-
+if ('./result' | path exists ) {
+  print "cleaning up ./result symlink. Why doesn't --no-out-link work!?"
+  rm -f ./result
+} else {
+  print "ok."
+}
