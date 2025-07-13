@@ -1,0 +1,12 @@
+#!/usr/bin/env nu
+print "checking remote access..."
+nix store info --store ssh://rkb@192.168.1.103?ssh-key=/home/rkb/.ssh/id-for-remote-builds-on-tioneshe
+
+sudo NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild switch --flake /etc/nixos --impure --builders 'ssh://rkb@192.168.1.103?ssh-key=/home/rkb/.ssh/id-for-remote-builds-on-tioneshe x86_64-linux' --max-jobs 0 -L
+if ('./result' | path exists ) {
+  print "cleaning up ./result symlink. Why doesn't --no-out-link work!?"
+
+  rm -f ./result
+} else {
+  print "ok."
+}
