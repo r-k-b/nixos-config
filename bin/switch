@@ -1,7 +1,7 @@
 #!/usr/bin/env nu
-#sudo NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild switch --flake /etc/nixos --impure
-sudo echo "sudo needed"
-sudo NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild switch --flake /etc/nixos --impure --log-format internal-json -v |& nom --json
+sudo NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild switch --flake /etc/nixos --impure
+#sudo echo "sudo needed"
+#sudo NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild switch --flake /etc/nixos --impure --log-format internal-json -v |& nom --json
 if ('./result' | path exists ) {
   print "cleaning up ./result symlink. Why doesn't --no-out-link work!?"
   rm -f ./result
