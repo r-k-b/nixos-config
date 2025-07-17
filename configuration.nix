@@ -144,9 +144,16 @@
     ${if flags.hosts_github_runner then "github-runners" else null} = {
       phdsys-webapp = {
         enable = true;
+        replace = true;
         url = "https://github.com/Pacific-Health-Dynamics/PHDSys-webapp";
         # tip: the tokens generated through the "Create self-hosted runner" web UI
-        # expire ludicrously fast; if you get a 404, try getting a fresh token.
+        # expire ludicrously fast; if you get a 404, try getting a fresh token, or
+        # using a fine-grained PAT as the token, instead.
+        # See: https://github.com/settings/personal-access-tokens
+        # https://search.nixos.org/options?channel=25.05&show=services.github-runners.%3Cname%3E.tokenFile&from=0&size=50&sort=relevance&type=packages&query=github-runners
+        # The fine-grained token must have the following permission set:
+        # - "Administration" repository permissions (write)
+        # - "organization/repository self hosted runners" (write)
         tokenFile = "/home/rkb/.github-runner/tokens/phdsys-webapp";
         extraLabels = [ "nix" ];
         extraPackages = with pkgs; [ acl curl docker gawk openssh which ];
