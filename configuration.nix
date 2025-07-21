@@ -354,6 +354,7 @@
       deadnix # Find and remove unused code in .nix source files
       difftastic # for easy to read git diffs
       direnv
+      dix # for summary diffs between closures, like those in /nix/var/nix/profiles
       du-dust # to quickly see what's taking up space in a folder
       duf # a quick look at how much space & inodes are left
       entr # file watcher; re-run command on file change
@@ -369,6 +370,7 @@
       jq
       just # for self-explaining dev shells
       mosh
+      nh # a curated CLI interface for disparate Nix commands
       nix-direnv # prevents gc of dev environments
       nix-du # for analyzing Store disk usage
       nix-output-monitor # for fancier build progress
