@@ -6,6 +6,10 @@
       url = "github:r-k-b/browser-previews";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-index-db = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixpkgs = { url = "github:NixOS/nixpkgs/nixos-unstable-small"; };
     nvimconf = {
       url = "github:r-k-b/nvimconf";
@@ -53,6 +57,7 @@
           modules = [
             #            (import ./overlays/curl-hotfix.nix)
             ./configuration.nix
+            inputs.nix-index-db.nixosModules.nix-index # where programs can be found (`command-not-found`, `nix-locate` etc)
             ./modules/intellij-ides.nix
             ./modules/tioneshe-packages.nix
             { nix.registry.nixpkgs.flake = nixpkgs; }
@@ -71,6 +76,7 @@
           system = "x86_64-linux";
           modules = [
             ./configuration.nix
+            inputs.nix-index-db.nixosModules.nix-index # where programs can be found (`command-not-found`, `nix-locate` etc)
             ./modules/intellij-ides.nix
             ./modules/molochar-packages.nix
             { nix.registry.nixpkgs.flake = nixpkgs; }
@@ -86,6 +92,7 @@
           system = "x86_64-linux";
           modules = [
             ./configuration.nix
+            inputs.nix-index-db.nixosModules.nix-index # where programs can be found (`command-not-found`, `nix-locate` etc)
             ./modules/strator-packages.nix
             { nix.registry.nixpkgs.flake = nixpkgs; }
             { nix.nixPath = [ "nixpkgs=flake:nixpkgs" ]; }
