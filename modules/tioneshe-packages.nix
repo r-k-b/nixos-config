@@ -4,7 +4,6 @@
       builtins.elem (lib.getName pkg) [
         "starsector"
         "starsector-0.97a-RC11"
-        "zoom"
       ];
   };
 
@@ -81,6 +80,5 @@
     xdotool
     xsel # clipboard helper
     zgrviewer # for interactively visualizing .dot files; like `nix-du -s=500MB | tred > store.dot`
-    zoom-us
   ];
 }
