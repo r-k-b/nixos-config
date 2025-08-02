@@ -382,6 +382,7 @@
       numbat # a nice dimensional calc, like frink but ↑ui ↓power
       nushell # a nicer shell than bash?
       ripgrep
+      silver-searcher # rapid search with `ag`
       sshfs
       statix # Lints & suggestions for .nix files
       stow
