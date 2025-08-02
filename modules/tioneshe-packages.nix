@@ -46,6 +46,7 @@
     linuxPackages.rtl88x2bu
     linuxPackages.v4l2loopback # for OBS Studio's Virtual Camera
     msgviewer # for outlook .msg files
+    nixos-generators # turn a NixOS config into an iso/vm/container image/etc
     nixpkgs-review # for reviewing nixpkgs PRs
     notepadqq
     ntfs3g
