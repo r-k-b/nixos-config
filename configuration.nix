@@ -62,7 +62,7 @@
   powerManagement.cpuFreqGovernor = "performance";
 
   services = {
-    # so we can use custom subdomains in development, and with traefik
+    # so we can use custom subdomains in development
     ${if flags.use_dnsmasq then "dnsmasq" else null} = {
       enable = true;
       settings = {
@@ -551,10 +551,10 @@
   users = {
     extraGroups.vboxusers.members = [ "rkb" ];
     groups.docker = {
-      members = [ "traefik" ] ++ (if flags.hosts_github_runner then
+      members = if flags.hosts_github_runner then
         [ "github-runner-phdsys-webapp" ]
       else
-        [ ]);
+        [ ];
     };
 
     # Define a user account. Don't forget to set a password with ‘passwd’.

@@ -28,7 +28,7 @@ let
         };
       };
 
-      # so we can use custom subdomains in development, and with traefik
+      # so we can use custom subdomains in development
       dnsmasq = {
         enable = true;
         settings = {
@@ -129,19 +129,6 @@ let
               [{ targets = [ "localhost:${toString prometheusPort}" ]; }];
           }
           {
-            job_name = "traefik";
-            static_configs = [{ targets = [ "localhost:7789" ]; }];
-          }
-          {
-            job_name = "traefik_via_tunnel";
-            static_configs = [{
-              targets = [
-                # so we can see when the vpn+ssh tunnel goes down
-                "traefik.landing.phd.com.au:45632"
-              ];
-            }];
-          }
-          {
             job_name = "nodes";
             static_configs = [{ targets = [ "localhost:9100" "nixos:9100" ]; }];
           }
@@ -168,91 +155,6 @@ let
               "interrupts"
               "ksmd"
             ];
-          };
-        };
-      };
-
-      traefik = {
-        enable = true;
-        staticConfigOptions = {
-          entryPoints = {
-            web = { address = ":7788"; };
-            traefik = { address = ":7789"; };
-          };
-          group = "docker";
-          api = {
-            dashboard = true;
-            insecure = true;
-          };
-          providers.docker = true;
-          metrics = { prometheus = true; };
-        };
-        dynamicConfigOptions = {
-          tls = {
-            certificates = [{
-              certFile =
-                "/home/rkb/certbot/config/archive/strator.berals.wtf/fullchain1.pem";
-              keyFile =
-                "/home/rkb/certbot/config/archive/strator.berals.wtf/privkey1.pem";
-            }];
-          };
-
-          http = {
-            routers = {
-              prometheus_router_1 = {
-                rule = "Host(`prometheus.landing.phd.com.au`)";
-                service = "prometheus_service";
-              };
-
-              prometheus_router_2 = {
-                rule = "Host(`prometheus.strator`)";
-                service = "prometheus_service";
-              };
-
-              traefikMetrics_router_1 = {
-                rule = "Host(`traefik.landing.phd.com.au`)";
-                service = "traefikMetrics_service";
-              };
-
-              traefikMetrics_router_2 = {
-                rule = "Host(`traefik.strator`)";
-                service = "traefikMetrics_service";
-              };
-
-              javacat_router_1 = {
-                rule = "Host(`cat.landing.phd.com.au`)";
-                service = "javacat_service";
-              };
-
-              javacat_router_2 = {
-                rule = "Host(`cat.strator`)";
-                service = "javacat_service";
-              };
-
-              hippoadmin_router_1 = {
-                rule = "Host(`hippoadmin.landing.phd.com.au`)";
-                service = "hippoadmin_service";
-              };
-
-              hippoadmin_router_2 = {
-                rule = "Host(`hippoadmin.strator`)";
-                service = "hippoadmin_service";
-              };
-            };
-
-            services = {
-              prometheus_service.loadBalancer.servers =
-                [{ url = "http://localhost:${toString prometheusPort}"; }];
-
-              traefikMetrics_service.loadBalancer.servers =
-                [{ url = "http://localhost:7789"; }];
-
-              javacat_service.loadBalancer.servers =
-                [{ url = "http://localhost:8080"; }];
-
-              hippoadmin_service.loadBalancer.servers =
-                [{ url = "http://localhost:7070"; }];
-            };
           };
         };
       };
@@ -307,8 +209,6 @@ let
         allowedTCPPorts = [
           139
           445
-          7788 # for Traefik
-          7789 # for Traefik dashboard
           8200 # minidlna
           prometheusPort
           9091 # 9091 is Transmission's Web interface

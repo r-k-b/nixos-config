@@ -19,47 +19,6 @@ let
     hosts_torrents = false;
 
     services = {
-      traefik = {
-        enable = true;
-        staticConfigOptions = {
-          log = { level = "DEBUG"; };
-          # traefik implicitly listens on 8080?
-          # see <http://nixos:8080/dashboard/>...
-          entryPoints = {
-            traefik = { address = ":7789"; };
-            web = {
-              address = ":7788";
-              #http = {
-              #  redirections = {
-              #    entryPoint = {
-              #      to = "web_https";
-              #      scheme = "https";
-              #    };
-              #  };
-              #};
-            };
-            web_https = { address = ":7787"; };
-          };
-          group = "docker";
-          api = {
-            dashboard = true;
-            insecure = true;
-            debug = true;
-          };
-          providers.docker = true;
-        };
-        dynamicConfigOptions = {
-          tls = {
-            certificates = [{
-              certFile =
-                "/var/lib/traefik/certbot/config/live/nixos.berals.wtf/fullchain.pem";
-              keyFile =
-                "/var/lib/traefik/certbot/config/live/nixos.berals.wtf/privkey.pem";
-            }];
-          };
-        };
-      };
-
       transmission = {
         enable = true;
         openFirewall = false;
