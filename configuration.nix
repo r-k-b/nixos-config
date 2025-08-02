@@ -146,6 +146,7 @@
     ${if flags.hosts_github_runner then "github-runners" else null} = {
       phdsys-webapp = {
         enable = true;
+        ephemeral = true; # to avoid space leaks
         replace = true;
         url = "https://github.com/Pacific-Health-Dynamics/PHDSys-webapp";
         # tip: the tokens generated through the "Create self-hosted runner" web UI
