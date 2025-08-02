@@ -210,7 +210,10 @@
     sysstat = { enable = true; };
 
     # Enable the OpenSSH daemon.
-    openssh.enable = true;
+    openssh = {
+      enable = true;
+      settings = { PasswordAuthentication = false; };
+    };
 
     lorri.enable = true;
 
