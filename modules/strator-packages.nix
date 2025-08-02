@@ -10,4 +10,7 @@ in {
     [
       minidlna-rebuild # to get new files to appear in VLC
     ];
+  nix.settings = {
+    substituters = [ "https://cache.nixos.org" "file://mnt/blestion/nix-store?trusted=1" ];
+  };
 }
