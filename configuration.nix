@@ -385,7 +385,6 @@
       sysstat # for finding why the system is slow
       systemctl-tui # for easily finding & following journalctl logs
       tldr # quick examples for commands
-      tmux
       tree
       up # Ultimate Plumber, for quickly iterating on shell commands
       watchexec # file watcher; for doing things repeatedly on file change
@@ -454,6 +453,14 @@
     # https://github.com/Mic92/nix-ld#nix-ld
     # Run unpatched dynamic binaries on NixOS.
     nix-ld.enable = !flags.headless;
+
+    tmux = {
+      enable = true;
+      # tip: read tmux's current config from inside tmux, with `tmux show -g`
+      extraConfig = ''
+        set -g status-right "#H #{?window_bigger,[#{window_offset_x}#,#{window_offset_y}] ,}\"#{=21:pane_title}\" %F %H:%M %b"
+      '';
+    };
 
     # an alternative to ssh-agent. involves the pinentry program.
     gnupg.${if flags.headless then null else "agent"} = {
