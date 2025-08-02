@@ -85,9 +85,11 @@
 
         address = [
           "/localhost/127.0.0.1"
+          "/molochar/192.168.1.94"
           "/nixos/192.168.1.103"
           "/strator/192.168.1.98"
           "/nixos-strator/192.168.1.98"
+          "/tioneshe/192.168.1.103"
 
           # p21 weirdness?
           "/SPS-D-P21APP02.hambs.com.au/10.1.24.3"
