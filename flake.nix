@@ -6,6 +6,7 @@
       url = "github:r-k-b/browser-previews";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    mtplvcap = { url = "github:r-k-b/mtplvcap?ref=add-nix-flake"; };
     nix-index-db = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";

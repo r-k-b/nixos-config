@@ -61,6 +61,25 @@
         "type": "github"
       }
     },
+    "mtplvcap": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1754884406,
+        "narHash": "sha256-lAdC5YtgPlwKjFxl25f1k1MCZtmhWkuEy1yM31T2Q2c=",
+        "owner": "r-k-b",
+        "repo": "mtplvcap",
+        "rev": "a145b68eb4e21569780e87a9570eb79041ff16f8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "r-k-b",
+        "ref": "add-nix-flake",
+        "repo": "mtplvcap",
+        "type": "github"
+      }
+    },
     "nix-index-db": {
       "inputs": {
         "nixpkgs": [
@@ -68,11 +87,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1755402428,
-        "narHash": "sha256-r3mVuqrW5Ln62SpKWw5j/QVCWs92zaFzHWQH+hVMvz8=",
+        "lastModified": 1755404379,
+        "narHash": "sha256-Q6ZxZDBmD/B988Jjbx7/NchxOKIpOKBBrx9Yb0zMzpQ=",
         "owner": "nix-community",
         "repo": "nix-index-database",
-        "rev": "6991c112026d92ab4dfb95beef1665de6c45cd4d",
+        "rev": "ebbc1c05f786ae39bb5e04e57bf2c10c44a649e3",
         "type": "github"
       },
       "original": {
@@ -82,6 +101,22 @@
       }
     },
     "nixpkgs": {
+      "locked": {
+        "lastModified": 1593287517,
+        "narHash": "sha256-wKAxsNBvKurnLR9SrbQozIAAki9GHBdqce3stJ+1FDw=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "136a26be29a9daa04e5f15ee7694e9e92e5a028c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "136a26be29a9daa04e5f15ee7694e9e92e5a028c",
+        "type": "github"
+      }
+    },
+    "nixpkgs_2": {
       "locked": {
         "lastModified": 1755375481,
         "narHash": "sha256-43PgCQFgFD1nM/7dncytV0c5heNHe/gXrEud18ZWcZU=",
@@ -121,8 +156,9 @@
     "root": {
       "inputs": {
         "browserPreviews": "browserPreviews",
+        "mtplvcap": "mtplvcap",
         "nix-index-db": "nix-index-db",
-        "nixpkgs": "nixpkgs",
+        "nixpkgs": "nixpkgs_2",
         "nvimconf": "nvimconf"
       }
     },
