@@ -396,6 +396,7 @@
       up # Ultimate Plumber, for quickly iterating on shell commands
       watchexec # file watcher; for doing things repeatedly on file change
       wget
+      xclip # unipicker uses this by default
       zoxide # quick access to files & folders
     ];
   };
