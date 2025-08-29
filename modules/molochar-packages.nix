@@ -29,7 +29,6 @@
     inputs.browserPreviews.packages.x86_64-linux.google-chrome
     inputs.browserPreviews.packages.x86_64-linux.google-chrome-dev
     inputs.mtplvcap.packages.x86_64-linux.default # for using Nikon DSLRs as a webcam in OBS
-    plasma5Packages.kdeconnect-kde
     k9s # for exploring kubernetes clusters
     kdePackages.ark
     kdePackages.filelight # visualize disk usage (cf. du-dust)
