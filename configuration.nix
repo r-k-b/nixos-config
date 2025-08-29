@@ -338,6 +338,10 @@
           <edit name="family" mode="assign" binding="same"><string>TeX Gyre Schola</string></edit>
         </match>
       '';
+
+      # https://github.com/NixOS/nixpkgs/issues/396793
+      # https://discourse.nixos.org/t/firefox-doesnt-render-noto-color-emojis/51202
+      useEmbeddedBitmaps = true;
     };
   };
 
