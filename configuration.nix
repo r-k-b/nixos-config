@@ -332,7 +332,7 @@
         emoji = [ "Noto Color Emoji" "Unifont" "Unifont Upper" ];
       };
       localConf = ''
-        <!-- use a less horrible font substition for pdfs such as https://www.bkent.net/Doc/mdarchiv.pdf -->
+        <!-- use a less horrible font substitution for pdfs such as https://www.bkent.net/Doc/mdarchiv.pdf -->
         <match target="pattern">
           <test qual="any" name="family"><string>NewCenturySchlbk</string></test>
           <edit name="family" mode="assign" binding="same"><string>TeX Gyre Schola</string></edit>
