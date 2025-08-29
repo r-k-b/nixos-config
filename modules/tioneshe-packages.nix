@@ -45,7 +45,6 @@
     msgviewer # for outlook .msg files
     nixos-generators # turn a NixOS config into an iso/vm/container image/etc
     nixpkgs-review # for reviewing nixpkgs PRs
-    notepadqq
     ntfs3g
     obs-studio
     okteta # a powerful hex editor for the gui

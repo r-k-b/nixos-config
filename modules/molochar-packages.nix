@@ -44,7 +44,6 @@
     linuxPackages.v4l2loopback # for OBS Studio's Virtual Camera
     msgviewer # for outlook .msg files
     nixpkgs-review # for reviewing nixpkgs PRs
-    notepadqq
     ntfs3g
     obs-studio
     okteta # a powerful hex editor for the gui
