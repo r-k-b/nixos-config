@@ -29,10 +29,10 @@
     helvum # a "patchbay" for connecting audio sink and source nodes; good for streaming audio (vs qpwgraph?)
     inputs.browserPreviews.packages.x86_64-linux.google-chrome
     inputs.browserPreviews.packages.x86_64-linux.google-chrome-dev
-    plasma5Packages.kdeconnect-kde
     k9s # for exploring kubernetes clusters
     kdePackages.ark
     kdePackages.filelight # visualize disk usage (cf. du-dust)
+    kdePackages.kdeconnect-kde
     kdePackages.kdenlive # for video editing
     kdePackages.okular
     keepassxc
