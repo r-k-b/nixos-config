@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 let
   riderByBranch = branch:
     pkgs.writeShellScriptBin ("riderPHD-" + branch) ''
