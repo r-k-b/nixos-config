@@ -1,15 +1,11 @@
-{ inputs, lib, pkgs, ... }:
+{ inputs, pkgs, ... }:
 let crowdstrikeFalcon = pkgs.callPackage ../crowdstrike-falcon { };
 in {
-  nixpkgs.config = {
-    allowUnfreePredicate = pkg:
-      builtins.elem (lib.getName pkg) [ "starsector" "starsector-0.97a-RC11" ];
-  };
+  nixpkgs.config = { };
 
   environment.systemPackages = with pkgs; [
     alloy # for finding bugs without running or looking at code
     anki
-    calibre
     cntr # for stepping into broken nix builds, at the point they failed
     crowdstrikeFalcon # required by HAMBS for vpn-connected machines
     distrobox # easily install apps not already packaged for Nix (.deb, .rpm etc)
@@ -17,7 +13,6 @@ in {
     docker
     easyeffects # convert a dodgy stereo mic into a good mono mic
     espeak # say text out loud
-    feh # decent image viewer
     firefox
     flameshot # screenshots
     font-manager
@@ -60,17 +55,13 @@ in {
     scc # for quick line counts by language (loc)
     screen
     screenkey # for showing keys pressed in recordings
-    signal-desktop # for chat
     silver-searcher # ag
     simplescreenrecorder
     slop # required by screenkey
     sox # for keeping the audio sink active, and things like `play -n synth brownnoise vol 0.6`
     spice # for nicer vm guest⇆host sharing
-    starsector # 2D space shooter
     stern # for tailing all the logs from a kubernetes cluster
     tdesktop # avoid censorship of chat
-    tlaplusToolbox # formal methods tool
-    tor-browser-bundle-bin # avoid censorship of websites
     unclutter-xfixes # hide the cursor on inactivity
     unipicker # quick search for unicode characters
     vlc
