@@ -1,4 +1,6 @@
-{ inputs, lib, pkgs, ... }: {
+{ inputs, lib, pkgs, ... }:
+let crowdstrikeFalcon = pkgs.callPackage ../crowdstrike-falcon { };
+in {
   nixpkgs.config = {
     allowUnfreePredicate = pkg:
       builtins.elem (lib.getName pkg) [ "starsector" "starsector-0.97a-RC11" ];
@@ -9,6 +11,7 @@
     anki
     calibre
     cntr # for stepping into broken nix builds, at the point they failed
+    crowdstrikeFalcon # required by HAMBS for vpn-connected machines
     distrobox # easily install apps not already packaged for Nix (.deb, .rpm etc)
     dive # for exploring docker images
     docker

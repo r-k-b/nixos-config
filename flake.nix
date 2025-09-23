@@ -77,6 +77,7 @@
           system = "x86_64-linux";
           modules = [
             ./configuration.nix
+            ./crowdstrike-falcon/module.nix # hambs
             inputs.nix-index-db.nixosModules.nix-index # where programs can be found (`command-not-found`, `nix-locate` etc)
             ./modules/intellij-ides.nix
             ./modules/molochar-packages.nix
