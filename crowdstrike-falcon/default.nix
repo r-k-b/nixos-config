@@ -9,7 +9,7 @@ let
     root = ./.;
     fileset = fileset.unions [
       # grab installers from `\\HMB-FPS-001.internal.hambs.com.au\common\Installs\CrowdstrikeAV`
-      ./falcon-sensor_7.29.0-18202_amd64.deb
+      (fileset.maybeMissing ./falcon-sensor_7.29.0-18202_amd64.deb)
     ];
   };
   falcon-sensor = stdenv.mkDerivation {
