@@ -4,8 +4,6 @@ in {
   nixpkgs.config = { };
 
   environment.systemPackages = with pkgs; [
-    alloy # for finding bugs without running or looking at code
-    anki
     cntr # for stepping into broken nix builds, at the point they failed
     crowdstrikeFalcon # required by HAMBS for vpn-connected machines
     distrobox # easily install apps not already packaged for Nix (.deb, .rpm etc)
@@ -40,13 +38,11 @@ in {
     linuxPackages.rtl88x2bu
     linuxPackages.v4l2loopback # for OBS Studio's Virtual Camera
     msgviewer # for outlook .msg files
-    nixpkgs-review # for reviewing nixpkgs PRs
     ntfs3g
     obs-studio
     okteta # a powerful hex editor for the gui
     openconnect # work VPNs
     parted
-    pavucontrol # Can pavucontrol bring back the system sounds? https://www.reddit.com/r/kde/comments/6838fr/system_sounds_keep_breaking/
     qpwgraph # a "patchbay" for connecting audio sink and source nodes; good for streaming audio
     quickemu # handles the annoying bits of finding OS ISOs
     redshift
@@ -61,7 +57,6 @@ in {
     sox # for keeping the audio sink active, and things like `play -n synth brownnoise vol 0.6`
     spice # for nicer vm guest⇆host sharing
     stern # for tailing all the logs from a kubernetes cluster
-    tdesktop # avoid censorship of chat
     unclutter-xfixes # hide the cursor on inactivity
     unipicker # quick search for unicode characters
     vlc
