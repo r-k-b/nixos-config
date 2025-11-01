@@ -69,7 +69,7 @@
           ];
           specialArgs = {
             inherit inputs;
-            flags = pkgs.callPackage ./flags/tioneshe.nix {};
+            flags = pkgs.callPackage ./flags/tioneshe.nix { };
           };
         };
 
