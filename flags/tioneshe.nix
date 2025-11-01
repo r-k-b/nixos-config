@@ -1,3 +1,4 @@
+{ pkgs }:
 let
   hostName = "tioneshe";
 
@@ -22,6 +23,7 @@ let
       transmission = {
         enable = true;
         openFirewall = false;
+        package = pkgs.transmission_4;
         settings = {
           #download-dir = "/mnt/blestion/transmission/Downloads";
           #incomplete-dir = "/mnt/blestion/transmission/.incomplete";

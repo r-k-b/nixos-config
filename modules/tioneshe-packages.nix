@@ -68,7 +68,7 @@
     starsector # 2D space shooter
     stern # for tailing all the logs from a kubernetes cluster
     tlaplusToolbox # formal methods tool
-    tor-browser-bundle-bin # avoid censorship of websites
+    tor-browser # avoid censorship of websites
     unclutter-xfixes # hide the cursor on inactivity
     unipicker # quick search for unicode characters
     vlc
