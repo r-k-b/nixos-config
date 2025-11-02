@@ -44,6 +44,7 @@
 
   # Use the systemd-boot EFI boot loader.
   boot = {
+    kernelParams = [ "consoleblank=61" ];
     loader.systemd-boot = {
       enable = true;
       configurationLimit = 10;
