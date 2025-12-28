@@ -11,7 +11,7 @@ in {
 
   environment = {
     systemPackages = with pkgs; [
-      jetbrains.idea-ultimate
+      jetbrains.idea
       jetbrains.rider
       (riderByBranch "main")
       (riderByBranch "integration")
