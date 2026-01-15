@@ -369,6 +369,7 @@
       duf # a quick look at how much space & inodes are left
       dust # to quickly see what's taking up space in a folder
       entr # file watcher; re-run command on file change
+      ets # for adding timestamps to stdout
       fzf
       git
       htop
