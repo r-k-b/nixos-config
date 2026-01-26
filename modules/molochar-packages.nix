@@ -3,6 +3,13 @@ let crowdstrikeFalcon = pkgs.callPackage ../crowdstrike-falcon { };
 in {
   nixpkgs.config = { };
 
+  nix.settings = {
+    extra-substituters = [ "https://nix-binary-cache.dev.hippo.hambs.io" ];
+    extra-trusted-public-keys = [
+      "nix-binary-cache.dev.hippo.hambs.io:Vl//WDD8GL5ttamuRhfS3LGTnsrv66Px9+hbpGK3pJY="
+    ];
+  };
+
   environment.systemPackages = with pkgs; [
     cntr # for stepping into broken nix builds, at the point they failed
     crowdstrikeFalcon # required by HAMBS for vpn-connected machines
