@@ -14,7 +14,7 @@ let
     hosts_github_runner = false;
 
     # Perf monitoring tools like Prometheus & Grafana
-    hosts_promgraf = true;
+    hosts_promgraf = false;
 
     hosts_torrents = false;
 
