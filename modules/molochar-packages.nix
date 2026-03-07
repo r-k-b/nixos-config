@@ -28,7 +28,6 @@ in {
     graphviz # includes tred
     gromit-mpx # draw on the screen; like KDE Plasma's Mouse Mark effect
     kubernetes-helm # for doing ...something... to k8s
-    helvum # a "patchbay" for connecting audio sink and source nodes; good for streaming audio (vs qpwgraph?)
     inputs.browserPreviews.packages.x86_64-linux.google-chrome
     inputs.browserPreviews.packages.x86_64-linux.google-chrome-dev
     inputs.mtplvcap.packages.x86_64-linux.default # for using Nikon DSLRs as a webcam in OBS

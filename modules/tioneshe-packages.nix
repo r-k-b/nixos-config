@@ -9,7 +9,6 @@
     anki
     calibre
     cntr # for stepping into broken nix builds, at the point they failed
-    config.boot.kernelPackages.perf # https://www.brendangregg.com/blog/2017-05-09/cpu-utilization-is-wrong.html
     distrobox # easily install apps not already packaged for Nix (.deb, .rpm etc)
     dive # for exploring docker images
     docker
@@ -26,7 +25,6 @@
     graphviz # includes tred
     gromit-mpx # draw on the screen; like KDE Plasma's Mouse Mark effect
     kubernetes-helm # for doing ...something... to k8s
-    helvum # a "patchbay" for connecting audio sink and source nodes; good for streaming audio (vs qpwgraph?)
     inputs.browserPreviews.packages.x86_64-linux.google-chrome
     inputs.browserPreviews.packages.x86_64-linux.google-chrome-dev
     k9s # for exploring kubernetes clusters
@@ -51,6 +49,7 @@
     openconnect # work VPNs
     parted
     pavucontrol # Can pavucontrol bring back the system sounds? https://www.reddit.com/r/kde/comments/6838fr/system_sounds_keep_breaking/
+    perf # https://www.brendangregg.com/blog/2017-05-09/cpu-utilization-is-wrong.html
     qpwgraph # a "patchbay" for connecting audio sink and source nodes; good for streaming audio
     quickemu # handles the annoying bits of finding OS ISOs
     redshift
