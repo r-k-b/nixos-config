@@ -317,6 +317,8 @@
     # see the default font pkgs: https://github.com/NixOS/nixpkgs/blob/nixos-unstable-small/nixos/modules/config/fonts/packages.nix
     enableDefaultPackages = true;
     packages = with pkgs; [
+      atkinson-hyperlegible-mono
+      atkinson-hyperlegible-next
       iosevka # nice monospace
       #monaspace # "texture healing"?
       unifont_upper # glyphs for the planes above the BMP
