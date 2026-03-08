@@ -1,4 +1,4 @@
-{ config, inputs, lib, pkgs, ... }: {
+{ inputs, lib, pkgs, ... }: {
   nixpkgs.config = {
     allowUnfreePredicate = pkg:
       builtins.elem (lib.getName pkg) [ "starsector" "starsector-0.97a-RC11" ];
