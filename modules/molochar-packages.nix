@@ -39,6 +39,7 @@ in {
     keepassxc
     kitty # avoids the "missing emoji" problem that konsole has
     kubectl # control k8s, needed for shells in k9s
+    lazydocker # nice TUI for docker-compose etc
     libnotify # for showing alerts from scripts
     libreoffice
     linuxPackages.rtl88x2bu
