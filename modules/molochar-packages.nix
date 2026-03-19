@@ -64,10 +64,11 @@ in {
     sox # for keeping the audio sink active, and things like `play -n synth brownnoise vol 0.6`
     spice # for nicer vm guest⇆host sharing
     stern # for tailing all the logs from a kubernetes cluster
-    unclutter-xfixes # hide the cursor on inactivity
+    unclutter-xfixes # hide the cursor on inactivity (vs xbanish?)
     unipicker # quick search for unicode characters
     vlc
     vpn-slice # for keeping non-HAMBS traffic out of the HAMBS vpn
+    xbanish # hide the cursor on inactivity (vs unclutter-xfixes?)
     xdg-utils # fix file associations?
     xdotool
     xsel # clipboard helper
