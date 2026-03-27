@@ -383,6 +383,7 @@
       jless # for quick exploration of large json
       jq
       just # for self-explaining dev shells
+      lnav # nice multi-logfile tui
       mosh
       nh # a curated CLI interface for disparate Nix commands
       nix-direnv # prevents gc of dev environments
@@ -390,6 +391,7 @@
       nix-output-monitor # for fancier build progress
       nix-tree # for examining the content of store paths
       nixfmt-classic
+      nufmt # standard formatter for nushell
       numbat # a nice dimensional calc, like frink but ↑ui ↓power
       nushell # a nicer shell than bash?
       ripgrep
