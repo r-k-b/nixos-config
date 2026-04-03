@@ -18,15 +18,15 @@ let
     hosts_torrents = false;
 
     services = {
-      calibre-web = {
-        enable = true;
-        openFirewall = true;
-        listen = { ip = "0.0.0.0"; };
-        options = {
-          # calibreLibrary = "/var/lib/calibre-web";
-          enableBookUploading = true;
-        };
-      };
+      #calibre-web = {
+      #  enable = true;
+      #  openFirewall = true;
+      #  listen = { ip = "0.0.0.0"; };
+      #  options = {
+      #    # calibreLibrary = "/var/lib/calibre-web";
+      #    enableBookUploading = true;
+      #  };
+      #};
 
       # so we can use custom subdomains in development
       dnsmasq = {
