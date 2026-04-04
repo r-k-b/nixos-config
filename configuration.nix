@@ -499,9 +499,8 @@
     # https://superuser.com/questions/899363/install-and-configure-nvidia-video-driver-nixos
     graphics.enable32Bit = true;
 
-    # keep the displays working, by avoiding the 555 drivers and sticking with the 550 drivers
-    # (see logs in the `display-manager` service)
-    nvidia.package = config.boot.kernelPackages.nvidiaPackages.production;
+    # https://github.com/NixOS/nixpkgs/pull/503107/changes#diff-c5ba8855198f95e7fdb39bcd1106bb29c96b85c14bdfc4030b235a02806bf9b3
+    nvidia.package = config.boot.kernelPackages.nvidiaPackages.legacy_580;
 
     # https://opentabletdriver.net/
     opentabletdriver.enable = true;
